@@ -26,9 +26,10 @@ Diese Test Plans definieren Test für oft genutzte Arten des Testens wie Leistun
 ## Test Runs
 
 Ein Test Run ist ein Bericht der Ergebnisse der durchgeführten Tests.
-
+Er legt fest welche Test cases ausgeführt werden, von welchen Benutzen und zu welcher Zeit.
 
 # Quellen
 
 - http://softwaretestingfundamentals.com/test-plan/
 - https://www.softwaretestinghelp.com/how-to-write-test-plan-document-software-testing-training-day3/
+- https://www.testmonitor.com/blog/test-case-test-suite-test-run-whats-the-difference
