@@ -412,7 +412,152 @@ Im täglichen Stand-Up Meeting werden von jedem Mitglied des agilen Teams (auch 
 * Probleme im Testfortschritt sofort kommunizieren
 * Grundlage für Team, um bei Stillstand einer (Test)aufgabe Gründe zu prüfen und Lösungen zu finden
 
-**Todo**
+#### Produktqualität
+
+* Kundenzufriedenheitsbefragung
+* Auch traditionelle Metriken
+  * z.B. erfolgreiche/fehlerhafte Tests, Fehlerdichte, Risikoabdeckung
+* Entscheidungrelevante Metriken
+* Metriken dienen NICHT der Belohnung, Bestrafen oder Isolation von Teammitgliedern
+
+#### Regressionsrisiko
+
+* testumfang wächst mit jeder Produktiteration
+* Dazu Tests für bereits getestete Features von früher
+  * Testergebnisse dürfen sich nicht verschlechtern
+* Risiko für Verschlechterung wegen tendenziell hoher Codeveränderung hoch
+* Auch bereits gelieferte Features können sich jederzeit ändern
+
+#### Regressionstests automatisieren
+
+* Testautomatisierung so früh wie möglich
+* Velocity mit minimalen technischen Schulden beibehalten
+* Bestand an automatisierten und manuellen Tests, Testdaten, Artefakten stets aktuell halten
+* Konfigurationsmanagement mit Versionierung
+* Einfacher Zugriff für alle Teammitglieder
+
+#### Regressionstests pflegen
+
+* Zeit für Aktualisierung vorhandener Testfälle einplanen
+* Auf Eignung für Regressionstests prüfen
+* Feature-Änderungen können Regressionstests relativieren
+* Auf Automatisierungseignung prüfen
+* Möglichst hohe Automatisierung reduziert Durchführungszeit für Regressionstests
+* Gewonnene Zeit --> sorgfältigere Tests
+
+#### Regressionstestentwurf
+
+* Kurze Testzeiten erfordern guten Testentwurf
+* Durch aktuelle Änderungen betroffene Tests aus früheren Iteration müssen rasch identifiziert- und aktualisierbar sein
+* Vorgehensweisen für Testentwurf schon in Releaseplanung festlegen
+
+#### Regressionstests und Produktqualität
+
+* Testautomatisierung auf allen Teststufen liefert rasches Feedback zur Produktqualität 
+* Automatisierte Tests samt Ergebnissen als "lebendes Dokument der Systemfunktionalität"
+* Check-In in Konfigurationsmanagement ermöglich jederzeitigen Abruf der Tests und Testergebnisse für jeden Build
+
+#### Automatisierte Unit Tests
+
+* Automatisierte Unit Tests vor Check-In des Quellcodes
+* Nur erfolgreich Unit-getesteten Code zu Baseline hinzufügen
+  * Kann automatisiert werden
+* Integrität des Builds sicherstellen
+* Unit Tests geben Feedback
+  * zu Code- und Buildqualität
+  * jedoch nicht zu Produktqualität 
+
+#### Automatisierte Abnahmetests
+
+* Automatisierte Abnahmetests als Teil der Continuous Integration
+* Abnahmetests dauern typischerweise länger als Unit Tests
+* Mindestens Täglich, aus Zeitgründen nicht bei jedem Check-In
+* Geben Feedback
+  * zu Produktqualität im Vergleich zum letzten Build
+  * jedoch nicht zu allgemeiner Produktqualität
+
+#### Build-Verifizierungstests
+
+* Build-Verifizierungstests decken kritische Systemfunktionalität und Integrationspunkte ab
+* Laufen unmittelbar bei jedem neuen Build
+* Schnelles Feedback nach Deployment
+* Vermeidet Zeitverschwendung für Tests instabiler Builds
+
+#### Fehler aus Regressionstest
+
+* Automatisierte Regressionstests als Teil des täglichen Haupt-Builds in der Continuous Integration
+* Sonst nur bei Auslieferung eines neuen Builds in Testumgebung
+* Fehlgeschlagener Regressionstest hat hohe Priorität
+* Muss sofort untersucht werden
+
+#### Gründe für Regressionstestfehler
+
+* Gewollte Funktionsänderung
+  * Test und/oder User Story muss aktualisiert werden
+* Veralteter Test nach Änderung
+  * Nach Erstellung neuer/aktualisierter Tests müssen ungültige Tests entfernt werden
+* Fehler in Software
+  * zuerst Fehler beheben
+  * danach weitere Features implementieren
+
+#### Weitere automatisierte Testaufgaben
+
+* Testdatenerstellung
+* Laden der Testdaten in Systeme
+* Auslieferung von Builds in Testumgebung
+* Zurücksetzen einer Testumgebung in Grundzustand
+* Vergleich von Daten/Ergebnissen
 
 ### Rolle und Fähigkeiten eines Testers im agilen Team
+
+#### Fähigkeiten besonders im agilen Umfeld
+
+* Zusätzlich zu allgemeinen Fähigkeiten eines Testers speziell im agilen Umfeld
+* Testautomatisierung
+* Testgetriebene und abnahmetestgetriebene Entwicklung
+* White-, Blackbox und erfahrungsbasierte Tests
+* "just enough" Dokumentation
+
+#### Soft Skills
+
+* Positives, lösungsorientiertes Auftreten im und außerhalb des Teams
+* Kritische, qualitätsorientierte skeptische Denkweise
+* Aktiv Informationen vom Fachbereich bzw. Auftraggeber einholen
+* Testergebnisse, -fortschritte, Produktqualität exakt und schnell beurteilen und berichten
+* Prüfbare User Stories und Abnahmekriterien mir Kunden und Fachbereich erarbeiten
+* Im Team (auch paarweise) mit Entwicklern zusammenarbeiten
+* Testfälle bei Veränderungen rasch anpassen
+* Eigene Arbeit planen und organisieren
+
+#### Zusatzaufgaben für Tester
+
+* Teststrategie verstehen, implementieren und aktualisieren
+* Testüberdeckung über Metriken messen, auswerten und berichten
+* Richtiger Einsatz von Testwerkzeugen sicherstellen
+* Testumgebung und -daten konfigurieren, verwenden und verwalten
+* Fehlerberichte erstellen
+* Zusammenarbeit bei Fehlerbehebung
+* Teammitglieder in Testen einweisen
+* Angemessene Tests und Berücksichtigung in Iterations- und Releaseplanung sicherstellen
+* Zusammenarbeit mit Entwicklern, Fachbereich und Product Owner bei Klärung der Anforderungen
+* Proaktive Teilnahme an Retrospektiven
+
+#### Organisationsbezogene Risiken
+
+* Tester verlieren Unabhängigkeit
+* Tester tolerieren ineffiziente, ineffektive oder qualitativ schwache Teampraktiken
+* Tester können mir kurzen Iterationen und ständigen Änderungen nicht mithalten
+
+#### Zusammenfassung
+
+* Agil ist nicht gleich agil
+* Tester viel früher und intensiver eingebunden
+* Hardening Iterations, Fix Bugs First, Pairing
+* 3 Typen von Arbeitsergebnissen
+* Überlappende Teststufen
+* Bedeutung der Regressionstests
+* Notwendigkeit von Tools und Testautomatisierung
+* Teststatus, Task Boards, Burndown Charts
+* Soft Skills für Tester
+* Blick auf Prozessqualität
 
