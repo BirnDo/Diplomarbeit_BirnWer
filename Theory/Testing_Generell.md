@@ -2,7 +2,7 @@
 
 **[Agile Softwareentwicklung](#agile-softwareentwicklung)**
 
-**[Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens](#grundlegende-prinzipien,-praktiken-und-prozesse-des-agilen-testens)**
+**[Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens](#grundlegende-prinzipien-praktiken-und-prozesse-des-agilen-testens)**
 
 
 
