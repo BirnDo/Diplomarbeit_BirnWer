@@ -1,8 +1,8 @@
 # Allgemeines Beschreibung von Testing in Unternehmen und Qualitätssicherung
 
-**[Agile Softwareentwicklung](#Agile Softwareentwicklung)**
+**[Agile Softwareentwicklung](#agile-softwareentwicklung)**
 
-**[Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens](#Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens)**
+**[Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens](#grundlegende-prinzipien,-praktiken-und-prozesse-des-agilen-testens)**
 
 
 
