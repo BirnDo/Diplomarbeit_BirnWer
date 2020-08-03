@@ -1,10 +1,11 @@
 # How to set up a project
 
-1. install nodejs (LTS Version)
-2. install yeoman `npm install -g yo`
-3. install the sharepoint generator `npm install @microsoft/generator-sharepoint`
-4. go to the desired project folder
-5. create a new project with yoeman `yo @microsoft/sharepoint`
+1. install nodejs (10.x Version)
+2. install yeoman `npm install yo --global`
+3. install the sharepoint generator `npm install @microsoft/generator-sharepoint --global`
+4. install gulp `npm install gulp --global`
+5. go to the desired project folder
+6. create a new project with yoeman `yo @microsoft/sharepoint`
    1. enter solution name (default: folder name)
    2. select Sharepoint baseline: SharePoint Online only (latest)
    3. place files: use current folder
@@ -14,9 +15,9 @@
    7. enter WebPart name ([name]WebPart.ts, [name].tsx): Sandbox
    8. enter WebPart description: Sandbox description
    9. select framework: React
- 6. open the [name]WebPart.manifest.json file and change supportedHosts property 
+ 7. open the [name]WebPart.manifest.json file and change supportedHosts property 
  to `"supportedHosts": ["SharePointWebPart", "TeamsTab"],`
- 7. open the [name]WebPart.ts file and change the render method to:
+ 8. open the [name]WebPart.ts file and change the render method to:
  ~~~tsx
   let title: string = '';
     let subTitle: string = '';
