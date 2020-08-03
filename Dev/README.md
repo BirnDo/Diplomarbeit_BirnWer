@@ -17,9 +17,9 @@
    9. select framework: React
  7. open the [name]WebPart.manifest.json file and change supportedHosts property 
  to `"supportedHosts": ["SharePointWebPart", "TeamsTab"],`
- 8. open the [name]WebPart.ts file and change the render method to:
+ 8. open the [name].tsx file and change the render method to:
  ~~~tsx
-  let title: string = '';
+    let title: string = '';
     let subTitle: string = '';
     let siteTabTitle: string = '';
    
@@ -45,7 +45,7 @@
               <span className={ styles.title }>{title}</span>
               <p className={ styles.subTitle }>{subTitle}</p>
               <p className={ styles.description }>{siteTabTitle}</p>
-              <p className={ styles.description }>Description property value - {this.props.description}</p>
+              <p className={ styles.description }>Description property value - {escape(this.props.description)}</p>
               <a href="https://aka.ms/spfx" className={ styles.button }>
                 <span className={ styles.label }>Learn more</span>
               </a>
