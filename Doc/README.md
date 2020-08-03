@@ -1,5 +1,5 @@
 # Documents
 
 ## Protokolle
-[Lukas Werner](Protokolle/Werner.md)
-[Dominik Birngruber](Protokolle/Birngruber.md)
+* [Lukas Werner](Protokolle/Werner.md)
+* [Dominik Birngruber](Protokolle/Birngruber.md)
