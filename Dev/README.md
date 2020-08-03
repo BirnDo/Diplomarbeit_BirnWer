@@ -1,4 +1,4 @@
-# How to set up a project
+# How to set up a project for a MS Teams Tab
 
 1. install nodejs (10.x Version)
 2. install yeoman `npm install yo --global`
