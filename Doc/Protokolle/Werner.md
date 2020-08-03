@@ -1,22 +1,43 @@
 # 22.07
 
-* 4h
-* Zusammenfassung von Software Quality Lab Unterlagen: Agile Softwareentwicklung 
-* Beginn
+* Duration: 4h
+* Tasks:
+  * Zusammenfassung Agile Softwareentwicklung 
+* Sources:
+  * Software Quality Lab Unterlagen 
 
 # 29.07
 
-* 2h
-* Zusammenfassung von Software Quality Lab Unterlagen
-* Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens 
-* in progress
+* Duration: 2h
+* Tasks:
+  * Zusammenfassung Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens
+* Sources:
+  * Software Quality Lab Unterlagen 
 
-* 1h
+* Duration: 1h
 * Research Test Plans and Test Runs
 
 # 30.07
 
-* 2h
-* Zusammenfassung von Software Quality Lab Unterlagen
-* Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens 
-* finished
+* Duration: 2h
+* Tasks:
+  * Zusammenfassung von Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens
+* Sources:
+  * Software Quality Lab Unterlagen 
+  
+# 03.08
+
+* Duration: 4h
+* Tasks: 
+  * aufsetzen Sandbox Entwicklungsumgebung
+  * Doku: setting up project
+* Sources: 
+  * https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment
+  * https://docs.microsoft.com/de-de/sharepoint/dev/spfx/web-parts/get-started/using-web-part-as-ms-teams-tab
+  
+# 
+* Duration:
+* Tasks:
+  * 
+* Sources:
+  * 
