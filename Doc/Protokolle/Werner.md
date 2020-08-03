@@ -37,7 +37,7 @@
 # 03.08
 * Tasks: 
   * aufsetzen Sandbox Entwicklungsumgebung
-  * Doku: setting up project
+  * schreiben von Dokumentation: setting up project
 * Duration: 5h
 * Sources: 
   * https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment
