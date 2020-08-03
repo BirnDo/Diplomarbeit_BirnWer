@@ -13,9 +13,12 @@
   * Zusammenfassung Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens
 * Sources:
   * Software Quality Lab Unterlagen 
-
+  
 * Duration: 1h
-* Research Test Plans and Test Runs
+* Tasks:
+  * Research Test Plans and Test Runs 
+* Sources:
+  * see file
 
 # 30.07
 
@@ -38,6 +41,6 @@
 # 
 * Duration:
 * Tasks:
-  * 
+  * . 
 * Sources:
-  * 
+  * .
