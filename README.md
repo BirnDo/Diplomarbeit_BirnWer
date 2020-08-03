@@ -5,7 +5,7 @@
 ### Theroieteil
 * Allgemeine Beschreibung von Testing in Unternehmen und Qualitätssicherung
 * Beschreibung von Testarten und Strategien
-* Definition von Test Plans unf Test Runs
+* Definition von Test Plans und Test Runs
 
 ### Case Studies
 * Azure Devops (kompliziert & umfangreich & teuer)
