@@ -1,6 +1,13 @@
 # Beschreibung von Testarten und Strategien
 
-[TOC]
+- [Beschreibung von Testarten und Strategien](#beschreibung-von-testarten-und-strategien)
+  - [Testarten](#testarten)
+    - [Funktionale und nicht funktionale Tests](#funktionale-und-nicht-funktionale-tests)
+  - [Teststrategien](#teststrategien)
+    - [Definitionen](#definitionen)
+    - [Risikobasiertes Testen](#risikobasiertes-testen)
+    - [Teststrategie nach ISO/IEC 25000](#teststrategie-nach-isoiec-25000)
+  - [Quellen](#quellen)
 
 ## Testarten
 
@@ -8,14 +15,14 @@ Softwaretests werden nach verschiedenen Kriterien klassifiziert.
 
 - Prüftechnik
   - **Analytische Maßnahmen**
-    Diese Test werden erst nach der Erstellung des Produkts durchgeführt. Man unterscheidet dabei noch nach statischen Test, welche ohne Ausführung des Codes durchgeführt werden, und dynamischen Tests. 
+    Diese Test werden erst nach der Erstellung des Produkts durchgeführt. Man unterscheidet dabei noch nach statischen Test, welche ohne Ausführung des Codes durchgeführt werden, und dynamischen Tests.
   - **Konstruktive Tests**
     Diese Test gehen der Entwicklung voraus und werden bei der Softwareerstellung durchgeführt. Dazu gehört zum Beispiel das Anforderungsmanagement, Prototyping oder das schreiben von Pflichtenheften.
   - **Spezifikationstechniken**
     Diese Test werden nicht zum Testen von Code verwendet, sondern dienen zum vorbereiten der anderen Tests.
 - Art und Umfang der Testobjekte
   - **Debugging**: Testet einzelne Codeteile
-  - **Unittests**: Testet die kleinstmöglichen Funktionalitäten, z.B. einzelne Funktionen 
+  - **Unittests**: Testet die kleinstmöglichen Funktionalitäten, z.B. einzelne Funktionen
   - **Integrationstests**: Testet die Zusammenarbeit der verschiedenen Komponenten
   - **Systemtests**: Testet das gesamte System
   - **Schnittstellentest**: Testet ob die einzelnen Schnittstellen planmäßig miteinander kommunizieren.
@@ -69,7 +76,7 @@ Nicht funktionale Tests beziehen sich hingegen auf das Gesamt Produkt. Hierbei w
 
 **Nach Pol, Koomen und Spillner**
 
-In der Teststrategie wird festgelegt, mit welcher Intensität die einzelnen Teile getestet werden. Es werden auch festgelegt welche Testmethoden und Techniken verwendet werden und welche Reihenfolge dabei verwendet wird. Diese Strategie wird  bei der Testplanung erarbeitet und im Testplan aufgezeichnet.
+In der Teststrategie wird festgelegt, mit welcher Intensität die einzelnen Teile getestet werden. Es werden auch festgelegt welche Testmethoden und Techniken verwendet werden und welche Reihenfolge dabei verwendet wird. Diese Strategie wird bei der Testplanung erarbeitet und im Testplan aufgezeichnet.
 
 **nach International Software Testing Qualifications Board**
 
@@ -127,7 +134,7 @@ Die ISO/IEC 25000 definiert 8 Dimensionen:
 
 Diese Teststrategie bezieht sich auf diese 8 Merkmale und die Tests werden darauf ausgerichtet, dass diese Merkmale eingehalten werden
 
-### Quellen
+## Quellen
 
 - https://de.wikipedia.org/wiki/Softwaretest#Teststrategie
 - https://www.technosoft.de/qa-testing/funktionale-tests
