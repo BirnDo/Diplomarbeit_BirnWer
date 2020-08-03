@@ -1,5 +1,11 @@
-# 22.07
+# 01.07 - 03.07
+* Tasks:
+  * Kennerlernen und Testen der Technologien bei einem Seminar
+* Duration: 15h
+* Sources:
+  * Firma Smartpoint: Strasserau 6, 4020 Linz
 
+# 22.07
 * Tasks:
   * Zusammenfassung Agile Softwareentwicklung
 * Duration: 4h
@@ -7,7 +13,6 @@
   * Software Quality Lab Unterlagen 
 
 # 29.07
-
 * Tasks:
   * Zusammenfassung Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens
 * Duration: 2h
@@ -23,7 +28,6 @@
   * see file
 
 # 30.07
-
 * Tasks:
   * Zusammenfassung von Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens
 * Duration: 2h
@@ -31,7 +35,6 @@
   * Software Quality Lab Unterlagen 
   
 # 03.08
-
 * Tasks: 
   * aufsetzen Sandbox Entwicklungsumgebung
   * Doku: setting up project
