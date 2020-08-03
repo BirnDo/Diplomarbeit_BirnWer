@@ -36,7 +36,8 @@
 * Duration: 4h
 * Sources: 
   * https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment
-  * https://docs.microsoft.com/de-de/sharepoint/dev/spfx/web-parts/get-started/using-web-part-as-ms-teams-tab
+  * https://docs.microsoft.com/de-de/sharepoint/dev/spfx/web-parts/get-started/using-web-part-as-ms-teams-tab  
+  
   
   
 
