@@ -16,43 +16,41 @@
    9. select framework: React
  6. open the [name]WebPart.manifest.json file and change supportedHosts property 
  to `"supportedHosts": ["SharePointWebPart", "TeamsTab"],`
- 7. open the [name]WebPart.ts file and change the rended method to:
+ 7. open the [name]WebPart.ts file and change the render method to:
  ~~~tsx
- public render(): void {
-
   let title: string = '';
-  let subTitle: string = '';
-  let siteTabTitle: string = '';
-
-  if (this.context.sdks.microsoftTeams) {
-    // We have teams context for the web part
-    title = "Welcome to Teams!";
-    subTitle = "Building custom enterprise tabs for your business.";
-    siteTabTitle = "We are in the context of following Team: " + this.context.sdks.microsoftTeams.context.teamName;
-  }
-  else
-  {
-    // We are rendered in normal SharePoint context
-    title = "Welcome to SharePoint!";
-    subTitle = "Customize SharePoint experiences using Web Parts.";
-    siteTabTitle = "We are in the context of following site: " + this.context.pageContext.web.title;
-  }
-
-  this.domElement.innerHTML = `
-    <div class="${ styles.myFirstTeamsTab }">
-      <div class="${ styles.container }">
-        <div class="${ styles.row }">
-          <div class="${ styles.column }">
-            <span class="${ styles.title }">${title}</span>
-            <p class="${ styles.subTitle }">${subTitle}</p>
-            <p class="${ styles.description }">${siteTabTitle}</p>
-            <p class="${ styles.description }">Description property value - ${escape(this.properties.description)}</p>
-            <a href="https://aka.ms/spfx" class="${ styles.button }">
-              <span class="${ styles.label }">Learn more</span>
-            </a>
+    let subTitle: string = '';
+    let siteTabTitle: string = '';
+   
+    if (this.context.sdks.microsoftTeams) {
+      // We have teams context for the web part
+      title = "Welcome to Teams!";
+      subTitle = "Building custom enterprise tabs for your business.";
+      siteTabTitle = "We are in the context of following Team: " + this.context.sdks.microsoftTeams.context.teamName;
+    }
+    else
+    {
+      // We are rendered in normal SharePoint context
+      title = "Welcome to SharePoint!";
+      subTitle = "Customize SharePoint experiences using Web Parts.";
+      siteTabTitle = "We are in the context of following site: " + this.context.pageContext.web.title;
+    }
+   
+    return (
+      <div className={ styles.myFirstTeamsTab }>
+        <div className={ styles.container }>
+          <div className={ styles.row }>
+            <div className={ styles.column } >
+              <span className={ styles.title }>{title}</span>
+              <p className={ styles.subTitle }>{subTitle}</p>
+              <p className={ styles.description }>{siteTabTitle}</p>
+              <p className={ styles.description }>Description property value - {this.props.description}</p>
+              <a href="https://aka.ms/spfx" className={ styles.button }>
+                <span className={ styles.label }>Learn more</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>`;
-}
+   );  
 ~~~
