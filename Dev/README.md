@@ -14,8 +14,9 @@
    7. enter WebPart name ([name]WebPart.ts, [name].tsx): Sandbox
    8. enter WebPart description: Sandbox description
    9. select framework: React
- 6. open the [WebPartName]WebPart.manifest.json file and change supportedHosts property to `"supportedHosts": ["SharePointWebPart", "TeamsTab"],`
- 7. open the [WebPartName]WebPart.ts file and change the rended method to:
+ 6. open the [name]WebPart.manifest.json file and change supportedHosts property 
+ to `"supportedHosts": ["SharePointWebPart", "TeamsTab"],`
+ 7. open the [name]WebPart.ts file and change the rended method to:
  ~~~tsx
  public render(): void {
 
