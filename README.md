@@ -1,5 +1,14 @@
 # Diplomarbeit von Birngruber und Werner
 
+## Important Links
+
+### Office 365
+* https://m365x286535.sharepoint.com/sites/welu
+### Azure Devops
+* https://dev.azure.com/40146720160360
+### Azure
+* https://portal.azure.com/
+
 ## Toolgestütztes Testing in Entwicklungsprojekten auf Basis moderner Web-Technologien
 
 ### Theroieteil
