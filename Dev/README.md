@@ -2,10 +2,9 @@
 
 1. install nodejs (10.x Version)
 2. install yeoman `npm install yo --global`
-3. install the sharepoint generator `npm install @microsoft/generator-sharepoint --global`
-4. install gulp `npm install gulp --global`
-5. install gulp sequence `npm install --save-dev gulp-sequence --global`
-6. go to the desired project folder and create a new project with yoeman `yo @microsoft/sharepoint`
+3. install gulp `npm install gulp --global`
+4. install the sharepoint generator `npm install @microsoft/generator-sharepoint --global`
+5. go to the desired project folder and create a new project with yoeman `yo @microsoft/sharepoint`
    1. enter solution name (default: folder name)
    2. select Sharepoint baseline: SharePoint Online only (latest)
    3. place files: use current folder
@@ -15,11 +14,11 @@
    7. enter WebPart name ([name]WebPart.ts, [name].tsx):  Sandbox
    8. enter WebPart description: Sandbox description
    9. select framework: React
-7. open the [name]WebPart.manifest.json file and change supportedHosts property to  
+6. open the [name]WebPart.manifest.json file and change supportedHosts property to  
 `"supportedHosts": ["SharePointWebPart", "TeamsTab"],`
-8. add `context: WebPartContext;` to the Props interface of the [name].tsx file
-9. add `context: this.context,` below the `description: this.properties.description,` line in the [name]WebPart.ts file
-10. open the [name].tsx file and change the render method to:
+7. add `context: WebPartContext;` to the Props interface of the [name].tsx file
+8. add `context: this.context,` below the `description: this.properties.description,` line in the [name]WebPart.ts file
+9. open the [name].tsx file and change the render method to:
  ~~~tsx
     let title: string = "";
     let subTitle: string = "";
@@ -60,6 +59,7 @@
       </div>
     );
 ~~~
+10. install gulp sequence `npm install --save-dev gulp-sequence`
 11. open gulpfile.js and change the content to:
 ~~~js
 "use strict";
@@ -83,4 +83,4 @@ gulp.task("dist", gulpSequence("clean", "bundle", "package-solution"));
 build.initialize(gulp);
 ~~~
 
-10. enter `gulp dist --ship` for deploying the app
+12. enter `gulp dist --ship` for deploying the app
