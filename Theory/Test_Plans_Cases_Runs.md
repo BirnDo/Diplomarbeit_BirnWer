@@ -1,14 +1,22 @@
 # Definition von Test Plans und Test Runs
 
-[TOC]
-
-
+- [Definition von Test Plans und Test Runs](#definition-von-test-plans-und-test-runs)
+  - [Test Plan](#test-plan)
+    - [Arten](#arten)
+      - [Master Test Plan](#master-test-plan)
+      - [Testing Level Specific Test Plans](#testing-level-specific-test-plans)
+      - [Testing Type Specific Test Plans](#testing-type-specific-test-plans)
+  - [Test Case](#test-case)
+    - [Inhalt](#inhalt)
+  - [Test Runs](#test-runs)
+  - [Zusammenhang zwischen Plans, Cases und Runs](#zusammenhang-zwischen-plans-cases-und-runs)
+  - [Quellen](#quellen)
 
 ## Test Plan
 
 Ein Test Plan ist ein Dokument das die Ziele, Prozesse und Ressourcen eines spezifischen Tests von einem Software oder Hardware Produkt beschreibt.
 
-Der Test Plan enthält den Umfang, den Testansatz, die Ressourcen und den Zeitplan der geplanten Tests. Es definiert auch die zu testenden Gegenstände, Features, Aufgaben und wer diese Testet, der Grad von Freiheit beim testen. Weiters wird auch die Testumgebung, die Test Design Techniken, die Start- und Endkriterien und die Begründung für diese und die Gefahren durch Zufälligkeit. Es wird auch definiert, an wen man sich bei Fehlern meldet und wie man bei der Meldung vorgeht. Der Test Plan wird im Laufe des Testens immer angepasst. 
+Der Test Plan enthält den Umfang, den Testansatz, die Ressourcen und den Zeitplan der geplanten Tests. Es definiert auch die zu testenden Gegenstände, Features, Aufgaben und wer diese Testet, der Grad von Freiheit beim testen. Weiters wird auch die Testumgebung, die Test Design Techniken, die Start- und Endkriterien und die Begründung für diese und die Gefahren durch Zufälligkeit. Es wird auch definiert, an wen man sich bei Fehlern meldet und wie man bei der Meldung vorgeht. Der Test Plan wird im Laufe des Testens immer angepasst.
 
 Er dient als Anhaltspunkt für dir Durchführung der Tests in der Qualitätssicherung und wird auch mit Geschäfts Analysten, Projektmanagern, dem Entwicklerteam und anderen Teams geteilt. Es wird durch den QA (Quality Assurance, dt. Qualitätssicherung) Manager/Lead Anhand von Inputs der Teammitglieder dokumentiert. Es wird ca. 1/3 des Zeitaufwandes zum, testen zum erstellen des Plans verwendet. Es gilt: je genauer der Test Plan, desto erfolgreicher werden die Tests ablaufen.
 
