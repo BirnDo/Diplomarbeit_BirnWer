@@ -4,7 +4,7 @@
 2. install yeoman `npm install yo --global`
 3. install the sharepoint generator `npm install @microsoft/generator-sharepoint --global`
 4. install gulp `npm install gulp --global`
-5. install gulp sequence `npm install --save-dev gulp-sequence`
+5. install gulp sequence `npm install --save-dev gulp-sequence --global`
 6. go to the desired project folder and create a new project with yoeman `yo @microsoft/sharepoint`
    1. enter solution name (default: folder name)
    2. select Sharepoint baseline: SharePoint Online only (latest)
@@ -12,11 +12,11 @@
    4. Do you want to allow the tenant admin...? no
    5. Will the components in the solution require permissions...? yes
    6. select type of component: WebPart
-   7. enter WebPart name ([name]WebPart.ts, [name].tsx): Sandbox
+   7. enter WebPart name ([name]WebPart.ts, [name].tsx):  Sandbox
    8. enter WebPart description: Sandbox description
    9. select framework: React
-7. open the [name]WebPart.manifest.json file and change supportedHosts property 
- to `"supportedHosts": ["SharePointWebPart", "TeamsTab"],`
+7. open the [name]WebPart.manifest.json file and change supportedHosts property to  
+`"supportedHosts": ["SharePointWebPart", "TeamsTab"],`
 8. open the [name].tsx file and change the render method to:
  ~~~tsx
     let title: string = '';

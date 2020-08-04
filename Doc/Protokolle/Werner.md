@@ -37,11 +37,21 @@
 # 03.08
 * Tasks: 
   * aufsetzen Sandbox Entwicklungsumgebung
-  * Doku: setting up project
-* Duration: 4h
+  * schreiben von Dokumentation: setting up project
+* Duration: 5h
 * Sources: 
   * https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment
   * https://docs.microsoft.com/de-de/sharepoint/dev/spfx/web-parts/get-started/using-web-part-as-ms-teams-tab
+
+---
+
+* Tasks: 
+  * Zusammenfassen von Test Techniken
+  * Formattierung von allen Markdown Dokumenten (Inhaltsverzeichniss, Auslagerung von Themen)
+* Duration: 4h
+* Sources: 
+  * Software Quality Lab Unterlagen 
+
 
 ---
 
