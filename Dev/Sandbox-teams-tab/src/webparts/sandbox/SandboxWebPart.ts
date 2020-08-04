@@ -1,27 +1,33 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
-} from '@microsoft/sp-property-pane';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+  PropertyPaneTextField,
+} from "@microsoft/sp-property-pane";
+import {
+  BaseClientSideWebPart,
+  WebPartContext,
+} from "@microsoft/sp-webpart-base";
 
-import * as strings from 'SandboxWebPartStrings';
-import Sandbox from './components/Sandbox';
-import { ISandboxProps } from './components/ISandboxProps';
+import * as strings from "SandboxWebPartStrings";
+import Sandbox from "./components/Sandbox";
+import { ISandboxProps } from "./components/ISandboxProps";
 
 export interface ISandboxWebPartProps {
   description: string;
+  context: WebPartContext;
 }
 
-export default class SandboxWebPart extends BaseClientSideWebPart<ISandboxWebPartProps> {
-
+export default class SandboxWebPart extends BaseClientSideWebPart<
+  ISandboxWebPartProps
+> {
   public render(): void {
     const element: React.ReactElement<ISandboxProps> = React.createElement(
       Sandbox,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        context: this.context,
       }
     );
 
@@ -33,7 +39,7 @@ export default class SandboxWebPart extends BaseClientSideWebPart<ISandboxWebPar
   }
 
   protected get dataVersion(): Version {
-    return Version.parse('1.0');
+    return Version.parse("1.0");
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -41,20 +47,20 @@ export default class SandboxWebPart extends BaseClientSideWebPart<ISandboxWebPar
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: strings.PropertyPaneDescription,
           },
           groups: [
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
-              ]
-            }
-          ]
-        }
-      ]
+                PropertyPaneTextField("description", {
+                  label: strings.DescriptionFieldLabel,
+                }),
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 }

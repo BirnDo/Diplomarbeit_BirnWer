@@ -8,21 +8,20 @@ export default class Sandbox extends React.Component<ISandboxProps, {}> {
     let title: string = "";
     let subTitle: string = "";
     let siteTabTitle: string = "";
-
-    if (this.context.sdks.microsoftTeams) {
+    if (this.props.context.sdks.microsoftTeams) {
       // We have teams context for the web part
       title = "Welcome to Teams!";
       subTitle = "Building custom enterprise tabs for your business.";
       siteTabTitle =
         "We are in the context of following Team: " +
-        this.context.sdks.microsoftTeams.context.teamName;
+        this.props.context.sdks.microsoftTeams.context.teamName;
     } else {
       // We are rendered in normal SharePoint context
       title = "Welcome to SharePoint!";
       subTitle = "Customize SharePoint experiences using Web Parts.";
       siteTabTitle =
         "We are in the context of following site: " +
-        this.context.pageContext.web.title;
+        this.props.context.pageContext.web.title;
     }
 
     return (
