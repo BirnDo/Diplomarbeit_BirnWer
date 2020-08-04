@@ -4,7 +4,7 @@
     "environment": "spo",
     "version": "1.11.0",
     "libraryName": "sandbox-teams-tab",
-    "libraryId": "ca271814-a940-4566-bdd9-ac36cf924669",
+    "libraryId": "61201e99-0928-4ee1-aa5c-2d899d74c750",
     "packageManager": "npm",
     "isDomainIsolated": true,
     "componentType": "webpart"

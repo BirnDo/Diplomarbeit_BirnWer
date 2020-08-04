@@ -2,9 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
     "name": "sandbox-teams-tab-client-side-solution",
-    "id": "ca271814-a940-4566-bdd9-ac36cf924669",
-    "version": "1.0.0.0",
+    "id": "61201e99-0928-4ee1-aa5c-2d899d74c750",
+    "version": "1.0.0.3",
     "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
     "isDomainIsolated": true,
     "developer": {
       "name": "",

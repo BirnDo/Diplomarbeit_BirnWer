@@ -5,10 +5,7 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
 } from "@microsoft/sp-property-pane";
-import {
-  BaseClientSideWebPart,
-  WebPartContext,
-} from "@microsoft/sp-webpart-base";
+import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 
 import * as strings from "SandboxWebPartStrings";
 import Sandbox from "./components/Sandbox";
@@ -16,7 +13,6 @@ import { ISandboxProps } from "./components/ISandboxProps";
 
 export interface ISandboxWebPartProps {
   description: string;
-  context: WebPartContext;
 }
 
 export default class SandboxWebPart extends BaseClientSideWebPart<
