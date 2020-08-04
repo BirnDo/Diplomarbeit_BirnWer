@@ -52,7 +52,12 @@
 * Sources: 
   * Software Quality Lab Unterlagen 
 
-
+# 04.08
+* Tasks:
+  * Zusammenfassung von Test Methoden
+* Duration: 3h
+* Sources:
+  * Software Quality Lab Unterlagen
 ---
 
 # [Template]
