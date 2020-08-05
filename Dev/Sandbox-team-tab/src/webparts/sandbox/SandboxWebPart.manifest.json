@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "825995ac-e001-433e-9df7-312d04f59b93",
+  "id": "49097e55-8b20-4227-8983-63097fee2cd0",
   "alias": "SandboxWebPart",
   "componentType": "WebPart",
 
@@ -18,11 +18,11 @@
     {
       "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
       "group": { "default": "Other" },
-      "title": { "default": "Sandbox" },
-      "description": { "default": "Sandbox description" },
+      "title": { "default": "sandboxTab" },
+      "description": { "default": "sandbox description" },
       "officeFabricIconFontName": "Page",
       "properties": {
-        "description": "Sandbox"
+        "description": "sandbox"
       }
     }
   ]

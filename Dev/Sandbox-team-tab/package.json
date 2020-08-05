@@ -1,5 +1,5 @@
 {
-  "name": "sandbox-teams-tab",
+  "name": "sandbox-team-tab",
   "version": "0.0.1",
   "private": true,
   "main": "lib/index.js",

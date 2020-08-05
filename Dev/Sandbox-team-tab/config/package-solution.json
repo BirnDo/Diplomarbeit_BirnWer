@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "sandbox-teams-tab-client-side-solution",
-    "id": "61201e99-0928-4ee1-aa5c-2d899d74c750",
-    "version": "1.0.0.3",
+    "name": "SPFX WebPart Sandbox",
+    "id": "0ee1c8e1-2616-4706-a31b-4f00bb0852a4",
+    "version": "1.0.0.2",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
-    "isDomainIsolated": true,
+    "isDomainIsolated": false,
     "developer": {
       "name": "",
       "websiteUrl": "",
@@ -16,6 +16,6 @@
     }
   },
   "paths": {
-    "zippedPackage": "solution/sandbox-teams-tab.sppkg"
+    "zippedPackage": "solution/sandbox-team-tab.sppkg"
   }
 }

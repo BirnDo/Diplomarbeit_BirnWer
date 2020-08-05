@@ -1,4 +1,4 @@
-# sandbox-teams-tab
+# sandbox-team-tab
 
 ## Summary
 

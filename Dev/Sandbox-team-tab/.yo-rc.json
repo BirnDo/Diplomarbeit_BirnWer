@@ -3,10 +3,10 @@
     "isCreatingSolution": true,
     "environment": "spo",
     "version": "1.11.0",
-    "libraryName": "sandbox-teams-tab",
-    "libraryId": "61201e99-0928-4ee1-aa5c-2d899d74c750",
+    "libraryName": "sandbox-team-tab",
+    "libraryId": "0ee1c8e1-2616-4706-a31b-4f00bb0852a4",
     "packageManager": "npm",
-    "isDomainIsolated": true,
+    "isDomainIsolated": false,
     "componentType": "webpart"
   }
 }
