@@ -9,7 +9,7 @@
    2. select Sharepoint baseline: SharePoint Online only (latest)
    3. place files: use current folder
    4. Do you want to allow the tenant admin...? yes
-   5. Will the components in the solution require permissions...? yes
+   5. Will the components in the solution require permissions...? no
    6. select type of component: WebPart
    7. enter WebPart name ([name]WebPart.ts, [name].tsx):  Sandbox
    8. enter WebPart description: Sandbox description
