@@ -6,6 +6,7 @@
 * https://m365x286535.sharepoint.com/sites/welu
 ### Azure Devops
 * https://dev.azure.com/40146720160360
+* only 30 day trial
 ### Azure
 * https://portal.azure.com/
 
