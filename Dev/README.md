@@ -84,3 +84,11 @@ build.initialize(gulp);
 ~~~
 
 12. enter `gulp dist --ship` for deploying the app
+13. go to the sharepoint app catalog `https://m365x286535.sharepoint.com/sites/apps/AppCatalog`
+14. drag the .sppkg file from the `/sharepoint/solution` folder into the app catalog
+15. mark the checkbox and press deploy
+16. select the webpart and press `Sync to Teams` in the Files tab of the ribbon bar
+17. open Microsoft Teams and right click the desired team and press `manage Team`
+18. go to the Apps tab and press `more Apps`
+19. select the custom App and add it to the correct channel
+20. Congratulations, now you have a working custom Microsoft Teams Tab 
