@@ -58,6 +58,11 @@
 * Duration: 3h
 * Sources:
   * Software Quality Lab Unterlagen
+  
+# 18.09
+* Tasks:
+  * Mockup erstellen mit Adobe XD
+* Duration: 4h
 ---
 
 # [Template]
