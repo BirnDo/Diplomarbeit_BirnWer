@@ -1,82 +1,16 @@
-# 01.07 - 03.07
-* Tasks:
-  * Kennerlernen und Testen der Technologien bei einem Seminar
-* Duration: 15h
-* Sources:
-  * Firma Smartpoint: Strasserau 6, 4020 Linz
+| Date          | Tasks                                                        | Duration (hours) | Source/Issues                                                |
+| ------------- | ------------------------------------------------------------ | ---------------- | ------------------------------------------------------------ |
+| 01.07 - 03.07 | Kennerlernen und Testen der Technologien bei einem Seminar   | 15               | Location: Firma Smartpoint: Strasserau 6, 4020 Linz          |
+| 22.07         | Zusammenfassung Agile Softwareentwicklung                    | 4                | Source: Software Quality Lab Unterlagen                      |
+| 29.07         | Zusammenfassung Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens | 2                | Source: Software Quality Lab Unterlagen                      |
+| 29.07         | Research Test Plans and Test Runs                            | 1                | Source: see file                                             |
+| 30.07         | Zusammenfassung von Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens | 2                | Source: Software Quality Lab Unterlagen                      |
+| 03.08         | aufsetzen Sandbox Entwicklungsumgebung                       | 3                | https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment |
+| 03.08         | aufsetzen Sandbox Entwicklungsumgebung; schreiben von Dokumentation: setting up project | 2                | https://docs.microsoft.com/de-de/sharepoint/dev/spfx/web-parts/get-started/using-web-part-as-ms-teams-tab |
+| 03.08         | Zusammenfassen von Test Techniken                            | 3                | Source: Software Quality Lab Unterlagen                      |
+| 03.08         | Formattierung von allen Markdown Dokumenten (Inhaltsverzeichniss, Auslagerung von Themen) | 1                |                                                              |
+| 04.08         | Zusammenfassung von Test Methoden                            | 3                | Source: Software Quality Lab Unterlagen                      |
+| 18.09         | Mockup erstellen mit Adobe XD                                | 4                |                                                              |
+| 25.09         | Pflichtenheft erstellen                                      | 1                |                                                              |
+| 25.09         | Mockup testen und rendering ausprobieren in sanbox projekt   | 4                | Issues: Importing png in projects is difficult. Fixed by adding d.ts file to src folder which declares a module for png. |
 
-# 22.07
-* Tasks:
-  * Zusammenfassung Agile Softwareentwicklung
-* Duration: 4h
-* Sources:
-  * Software Quality Lab Unterlagen 
-
-# 29.07
-* Tasks:
-  * Zusammenfassung Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens
-* Duration: 2h
-* Sources:
-  * Software Quality Lab Unterlagen
-  
----
-
-* Tasks:
-  * Research Test Plans and Test Runs
-* Duration: 1h
-* Sources:
-  * see file
-
-# 30.07
-* Tasks:
-  * Zusammenfassung von Grundlegende Prinzipien, Praktiken und Prozesse des agilen Testens
-* Duration: 2h
-* Sources:
-  * Software Quality Lab Unterlagen 
-  
-# 03.08
-* Tasks: 
-  * aufsetzen Sandbox Entwicklungsumgebung
-  * schreiben von Dokumentation: setting up project
-* Duration: 5h
-* Sources: 
-  * https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment
-  * https://docs.microsoft.com/de-de/sharepoint/dev/spfx/web-parts/get-started/using-web-part-as-ms-teams-tab
-
----
-
-* Tasks: 
-  * Zusammenfassen von Test Techniken
-  * Formattierung von allen Markdown Dokumenten (Inhaltsverzeichniss, Auslagerung von Themen)
-* Duration: 4h
-* Sources: 
-  * Software Quality Lab Unterlagen 
-
-# 04.08
-* Tasks:
-  * Zusammenfassung von Test Methoden
-* Duration: 3h
-* Sources:
-  * Software Quality Lab Unterlagen
-  
-# 18.09
-* Tasks:
-  * Mockup erstellen mit Adobe XD
-* Duration: 4h
-
-# 25.09
-* Tasks:
-  * Pflichtenheft erstellen
-* Duration: 1h
-* Tasks:
-  * Mockup testen und rendering ausprobieren in sanbox projekt
-* Duration: 4h
-* Problems: Importing png in projects is difficult. Fixed by adding d.ts file to src folder which declares a module for png.
----
-
-# [Template]
-* Tasks:
-  * . 
-* Duration:
-* Sources:
-  * .
