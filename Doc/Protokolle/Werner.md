@@ -63,6 +63,15 @@
 * Tasks:
   * Mockup erstellen mit Adobe XD
 * Duration: 4h
+
+# 25.09
+* Tasks:
+  * Pflichtenheft erstellen
+* Duration: 1h
+* Tasks:
+  * Mockup testen und rendering ausprobieren in sanbox projekt
+* Duration: 4h
+* Problems: Importing png in projects is difficult. Fixed by adding d.ts file to src folder which declares a module for png.
 ---
 
 # [Template]
