@@ -52,12 +52,12 @@ export default class Sandbox extends React.Component<ISandboxProps, {}> {
           status={null}
         />
         <Element
-          counter={1}
+          counter={2}
           text="Öffnen Sie das Sharepoint ihrer Firma ganz schnell"
           status={true}
         />
         <Element
-          counter={1}
+          counter={3}
           text="Öffnen Sie das Sharepoint ihrer Firma"
           status={false}
         />

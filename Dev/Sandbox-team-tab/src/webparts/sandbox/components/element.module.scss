@@ -1,63 +1,77 @@
-.Button {
-  display: table;
-  width: fit-content;
-  height: 30px;
-  -ms-border-radius: 19px;
-  -o-border-radius: 19px;
-  -moz-border-radius: 19px;
-  -webkit-border-radius: 19px;
-  border-radius: 19px;
-  -ms-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  -o-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  -webkit-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  -moz-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  background: rgba(255, 255, 255, 255);
-  margin-bottom: 15px;
-
-  img {
-    width: 25px;
-    height: 25px;
-  }
-}
-
 .Element {
-  display: table;
-  width: fit-content;
-  height: 30px;
-  -ms-border-radius: 19px;
-  -o-border-radius: 19px;
-  -moz-border-radius: 19px;
-  -webkit-border-radius: 19px;
-  border-radius: 19px;
-  -ms-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  -o-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  -webkit-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  -moz-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
-  background: rgba(255, 255, 255, 255);
+  display: flex;
   margin-bottom: 15px;
-}
 
-.Content {
-  display: table-cell;
-  vertical-align: middle;
-}
-.Counter {
-  margin-left: 10px;
-  margin-right: 10px;
-  float: left;
-  display: inline;
-}
-.Text {
-  margin-right: 10px;
-  float: left;
-  display: inline;
-}
+  .Content {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin-right: 10px;
+    height: 30px;
+    -ms-border-radius: 19px;
+    -o-border-radius: 19px;
+    -moz-border-radius: 19px;
+    -webkit-border-radius: 19px;
+    border-radius: 19px;
+    -ms-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    -o-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    -webkit-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    -moz-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    background: rgba(255, 255, 255, 255);
 
-.Status {
-  position: relative;
-  width: 15px;
-  height: 15px;
-  top: 9.5px;
+    .Counter {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .Text {
+      margin-right: 10px;
+    }
+
+    .Status {
+      position: relative;
+      width: 15px;
+      height: 15px;
+      top: 9.5px;
+    }
+  }
+
+  .Button {
+    width: fit-content;
+    height: 30px;
+    -ms-border-radius: 19px;
+    -o-border-radius: 19px;
+    -moz-border-radius: 19px;
+    -webkit-border-radius: 19px;
+    border-radius: 19px;
+    -ms-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    -o-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    -webkit-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    -moz-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.41);
+    background: rgba(255, 255, 255, 255);
+
+    .Group {
+      padding: 5px;
+      display: flex;
+
+      img:first-child {
+        margin-right: 5px;
+      }
+
+      img {
+        display: block;
+        width: 20px;
+        height: 20px;
+        align-items: center;
+      }
+
+      img[src=""] {
+        display: none;
+        width: 20px;
+        height: 20px;
+        align-items: center;
+      }
+    }
+  }
 }

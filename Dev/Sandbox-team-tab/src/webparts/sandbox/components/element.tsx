@@ -13,6 +13,7 @@ export interface IElementState {
   counter: number;
   text: string;
   status: boolean;
+  active: boolean;
 }
 
 export default class element extends React.Component<
@@ -26,43 +27,45 @@ export default class element extends React.Component<
       counter: this.props.counter,
       text: this.props.text,
       status: this.props.status,
+      active: true,
     };
   }
   public render(): React.ReactElement<IElementProps> {
     const { status, counter, text } = this.state;
-    let status_icon: string = null;
+    let status_img = null;
 
     if (status != null) {
-      if (status) status_icon = ico_success;
-      else status_icon = ico_failure;
+      status_img = status ? (
+        <img className={styles.Status} src={ico_success}></img>
+      ) : (
+        <img className={styles.Status} src={ico_failure}></img>
+      );
     }
 
     return (
-      <>
-        <div className={styles.Element}>
-          <div className={styles.Content}>
-            <div className={styles.Counter}>{counter}</div>
-            <div className={styles.Text}>{text}</div>
-            <img className={styles.Status} src={status_icon}></img>
-          </div>
+      <div className={styles.Element}>
+        <div className={styles.Content}>
+          <div className={styles.Counter}>{counter}</div>
+          <div className={styles.Text}>{text}</div>
+          {status_img}
         </div>
         <div className={styles.Button}>
-          <button
-            onClick={() => {
-              this.setState({ status: true });
-            }}
-          >
-            <img src={ico_success}></img>
-          </button>
-          <button
-            onClick={() => {
-              this.setState({ status: false });
-            }}
-          >
-            <img src={ico_failure}></img>
-          </button>
+          <div className={styles.Group}>
+            <img
+              onClick={() => {
+                this.setState({ status: true });
+              }}
+              src={ico_success}
+            ></img>
+            <img
+              onClick={() => {
+                this.setState({ status: false });
+              }}
+              src={ico_failure}
+            ></img>
+          </div>
         </div>
-      </>
+      </div>
     );
   }
 }
