@@ -14,3 +14,11 @@
 
 ## User Stories
 * [User Stories](User_Stories.md)
+
+## Meilensteine
+* [Meilensteine](Meilensteine.md)
+
+## Komunikations und Präsentationstechnik Mitschrift
+* [KPT2](KPT2.md)
+
+
