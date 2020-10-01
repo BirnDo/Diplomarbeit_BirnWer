@@ -2,6 +2,7 @@ import * as React from "react";
 import styles from "./Sandbox.module.scss";
 import { ISandboxProps } from "./ISandboxProps";
 import { escape } from "@microsoft/sp-lodash-subset";
+import Element from "./element";
 
 export default class Sandbox extends React.Component<ISandboxProps, {}> {
   public render(): React.ReactElement<ISandboxProps> {
@@ -25,23 +26,42 @@ export default class Sandbox extends React.Component<ISandboxProps, {}> {
     }
 
     return (
-      <div className={styles.sandbox}>
-        <div className={styles.container}>
-          <div className={styles.row}>
-            <div className={styles.column}>
-              <span className={styles.title}>{title}</span>
-              <p className={styles.subTitle}>{subTitle}</p>
-              <p className={styles.description}>{siteTabTitle}</p>
-              <p className={styles.description}>
-                Description property value - {escape(this.props.description)}
-              </p>
-              <a href="https://aka.ms/spfx" className={styles.button}>
-                <span className={styles.label}>Learn more</span>
-              </a>
+      /*
+        <div className={styles.sandbox}>
+          <div className={styles.container}>
+            <div className={styles.row}>
+              <div className={styles.column}>
+                <span className={styles.title}>{title}</span>
+                <p className={styles.subTitle}>{subTitle}</p>
+                <p className={styles.description}>{siteTabTitle}</p>
+                <p className={styles.description}>
+                  Description property value - {escape(this.props.description)}
+                </p>
+                <a href="https://aka.ms/spfx" className={styles.button}>
+                  <span className={styles.label}>Learn more</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        */
+      <>
+        <Element
+          counter={1}
+          text="Öffnen Sie das Sharepoint ihrer Firma"
+          status={null}
+        />
+        <Element
+          counter={1}
+          text="Öffnen Sie das Sharepoint ihrer Firma ganz schnell"
+          status={true}
+        />
+        <Element
+          counter={1}
+          text="Öffnen Sie das Sharepoint ihrer Firma"
+          status={false}
+        />
+      </>
     );
   }
 }
