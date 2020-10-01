@@ -19,6 +19,6 @@
 * [Meilensteine](Meilensteine.md)
 
 ## Komunikations und Präsentationstechnik Mitschrift
-* [KMT2](KMT2.md)
+* [KPT2](KPT2.md)
 
 
