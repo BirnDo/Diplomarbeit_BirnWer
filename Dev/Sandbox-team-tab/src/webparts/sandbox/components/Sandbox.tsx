@@ -6,61 +6,89 @@ import Element from "./element";
 
 export default class Sandbox extends React.Component<ISandboxProps, {}> {
   public render(): React.ReactElement<ISandboxProps> {
-    let title: string = "";
-    let subTitle: string = "";
-    let siteTabTitle: string = "";
-    if (this.props.context.sdks.microsoftTeams) {
-      // We have teams context for the web part
-      title = "Welcome to Teams!";
-      subTitle = "Building custom enterprise tabs for your business.";
-      siteTabTitle =
-        "We are in the context of following Team: " +
-        this.props.context.sdks.microsoftTeams.context.teamName;
-    } else {
-      // We are rendered in normal SharePoint context
-      title = "Welcome to SharePoint!";
-      subTitle = "Customize SharePoint experiences using Web Parts.";
-      siteTabTitle =
-        "We are in the context of following site: " +
-        this.props.context.pageContext.web.title;
-    }
+    const dummyData = [
+      {
+        title: "Organisationsansicht",
+        createdOn: "2020/10/02",
+        elements: [
+          {
+            title: "Öffnen Sie das Sharepoint",
+            description:
+              "Öffnen Sie das Sharepoint ihrer Firma. Loggen Sie sich anschließend mit ihren Micosoft Konto an und navigieren Sie zur Startseite.",
+            status: null,
+          },
+          {
+            title: "Öffnen Sie die Organisationsansicht",
+            description:
+              "Navigieren Sie zu den Favoriten auf dem Sharepoint. Drücken Sie dann auf die Organisationsansicht. Nun soll eine Liste aller Mitarbeiter mit den jeweiligen Kontaktinformation erscheinen.",
+            status: null,
+          },
+          {
+            title: "Testen Sie die Kontaktinformationen",
+            description:
+              "Drücken Sie auf alle Kontaktinformationen des ersten Mitarbeiters und testen Sie ob Sie zur richtigen Webseite weitergeleitet werden.",
+            status: null,
+          },
+        ],
+      },
+      {
+        title: "Speiseplan",
+        createdOn: "2020/10/04",
+        elements: [
+          {
+            title: "Öffnen Sie das Sharepoint",
+            description:
+              "Öffnen Sie das Sharepoint ihrer Firma. Loggen Sie sich anschließend mit ihren Micosoft Konto an und navigieren Sie zur Startseite.",
+            status: null,
+          },
+          {
+            title: "Öffnen Sie den Speiseplan",
+            description:
+              "Navigieren Sie zu den Favoriten auf dem Sharepoint. Drücken Sie dann auf den Speiseplan. Nun soll der heutige Speiseplan angezeigt werden.",
+            status: null,
+          },
+          {
+            title: "Testen Sie die anderen Orte",
+            description:
+              "Drücken Sie auf die anderen Orte und testen Sie ob der Speiseplan richtig angezeigt wird.",
+            status: null,
+          },
+        ],
+      },
+    ];
+
+    [
+      {
+        title: "Öffnen Sie das Sharepoint",
+        description:
+          "Öffnen Sie das Sharepoint ihrer Firma. Loggen Sie sich anschließend mit ihren Micosoft Konto an und navigieren Sie zur Startseite.",
+        status: null,
+      },
+      {
+        title: "Öffnen Sie die Organisationsansicht",
+        description:
+          "Navigieren Sie zu den Favoriten auf dem Sharepoint. Drücken Sie dann auf die Organisationsansicht. Nun soll eine Liste aller Mitarbeiter mit den jeweiligen Kontaktinformation erscheinen.",
+        status: null,
+      },
+      {
+        title: "Testen Sie die Kontaktinformationen",
+        description:
+          "Drücken Sie auf alle Kontaktinformationen des ersten Mitarbeiters und testen Sie ob Sie zur richtigen Webseite weitergeleitet werden.",
+        status: null,
+      },
+    ];
 
     return (
-      /*
-        <div className={styles.sandbox}>
-          <div className={styles.container}>
-            <div className={styles.row}>
-              <div className={styles.column}>
-                <span className={styles.title}>{title}</span>
-                <p className={styles.subTitle}>{subTitle}</p>
-                <p className={styles.description}>{siteTabTitle}</p>
-                <p className={styles.description}>
-                  Description property value - {escape(this.props.description)}
-                </p>
-                <a href="https://aka.ms/spfx" className={styles.button}>
-                  <span className={styles.label}>Learn more</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        */
       <>
-        <Element
-          counter={1}
-          text="Öffnen Sie das Sharepoint ihrer Firma"
-          status={null}
-        />
-        <Element
-          counter={2}
-          text="Öffnen Sie das Sharepoint ihrer Firma ganz schnell"
-          status={true}
-        />
-        <Element
-          counter={3}
-          text="Öffnen Sie das Sharepoint ihrer Firma"
-          status={false}
-        />
+        {dummyData[0].elements.map((value, index) => {
+          return (
+            <Element
+              counter={index + 1}
+              text={value.title}
+              status={value.status}
+            />
+          );
+        })}
       </>
     );
   }

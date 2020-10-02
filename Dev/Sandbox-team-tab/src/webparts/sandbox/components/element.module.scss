@@ -55,22 +55,24 @@
       padding: 5px;
       display: flex;
 
-      img:first-child {
+      svg {
+        width: 20px;
+        height: 20px;
+        align-items: center;
+      }
+
+      svg:first-child {
         margin-right: 5px;
       }
 
-      img {
-        display: block;
-        width: 20px;
-        height: 20px;
-        align-items: center;
+      svg:first-child:hover circle {
+        transition: 0.4s;
+        fill: #066905;
       }
 
-      img[src=""] {
-        display: none;
-        width: 20px;
-        height: 20px;
-        align-items: center;
+      svg:last-child:hover path:first-child {
+        transition: 0.4s;
+        fill: #9c0915;
       }
     }
   }
