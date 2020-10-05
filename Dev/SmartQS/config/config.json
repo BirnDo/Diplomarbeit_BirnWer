@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "smartqs-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/smartqs/SmartqsWebPart.js",
+          "manifest": "./src/webparts/smartqs/SmartqsWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "SmartqsWebPartStrings": "lib/webparts/smartqs/loc/{locale}.js"
+  }
+}
