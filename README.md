@@ -3,7 +3,11 @@
 ## Important Links
 
 ### Office 365
-* https://m365x286535.sharepoint.com/sites/welu
+https://M365x750080.sharepoint.com
+#### megan b
+* meganb@m365x750080.onmicrosoft.com
+#### admin
+* admin@m365x750080.onmicrosoft.com
 ### Azure Devops
 * https://dev.azure.com/40146720160360
 * only 30 day trial
