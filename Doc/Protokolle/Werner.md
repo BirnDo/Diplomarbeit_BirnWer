@@ -13,4 +13,6 @@
 | 18.09         | Mockup erstellen mit Adobe XD                                | 4                |                                                              |
 | 25.09         | Pflichtenheft erstellen                                      | 1                |                                                              |
 | 25.09         | Mockup testen und rendering ausprobieren in sanbox projekt   | 4                | Issues: Importing png in projects is difficult. Fixed by adding d.ts file to src folder which declares a module for png. |
+|01.10|Rendering dynamisch erweitern; svgs statt pngs für hover effekt|3||
+|03.10|Migration von Sandbox Projekt auf SmartQS Projekt; Markieren von Erfolgreichen und Fehlerhaften Tests nun möglich|2||
 
