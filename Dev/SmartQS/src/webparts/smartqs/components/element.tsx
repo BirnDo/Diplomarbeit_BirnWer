@@ -30,17 +30,9 @@ export default class element extends React.Component<
       active: true,
     };
   }
+
   public render(): React.ReactElement<IElementProps> {
     const { status, counter, text } = this.state;
-    let status_img = null;
-
-    if (status != null) {
-      status_img = status ? (
-        <img src={SuccessIcon} alt="success" className={styles.Status} />
-      ) : (
-        <img src={FailureIcon} alt="failure" className={styles.Status} />
-      );
-    }
 
     const successButton = (
       <svg
@@ -95,6 +87,25 @@ export default class element extends React.Component<
       </svg>
     );
 
+    let status_img = null;
+    let status_button = (
+      <div className={styles.Button}>
+        <div className={styles.Group}>
+          {successButton}
+          {failureButton}
+        </div>
+      </div>
+    );
+
+    if (status != null) {
+      status_img = status ? (
+        <img src={SuccessIcon} alt="success" className={styles.Status} />
+      ) : (
+        <img src={FailureIcon} alt="failure" className={styles.Status} />
+      );
+      status_button = null;
+    }
+
     return (
       <div className={styles.Element}>
         <div className={styles.Content}>
@@ -102,12 +113,7 @@ export default class element extends React.Component<
           <div className={styles.Text}>{text}</div>
           {status_img}
         </div>
-        <div className={styles.Button}>
-          <div className={styles.Group}>
-            {successButton}
-            {failureButton}
-          </div>
-        </div>
+        {status_button}
       </div>
     );
   }
