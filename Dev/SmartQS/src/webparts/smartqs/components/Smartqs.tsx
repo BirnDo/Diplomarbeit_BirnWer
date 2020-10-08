@@ -78,18 +78,22 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
       },
     ];
 
-    return (
-      <>
-        {dummyData[0].elements.map((value, index) => {
-          return (
-            <Element
-              counter={index + 1}
-              text={value.title}
-              status={value.status}
-            />
-          );
-        })}
-      </>
-    );
+    return <div className={styles.container}>{renderTest(dummyData[0])}</div>;
   }
+}
+
+function renderTest(data) {
+  return (
+    <>
+      {data.elements.map((value, index) => {
+        return (
+          <Element
+            counter={index + 1}
+            text={value.title}
+            status={value.status}
+          />
+        );
+      })}
+    </>
+  );
 }
