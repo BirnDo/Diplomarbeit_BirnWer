@@ -5,14 +5,14 @@ import SuccessIcon from "../../../assets/ico_success.svg";
 import FailureIcon from "../../../assets/ico_failure.svg";
 
 export interface IElementProps {
-  counter: number;
+  key: number;
   text: string;
   status: boolean;
+  onclick: any;
 }
 export interface IElementState {
-  counter: number;
+  key: number;
   text: string;
-  status: boolean;
   active: boolean;
 }
 
@@ -24,21 +24,19 @@ export default class element extends React.Component<
     super(props);
 
     this.state = {
-      counter: this.props.counter,
+      key: this.props.key,
       text: this.props.text,
-      status: this.props.status,
       active: true,
     };
   }
 
   public render(): React.ReactElement<IElementProps> {
-    const { status, counter, text } = this.state;
+    const { key, text } = this.state;
+    const { status } = this.props;
 
     const successButton = (
       <svg
-        onClick={() => {
-          this.setState({ status: true });
-        }}
+        onClick={this.props.onclick(key, true)}
         width="96"
         height="96"
         viewBox="0 0 96 96"
@@ -67,9 +65,7 @@ export default class element extends React.Component<
 
     const failureButton = (
       <svg
-        onClick={() => {
-          this.setState({ status: false });
-        }}
+        onClick={this.props.onclick(key, false)}
         width="96"
         height="96"
         viewBox="0 0 96 96"
@@ -109,7 +105,7 @@ export default class element extends React.Component<
     return (
       <div className={styles.Element}>
         <div className={styles.Content}>
-          <div className={styles.Counter}>{counter}</div>
+          <div className={styles.Counter}>{key + 1}</div>
           <div className={styles.Text}>{text}</div>
           {status_img}
         </div>

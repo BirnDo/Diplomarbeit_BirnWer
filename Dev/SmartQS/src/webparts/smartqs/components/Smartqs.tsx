@@ -2,7 +2,7 @@ import * as React from "react";
 import styles from "./Smartqs.module.scss";
 import { ISmartqsProps } from "./ISmartqsProps";
 import { escape } from "@microsoft/sp-lodash-subset";
-import Element from "./element";
+import TestPlan from "./TestPlan";
 
 export default class Smartqs extends React.Component<ISmartqsProps, {}> {
   public render(): React.ReactElement<ISmartqsProps> {
@@ -57,32 +57,15 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
       },
     ];
 
-    [
-      {
-        title: "Öffnen Sie das Sharepoint",
-        description:
-          "Öffnen Sie das Sharepoint ihrer Firma. Loggen Sie sich anschließend mit ihren Micosoft Konto an und navigieren Sie zur Startseite.",
-        status: null,
-      },
-      {
-        title: "Öffnen Sie die Organisationsansicht",
-        description:
-          "Navigieren Sie zu den Favoriten auf dem Sharepoint. Drücken Sie dann auf die Organisationsansicht. Nun soll eine Liste aller Mitarbeiter mit den jeweiligen Kontaktinformation erscheinen.",
-        status: null,
-      },
-      {
-        title: "Testen Sie die Kontaktinformationen",
-        description:
-          "Drücken Sie auf alle Kontaktinformationen des ersten Mitarbeiters und testen Sie ob Sie zur richtigen Webseite weitergeleitet werden.",
-        status: null,
-      },
-    ];
-
-    return <div className={styles.container}>{renderTest(dummyData[0])}</div>;
+    return (
+      <div className={styles.container}>
+        <TestPlan data={dummyData[0]} />
+      </div>
+    );
   }
 }
 
-function renderTest(data) {
+/* function renderTest(data) {
   return (
     <>
       {data.elements.map((value, index) => {
@@ -96,4 +79,4 @@ function renderTest(data) {
       })}
     </>
   );
-}
+} */
