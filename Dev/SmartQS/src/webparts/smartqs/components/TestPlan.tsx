@@ -31,9 +31,9 @@ export default class TestPlan extends React.Component<
     return map;
   } */
 
-  updateElements = (key, value) => {
+  updateElements = (index: number, element: ElementsModal) => {
     const newElements = this.state.elements.slice(); //copy the array
-    newElements[key] = value; //execute the manipulations
+    newElements[index] = element; //execute the manipulations
     this.setState({ elements: newElements }); //set the new state
   };
 
@@ -52,8 +52,7 @@ export default class TestPlan extends React.Component<
               onclick={this.updateElements}
               key={index}
               index={index}
-              text={value.title}
-              status={value.status}
+              element={value}
             />
           );
         })}

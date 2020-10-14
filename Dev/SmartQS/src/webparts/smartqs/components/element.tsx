@@ -4,16 +4,15 @@ import * as _ from "lodash";
 import SuccessIcon from "../../../assets/ico_success.svg";
 import FailureIcon from "../../../assets/ico_failure.svg";
 import { values } from "office-ui-fabric-react";
+import ElementsModal from "./ElementsModal";
 
 export interface IElementProps {
   key: number;
   index: number;
-  text: string;
-  status: boolean;
   onclick: any;
+  element: ElementsModal;
 }
 export interface IElementState {
-  text: string;
   active: boolean;
 }
 
@@ -25,19 +24,23 @@ export default class element extends React.Component<
     super(props);
 
     this.state = {
-      text: this.props.text,
       active: true,
     };
   }
 
+  updateStatus = (index: number, element: ElementsModal, status: boolean) => {
+    const newElement = element;
+    element.status = status;
+    this.props.onclick(newElement, index);
+  };
+
   public render(): React.ReactElement<IElementProps> {
-    const { text } = this.state;
-    const { status, index } = this.props;
+    const { element, index } = this.props;
 
     const successButton = (
       <svg
         onClick={() => {
-          this.props.onclick();
+          this.updateStatus(index, element, true);
         }}
         width="96"
         height="96"
@@ -68,7 +71,7 @@ export default class element extends React.Component<
     const failureButton = (
       <svg
         onClick={() => {
-          this.props.onclick();
+          this.updateStatus(index, element, false);
         }}
         width="96"
         height="96"
@@ -97,7 +100,7 @@ export default class element extends React.Component<
       </div>
     );
 
-    if (status != null) {
+    if (element.status != null) {
       status_img = status ? (
         <img src={SuccessIcon} alt="success" className={styles.Status} />
       ) : (
@@ -110,7 +113,7 @@ export default class element extends React.Component<
       <div className={styles.Element}>
         <div className={styles.Content}>
           <div className={styles.Counter}>{index + 1}</div>
-          <div className={styles.Text}>{text}</div>
+          <div className={styles.Text}>{element.title}</div>
           {status_img}
         </div>
         {status_button}
