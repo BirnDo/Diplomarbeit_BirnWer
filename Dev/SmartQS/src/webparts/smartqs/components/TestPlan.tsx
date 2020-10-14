@@ -1,15 +1,13 @@
 import * as React from "react";
-import element from "./element";
 import Element from "./element";
 import ElementsModal from "./ElementsModal";
 import TestPlanModal from "./TestPlanModal";
+import * as _ from "lodash";
 
 interface TestPlanProps {
   data: TestPlanModal;
 }
-interface TestPlanState extends TestPlanModal {
-  elementsMap: Map<number, ElementsModal>;
-}
+interface TestPlanState extends TestPlanModal {}
 
 export default class TestPlan extends React.Component<
   TestPlanProps,
@@ -21,37 +19,39 @@ export default class TestPlan extends React.Component<
     this.state = {
       title: this.props.data.title,
       createdOn: this.props.data.createdOn,
-      elements: null, // not needed anymore
-      elementsMap: this.initializeMap(this.props.data.elements),
+      elements: this.props.data.elements,
     };
   }
 
-  initializeMap(elements: ElementsModal[]): Map<number, ElementsModal> {
+  /*   initializeMap(elements: ElementsModal[]): Map<number, ElementsModal> {
     var map: Map<number, ElementsModal> = new Map();
     elements.map((value, index) => {
       map.set(index, value);
     });
     return map;
-  }
+  } */
 
-  updateElements(key, value) {
-    var map: Map<number, ElementsModal> = this.state.elementsMap;
-    map.set(key, value);
-    this.setState({ elementsMap: map });
-  }
+  updateElements = (key, value) => {
+    const newElements = this.state.elements.slice(); //copy the array
+    newElements[key] = value; //execute the manipulations
+    this.setState({ elements: newElements }); //set the new state
+  };
 
   public render(): React.ReactElement<TestPlanProps> {
-    const { title, createdOn, elementsMap } = this.state;
+    const { title, createdOn, elements } = this.state;
+    console.log("elementsMap", elements);
 
     return (
       <>
-        {elementsMap.forEach((value, index) => {
+        {elements.map((value, index) => {
+          console.log("index", index);
           console.log("value", value);
 
           return (
             <Element
               onclick={this.updateElements}
               key={index}
+              index={index}
               text={value.title}
               status={value.status}
             />

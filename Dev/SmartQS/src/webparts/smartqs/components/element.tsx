@@ -3,15 +3,16 @@ import styles from "./element.module.scss";
 import * as _ from "lodash";
 import SuccessIcon from "../../../assets/ico_success.svg";
 import FailureIcon from "../../../assets/ico_failure.svg";
+import { values } from "office-ui-fabric-react";
 
 export interface IElementProps {
   key: number;
+  index: number;
   text: string;
   status: boolean;
   onclick: any;
 }
 export interface IElementState {
-  key: number;
   text: string;
   active: boolean;
 }
@@ -24,19 +25,20 @@ export default class element extends React.Component<
     super(props);
 
     this.state = {
-      key: this.props.key,
       text: this.props.text,
       active: true,
     };
   }
 
   public render(): React.ReactElement<IElementProps> {
-    const { key, text } = this.state;
-    const { status } = this.props;
+    const { text } = this.state;
+    const { status, index } = this.props;
 
     const successButton = (
       <svg
-        onClick={this.props.onclick(key, true)}
+        onClick={() => {
+          this.props.onclick();
+        }}
         width="96"
         height="96"
         viewBox="0 0 96 96"
@@ -65,7 +67,9 @@ export default class element extends React.Component<
 
     const failureButton = (
       <svg
-        onClick={this.props.onclick(key, false)}
+        onClick={() => {
+          this.props.onclick();
+        }}
         width="96"
         height="96"
         viewBox="0 0 96 96"
@@ -105,7 +109,7 @@ export default class element extends React.Component<
     return (
       <div className={styles.Element}>
         <div className={styles.Content}>
-          <div className={styles.Counter}>{key + 1}</div>
+          <div className={styles.Counter}>{index + 1}</div>
           <div className={styles.Text}>{text}</div>
           {status_img}
         </div>

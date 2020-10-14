@@ -3,6 +3,7 @@ import styles from "./Smartqs.module.scss";
 import { ISmartqsProps } from "./ISmartqsProps";
 import { escape } from "@microsoft/sp-lodash-subset";
 import TestPlan from "./TestPlan";
+import Element from "./element";
 
 export default class Smartqs extends React.Component<ISmartqsProps, {}> {
   public render(): React.ReactElement<ISmartqsProps> {
