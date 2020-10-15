@@ -10,7 +10,7 @@ Als Tester möchte ich bei fehlgeschlagenen Tests ein Kommentar hinzufügen, wel
 
 Als Kundenbetreuer möchte ich eine Übersicht sehen, ob alle Testfälle erfüllt wurden oder ob es Probleme gegeben hat.
 
-Als Kundenbetreuer möchte ich über die Übersicht auf die einzlenen Testfälle navigieren können, damit ich nähere Informationen erhalte.
+Als Kundenbetreuer möchte ich über die Übersicht zu den einzlenen Testfälle navigieren können, damit ich nähere Informationen erhalte.
 
 Als Tester möchte ich eine Übersicht sehen welche Testfälle auf mich zugewiesen wurden, damit ich weiß was noch zu testen ist.
 
