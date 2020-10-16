@@ -1,17 +1,18 @@
 import * as React from "react";
-import styles from "./Smartqs.module.scss";
 import { ISmartqsProps } from "./ISmartqsProps";
 import { escape } from "@microsoft/sp-lodash-subset";
-import TestPlan from "./TestPlan";
-import Element from "./element";
+
+import styles from "./Smartqs.module.scss";
+import TestRun from "./TestRun/TestRun";
+import TestRunModel from "./model/TestRunModel";
 
 export default class Smartqs extends React.Component<ISmartqsProps, {}> {
   public render(): React.ReactElement<ISmartqsProps> {
-    const dummyData = [
+    const dummyData: TestRunModel[] = [
       {
         title: "Organisationsansicht",
         createdOn: "2020/10/02",
-        elements: [
+        testCases: [
           {
             title: "Öffnen Sie das Sharepoint",
             description:
@@ -35,7 +36,7 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
       {
         title: "Speiseplan",
         createdOn: "2020/10/04",
-        elements: [
+        testCases: [
           {
             title: "Öffnen Sie das Sharepoint",
             description:
@@ -60,24 +61,8 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
 
     return (
       <div className={styles.container}>
-        <TestPlan data={dummyData[0]} />
+        <TestRun testRun={dummyData[0]} />
       </div>
     );
   }
 }
-
-/* function renderTest(data) {
-  return (
-    <>
-      {data.elements.map((value, index) => {
-        return (
-          <Element
-            counter={index + 1}
-            text={value.title}
-            status={value.status}
-          />
-        );
-      })}
-    </>
-  );
-} */
