@@ -15,4 +15,8 @@
 | 25.09         | Mockup testen und rendering ausprobieren in sanbox projekt   | 4                | Issues: Importing png in projects is difficult. Fixed by adding d.ts file to src folder which declares a module for png. |
 |01.10|Rendering dynamisch erweitern; svgs statt pngs für hover effekt|3||
 |03.10|Migration von Sandbox Projekt auf SmartQS Projekt; Markieren von Erfolgreichen und Fehlerhaften Tests nun möglich|2||
+|09.10|Sichbarkeit von Status Buttons hinzugefügt; State erweitert; Rendering ausgelagert; Modal Interfaces hinzugefügt für wiederverwendbarkeit|5|||
+|10.10|State Handhabung aktualisiert; callback Methode fürs State Handhabung hinzugefügt; rendering angepasst für logischen Aufbau; lokale Speicherung von Test Plans auf Arrray umgeschrieben|4|https://www.pluralsight.com/guides/how-to-pass-data-between-react-components|
+|14.10|Callback Function aktualisiert damit sie state nicht direkt ersetzt; State Handhabung aktualisert und funktioniert nun korrekt|3|https://stackoverflow.com/questions/26253351/correct-modification-of-state-arrays-in-reactjs|
+|15.10|svgs als React Component hinzugefügt; Element Rendering verbessert mithilfe von ausgelagerten Funktionen|2||
 
