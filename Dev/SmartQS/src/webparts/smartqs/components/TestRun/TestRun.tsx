@@ -25,9 +25,19 @@ export default class TestPlan extends React.Component<
   }
 
   updateTestCase = (index: number, testCase: TestCaseModel) => {
-    const newTestCases = this.state.testCases.slice();
-    newTestCases[index] = testCase;
-    this.setState({ testCases: newTestCases });
+    if (index < this.state.testCases.length) {
+      const newTestCases = this.state.testCases.slice();
+      newTestCases[index] = testCase;
+      this.setState({ testCases: newTestCases });
+    }
+  };
+
+  updateActiveStatus = (index: number, active: boolean) => {
+    if (index < this.state.testCases.length) {
+      const newTestCases = this.state.testCases.slice();
+      newTestCases[index].active = active;
+      this.setState({ testCases: newTestCases });
+    }
   };
 
   public render(): React.ReactElement<ITestRunProps> {
@@ -39,10 +49,11 @@ export default class TestPlan extends React.Component<
         {testCases.map((value, index) => {
           return (
             <TestCase
-              onclick={this.updateTestCase}
               key={index}
               index={index}
               testCase={value}
+              updateTestCase={this.updateTestCase}
+              updateActiveStatus={this.updateActiveStatus}
             />
           );
         })}

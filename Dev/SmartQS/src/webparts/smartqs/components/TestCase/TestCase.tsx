@@ -9,12 +9,11 @@ import TestCaseModel from "../model/TestCaseModel";
 export interface ITestCaseProps {
   key: number;
   index: number;
-  onclick: any;
   testCase: TestCaseModel;
+  updateTestCase: (index: number, testCase: TestCaseModel) => void;
+  updateActiveStatus: (index: number, active: boolean) => void;
 }
-export interface ITestCaseState {
-  active: boolean;
-}
+export interface ITestCaseState {}
 
 export default class TestCase extends React.Component<
   ITestCaseProps,
@@ -22,41 +21,42 @@ export default class TestCase extends React.Component<
 > {
   constructor(props) {
     super(props);
-
-    this.state = {
-      active: true,
-    };
   }
 
-  updateStatus = (index: number, testCase: TestCaseModel, status: boolean) => {
+  updateTestStatus = (
+    index: number,
+    testCase: TestCaseModel,
+    status: boolean
+  ) => {
     const newTestCase = testCase;
     testCase.status = status;
-    this.props.onclick(newTestCase, index);
+    this.props.updateTestCase(index, newTestCase);
+    this.props.updateActiveStatus(index, false);
+    this.props.updateActiveStatus(index + 1, true);
   };
 
   public render(): React.ReactElement<ITestCaseProps> {
     const { testCase, index } = this.props;
 
     const renderStatusButton = () => {
-      if (testCase.status == null) {
+      if (testCase.status == null && testCase.active == true) {
         return (
           <div className={styles.Button}>
             <div className={styles.Group}>
               <SuccessIcon
                 onClick={() => {
-                  this.updateStatus(index, testCase, true);
+                  this.updateTestStatus(index, testCase, true);
                 }}
               />
               <FailureIcon
                 onClick={() => {
-                  this.updateStatus(index, testCase, false);
+                  this.updateTestStatus(index, testCase, false);
                 }}
               />
             </div>
           </div>
         );
       }
-      return <></>;
     };
 
     const renderStatus = () => {
@@ -64,7 +64,6 @@ export default class TestCase extends React.Component<
         if (testCase.status) return <SuccessIcon className={styles.Status} />;
         else return <FailureIcon className={styles.Status} />;
       }
-      return <></>;
     };
 
     return (
