@@ -23,6 +23,14 @@ export default class TestCase extends React.Component<
     super(props);
   }
 
+  /**
+   * used to update the status of the current test case
+   *
+   * @param {number} index current index of the test run arry to specify the element
+   * @param {TestCaseModel} testCase current test case to pass the changes
+   * @param {boolean} status used to specify the value the test status should have
+   * @memberof TestCase
+   */
   updateTestStatus = (
     index: number,
     testCase: TestCaseModel,
@@ -31,13 +39,20 @@ export default class TestCase extends React.Component<
     const newTestCase = testCase;
     testCase.status = status;
     this.props.updateTestCase(index, newTestCase);
-    this.props.updateActiveStatus(index, false);
-    this.props.updateActiveStatus(index + 1, true);
+
+    this.props.updateActiveStatus(index, false); // sets active status of current Test Case to false
+    this.props.updateActiveStatus(index + 1, true); // sets active status of next Test Case to true
   };
 
   public render(): React.ReactElement<ITestCaseProps> {
     const { testCase, index } = this.props;
 
+    /**
+     * renders the status button for each test case
+     * only visible when the test status is null and the active status is true
+     *
+     * @return {*}
+     */
     const renderStatusButton = () => {
       if (testCase.status == null && testCase.active == true) {
         return (
@@ -45,12 +60,12 @@ export default class TestCase extends React.Component<
             <div className={styles.Group}>
               <SuccessIcon
                 onClick={() => {
-                  this.updateTestStatus(index, testCase, true);
+                  this.updateTestStatus(index, testCase, true); // sets the status of the current test case to true
                 }}
               />
               <FailureIcon
                 onClick={() => {
-                  this.updateTestStatus(index, testCase, false);
+                  this.updateTestStatus(index, testCase, false); // sets the status of the current test case to false
                 }}
               />
             </div>
@@ -59,6 +74,12 @@ export default class TestCase extends React.Component<
       }
     };
 
+    /**
+     * renders either a success or failure icon
+     * only visible when test status has a value
+     *
+     * @return {*}
+     */
     const renderStatus = () => {
       if (testCase.status != null) {
         if (testCase.status) return <SuccessIcon className={styles.Status} />;

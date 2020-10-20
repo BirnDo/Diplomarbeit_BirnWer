@@ -24,6 +24,13 @@ export default class TestPlan extends React.Component<
     };
   }
 
+  /**
+   * updates a specific test case of a test run
+   *
+   * @param {number} index used to specify the test case
+   * @param {TestCaseModel} testCase used to pass the values to the old test case
+   * @memberof TestPlan
+   */
   updateTestCase = (index: number, testCase: TestCaseModel) => {
     if (index < this.state.testCases.length) {
       const newTestCases = this.state.testCases.slice();
@@ -32,6 +39,13 @@ export default class TestPlan extends React.Component<
     }
   };
 
+  /**
+   * updates the active status of a specific test case of a test run
+   *
+   * @param {number} index used to specify the test case
+   * @param {boolean} active used to specify the value the active status should have
+   * @memberof TestPlan
+   */
   updateActiveStatus = (index: number, active: boolean) => {
     if (index < this.state.testCases.length) {
       const newTestCases = this.state.testCases.slice();
