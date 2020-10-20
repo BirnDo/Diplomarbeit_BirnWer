@@ -1,5 +1,8 @@
 import * as React from "react";
 import * as _ from "lodash";
+import { useState } from "react";
+import { useId, useBoolean } from "@uifabric/react-hooks";
+import { Modal } from "office-ui-fabric-react";
 
 import SuccessIcon from "../../../../assets/SvgIcoSuccess";
 import FailureIcon from "../../../../assets/SvgIcoFailure";
@@ -13,7 +16,10 @@ export interface ITestCaseProps {
   updateTestCase: (index: number, testCase: TestCaseModel) => void;
   updateActiveStatus: (index: number, active: boolean) => void;
 }
-export interface ITestCaseState {}
+
+export interface ITestCaseState {
+  showModel: boolean;
+}
 
 export default class TestCase extends React.Component<
   ITestCaseProps,
@@ -21,6 +27,10 @@ export default class TestCase extends React.Component<
 > {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showModel: false,
+    };
   }
 
   /**
@@ -91,10 +101,26 @@ export default class TestCase extends React.Component<
       <div className={styles.Element}>
         <div className={styles.Content}>
           <div className={styles.Counter}>{index + 1}</div>
-          <div className={styles.Text}>{testCase.title}</div>
+          <div
+            className={styles.Text}
+            onClick={() => {
+              this.setState({ showModel: true });
+            }}
+          >
+            {testCase.title}
+          </div>
           {renderStatus()}
         </div>
         {renderStatusButton()}
+        <Modal
+          isOpen={this.state.showModel}
+          onDismiss={() => {
+            this.setState({ showModel: true });
+          }}
+          isBlocking={false}
+        >
+          <p>{this.props.testCase.description}</p>
+        </Modal>
       </div>
     );
   }
