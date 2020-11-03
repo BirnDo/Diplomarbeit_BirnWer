@@ -19,6 +19,7 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
               "Öffnen Sie das Sharepoint ihrer Firma. Loggen Sie sich anschließend mit ihren Micosoft Konto an und navigieren Sie zur Startseite.",
             status: null,
             active: true,
+            message: "",
           },
           {
             title: "Öffnen Sie die Organisationsansicht",
@@ -26,6 +27,7 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
               "Navigieren Sie zu den Favoriten auf dem Sharepoint. Drücken Sie dann auf die Organisationsansicht. Nun soll eine Liste aller Mitarbeiter mit den jeweiligen Kontaktinformation erscheinen.",
             status: null,
             active: false,
+            message: "",
           },
           {
             title: "Testen Sie die Kontaktinformationen",
@@ -33,6 +35,7 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
               "Drücken Sie auf alle Kontaktinformationen des ersten Mitarbeiters und testen Sie ob Sie zur richtigen Webseite weitergeleitet werden.",
             status: null,
             active: false,
+            message: "",
           },
         ],
       },
@@ -46,6 +49,7 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
               "Öffnen Sie das Sharepoint ihrer Firma. Loggen Sie sich anschließend mit ihren Micosoft Konto an und navigieren Sie zur Startseite.",
             status: null,
             active: false,
+            message: "",
           },
           {
             title: "Öffnen Sie den Speiseplan",
@@ -53,6 +57,7 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
               "Navigieren Sie zu den Favoriten auf dem Sharepoint. Drücken Sie dann auf den Speiseplan. Nun soll der heutige Speiseplan angezeigt werden.",
             status: null,
             active: false,
+            message: "",
           },
           {
             title: "Testen Sie die anderen Orte",
@@ -60,6 +65,7 @@ export default class Smartqs extends React.Component<ISmartqsProps, {}> {
               "Drücken Sie auf die anderen Orte und testen Sie ob der Speiseplan richtig angezeigt wird.",
             status: null,
             active: false,
+            message: "",
           },
         ],
       },

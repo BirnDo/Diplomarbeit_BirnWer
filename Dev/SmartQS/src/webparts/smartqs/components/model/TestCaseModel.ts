@@ -3,4 +3,5 @@ export default interface ElementsModal {
   description: string;
   status: boolean;
   active: boolean;
+  message: string;
 }

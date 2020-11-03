@@ -1,4 +1,4 @@
-.Element {
+.TestCase {
   font-family: "Segoe UI WestEuropean", "Segoe UI", -apple-system,
     BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
   display: flex;
@@ -28,6 +28,12 @@
     }
     .Text {
       margin-right: 10px;
+      text-decoration: none;
+    }
+
+    .Text:hover {
+      text-decoration: underline;
+      cursor: pointer;
     }
 
     .Status {
