@@ -19,4 +19,9 @@
 |10.10|State Handhabung aktualisiert; callback Methode fürs State Handhabung hinzugefügt; rendering angepasst für logischen Aufbau; lokale Speicherung von Test Plans auf Arrray umgeschrieben|4|https://www.pluralsight.com/guides/how-to-pass-data-between-react-components|
 |14.10|Callback Function aktualisiert damit sie state nicht direkt ersetzt; State Handhabung aktualisert und funktioniert nun korrekt|3|https://stackoverflow.com/questions/26253351/correct-modification-of-state-arrays-in-reactjs|
 |15.10|svgs als React Component hinzugefügt; Element Rendering verbessert mithilfe von ausgelagerten Funktionen|2||
-
+|15.10|updated the User stories that define the project|1||
+|16.10|fixed project folder structure; fixed wrong terms for some words; fixed spelling mistakes|2|||
+|18.10|added property active to display status buttons only if the test case is currently active; added functions in props interface|2||
+|20.10|added comments to all functions|1||
+|20.10|added Modal that shows the test case description when clicking on test case|1|https://developer.microsoft.com/en-us/fluentui#/controls/web/modal|
+|03.11|added message property in test case; added dialog when marking test case as failure to enter the issue; updated the style of the modal to fluent ui style|3|https://developer.microsoft.com/en-us/fluentui#/controls/web/dialog|
