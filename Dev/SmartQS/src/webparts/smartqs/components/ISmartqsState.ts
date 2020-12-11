@@ -1,3 +1,1 @@
-export interface ISmartqsState {
-  testRunIndex: number;
-}
+export interface ISmartqsState {}
