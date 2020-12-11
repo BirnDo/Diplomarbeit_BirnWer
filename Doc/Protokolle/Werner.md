@@ -25,3 +25,5 @@
 |20.10|added comments to all functions|1||
 |20.10|added Modal that shows the test case description when clicking on test case|1|https://developer.microsoft.com/en-us/fluentui#/controls/web/modal|
 |03.11|added message property in test case; added dialog when marking test case as failure to enter the issue; updated the style of the modal to fluent ui style|3|https://developer.microsoft.com/en-us/fluentui#/controls/web/dialog|
+|||8|https://ravichandran.blog/2020/06/10/react-router-in-spfx/ https://www.c-sharpcorner.com/article/single-page-app-in-spfx-using-re/|
+|||3|https://developer.microsoft.com/en-us/fluentui?fabricVer=6#/controls/web/nav|
