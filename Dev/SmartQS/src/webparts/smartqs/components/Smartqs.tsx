@@ -21,22 +21,31 @@ export default class Smartqs extends React.Component<
 > {
   constructor(props) {
     super(props);
+
+    this.state = {
+      testRunsInfo: this.getTestRunMinData(),
+    };
   }
 
-  dummyDataMin: TestRunModelMin[] = [
-    {
-      _id: "0001",
-      title: "Organisationsansicht",
-      createdOn: "2020/10/02",
-    },
-    {
-      _id: "0002",
-      title: "Speiseplan",
-      createdOn: "2020/10/04",
-    },
-  ];
+  getTestRunMinData() {
+    var dummyDataMin: TestRunModelMin[] = [
+      {
+        _id: "0001",
+        title: "Organisationsansicht",
+        createdOn: "2020/10/02",
+      },
+      {
+        _id: "0002",
+        title: "Speiseplan",
+        createdOn: "2020/10/04",
+      },
+    ];
+
+    return dummyDataMin;
+  }
 
   public render(): React.ReactElement<ISmartqsProps> {
+    const { testRunsInfo } = this.state;
     return (
       <HashRouter>
         <Switch>
@@ -45,7 +54,7 @@ export default class Smartqs extends React.Component<
           </Route>
           <Route path="/dashboard">dashboard</Route>
           <Route path="/TestRuns">
-            <TestRunOverview testRunsInfo={this.dummyDataMin} />
+            <TestRunOverview testRunsInfo={testRunsInfo} />
           </Route>
         </Switch>
       </HashRouter>

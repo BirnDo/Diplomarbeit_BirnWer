@@ -94,7 +94,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     const oldId: string = this.state._id;
 
     if (newId != oldId) {
-      this.updateTestCases();
+      this.updateTestCases(oldId);
       this.updateRenderedTestRun();
     }
   }
@@ -112,7 +112,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     }
   }
 
-  updateTestCases() {
+  updateTestCases(id: string) {
     // update database
   }
 

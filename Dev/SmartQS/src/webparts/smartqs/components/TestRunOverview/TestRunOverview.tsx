@@ -7,7 +7,6 @@ import TestRun from "../TestRun/TestRun";
 import TestRunModel from "../model/TestRunModel";
 import TestRunModelMin from "../model/TestRunModelMin";
 import styles from "./TestRunOverview.module.scss";
-import { ValuePosition } from "office-ui-fabric-react";
 
 interface ITestRunOverviewProps {
   testRunsInfo: TestRunModelMin[];
@@ -15,24 +14,6 @@ interface ITestRunOverviewProps {
 interface ITestRunOverviewState {
   navLinkGroups: INavLinkGroup[];
 }
-
-const navLinkGroups: INavLinkGroup[] = [
-  {
-    name: "Test Run Overview",
-    links: [
-      {
-        key: "run1",
-        name: "run1",
-        url: "#/testrunlist/0001",
-      },
-      {
-        key: "run2",
-        name: "run2",
-        url: "#/testrunlist/0002",
-      },
-    ],
-  },
-];
 
 export default class TestRunOverview extends React.Component<
   ITestRunOverviewProps,
