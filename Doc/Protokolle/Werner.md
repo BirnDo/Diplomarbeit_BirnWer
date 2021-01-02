@@ -25,3 +25,6 @@
 |20.10|added comments to all functions|1||
 |20.10|added Modal that shows the test case description when clicking on test case|1|https://developer.microsoft.com/en-us/fluentui#/controls/web/modal|
 |03.11|added message property in test case; added dialog when marking test case as failure to enter the issue; updated the style of the modal to fluent ui style|3|https://developer.microsoft.com/en-us/fluentui#/controls/web/dialog|
+|20.11|added Richtext to Dialog; added the Abillity to switch between test Runs|2||
+|5.12|added React Router to Navigate between the TestRunOverview and the dashboard;|3|https://ravichandran.blog/2020/06/10/react-router-in-spfx/|
+|11.12|added React Router and NavBar to TestRunOverview to navigate between different TestRuns; navbar dynamically renders links from data; added TestRunOverview to list all available TestRun|7| https://www.c-sharpcorner.com/article/single-page-app-in-spfx-using-re/ https://developer.microsoft.com/en-us/fluentui?fabricVer=6#/controls/web/nav|

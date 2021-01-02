@@ -24,6 +24,7 @@ import {
   DefaultButton,
 } from "office-ui-fabric-react/lib/Button";
 import { TextField } from "office-ui-fabric-react/lib/TextField";
+import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
 
 import SuccessIcon from "../../../../assets/SvgIcoSuccess";
 import FailureIcon from "../../../../assets/SvgIcoFailure";
@@ -131,6 +132,11 @@ export default class TestCase extends React.Component<
     }
   }
 
+  handleRichText(text: string) {
+    this.setState({ message: text });
+    return text;
+  }
+
   public render(): React.ReactElement<ITestCaseProps> {
     const { testCase, index } = this.props;
     const cancelIcon: IIconProps = { iconName: "Cancel" };
@@ -139,9 +145,12 @@ export default class TestCase extends React.Component<
       title: "Was hat nicht funktioniert?",
       subText: testCase.description,
     };
+    const dialogStyles = {
+      main: { maxWidth: "800px !important", width: "fit-content !important" },
+    };
     const modelProps = {
       isBlocking: false,
-      styles: { main: { maxWidth: 800 } },
+      styles: dialogStyles,
     };
 
     return (
@@ -179,10 +188,7 @@ export default class TestCase extends React.Component<
           dialogContentProps={dialogContentProps}
           modalProps={modelProps}
         >
-          <input
-            type="text"
-            onChange={(event) => this.setState({ message: event.target.value })}
-          />
+          <RichText onChange={(value) => this.handleRichText(value)} />
           <DialogFooter>
             <PrimaryButton
               onClick={() => {
@@ -206,6 +212,7 @@ const contentStyles = mergeStyleSets({
     display: "flex",
     flexFlow: "column nowrap",
     alignItems: "stretch",
+    minWidth: "800px",
   },
   header: [
     //eslint-disable-next-line deprecation/deprecation
