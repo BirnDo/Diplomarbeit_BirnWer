@@ -36,7 +36,7 @@ export default class TestRunOverview extends React.Component<
       var element: INavLink = {
         key: value._id,
         name: value.title,
-        url: "#/TestRuns/" + value._id,
+        url: "#/runTest/" + value._id,
       };
       navLinks.push(element);
     });
@@ -68,7 +68,7 @@ export default class TestRunOverview extends React.Component<
           />
         </div>
         <div className={styles.Testrun}>
-          <Route path="/TestRuns/:id">
+          <Route path="/runTest/:id">
             <TestRun />
           </Route>
         </div>
