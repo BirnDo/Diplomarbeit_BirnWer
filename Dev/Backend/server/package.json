@@ -1,0 +1,16 @@
+{
+  "name": "structure_test",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^5.10.12",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.0"
+  },
+  "scripts": {
+    "start": "node ./app.js"
+  }
+}
