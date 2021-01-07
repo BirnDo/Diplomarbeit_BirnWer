@@ -10,4 +10,4 @@
 | 9.11.-15.11. | Backend weiter ausgebaut                                     | 4               |                                                              |
 | 23.12.       | Design für Präsentation erstellt                             | 2               |                                                              |
 | 2.1.2021     | Datenmodell erweitert und APIs entsprechend angepasst        | 2               |                                                              |
-
+| 4.1.2021     | Dokumentation für dox42 gelesen                              | 1               | https://www.dox42.com/de/                                    |
