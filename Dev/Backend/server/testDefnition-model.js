@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const testCaseSchema = new Schema({
   title: String,
   description: String,
-  status: String,
+  status: Boolean,
   active: Boolean,
   comments: String,
   image: String,
