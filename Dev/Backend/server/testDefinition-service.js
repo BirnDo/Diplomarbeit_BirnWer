@@ -73,7 +73,15 @@ function create(req, res) {
 
 //updates a TestDefinition
 function update(req, res) {
-  const { _id, name, createdOn, testCases, testers, deadline } = req.body;
+  const {
+    _id,
+    name,
+    createdOn,
+    testCases,
+    testers,
+    finished,
+    deadline,
+  } = req.body;
 
   TestDefinition.findOne({ _id })
     .then((test) => {
@@ -81,6 +89,7 @@ function update(req, res) {
       test.testers = testers;
       test.createdOn = createdOn;
       test.deadline = deadline;
+      test.finished = finished;
       test.testCases = testCases;
       test.save().then(res.json(test));
     })
@@ -102,6 +111,7 @@ function destroy(req, res) {
     });
 }
 
+//returns all Test Cases from a given TestDefinition
 function getTestCases(req, res) {
   const _id = req.params;
 
@@ -114,9 +124,23 @@ function getTestCases(req, res) {
     });
 }
 
+// all finished Tests
+function getFinishedTestDefinitions(req, res) {
+  TestDefinition.find({})
+    .where("finished")
+    .equals(true)
+    .then((test) => {
+      res.json(test);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+}
+
 module.exports = {
   get,
   getMinimalTestDefinitions,
+  getFinishedTestDefinitions,
   getById,
   create,
   update,
