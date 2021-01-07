@@ -15,6 +15,26 @@ function get(req, res) {
     });
 }
 
+// test Runs without testCasess
+function getMinimalTestDefinitions(req, res) {
+  TestDefinition.find({})
+    .read(ReadPreference.NEAREST)
+    .then((tests) => {
+      const minimalDefinitions = [];
+      tests.forEach((element) => {
+        const minimalDefinition = {
+          _id: element._id,
+          testers: element.testers,
+          createdOn: element.createdOn,
+          deadline: element.deadline,
+          __v: element.__v,
+        };
+        minimalDefinitions.push(minimalDefinition);
+      });
+      res.json(minimalDefinitions);
+    });
+}
+
 //returns a single TestDefinition
 function getById(req, res) {
   const _id = req.params;
@@ -96,6 +116,7 @@ function getTestCases(req, res) {
 
 module.exports = {
   get,
+  getMinimalTestDefinitions,
   getById,
   create,
   update,

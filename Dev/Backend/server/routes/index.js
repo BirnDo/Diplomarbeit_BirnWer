@@ -7,6 +7,10 @@ router.get("/testDefinitions", function (req, res) {
   testDefinitionService.get(req, res);
 });
 
+router.get("/minimalTestDefinitions", function (req, res) {
+  testDefinitionService.getMinimalTestDefinitions(req, res);
+});
+
 router.get("/testDefinitionById/:_id", function (req, res) {
   testDefinitionService.getById(req, res);
 });
