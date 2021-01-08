@@ -28,6 +28,7 @@ function getMinimalTestDefinitions(req, res) {
           createdOn: element.createdOn,
           deadline: element.deadline,
           __v: element.__v,
+          name: element.name,
         };
         minimalDefinitions.push(minimalDefinition);
       });
