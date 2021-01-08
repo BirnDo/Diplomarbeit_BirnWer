@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "outDir": "build",
+    "allowJs": true
+  },
+  "include": ["*.ts", "routes/*.ts", "environment/env.js"],
+  "exclude": ["node_modules"]
+}

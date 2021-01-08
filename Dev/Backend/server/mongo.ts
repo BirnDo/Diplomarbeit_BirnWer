@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const env = require("./environment/env");
-
-mongoose.Promise = global.Promise;
+(<any>mongoose).Promise = global.Promise;
 
 const mongoUri = `mongodb://${encodeURIComponent(
   env.dbName
@@ -18,11 +17,17 @@ const mongoUri = `mongodb://${encodeURIComponent(
 )}&appName=@${encodeURIComponent(env.dbName)}@`;
 
 function connect() {
-  var test = mongoose.connect(mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    retryWrites: env.retrywrites,
-  });
+  var test = mongoose
+    .connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log("Connected succesfully");
+    })
+    .catch((err) => {
+      console.log("Could not connect");
+    });
 
   return test;
 }

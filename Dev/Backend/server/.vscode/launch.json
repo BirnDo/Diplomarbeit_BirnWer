@@ -9,7 +9,8 @@
       "request": "launch",
       "name": "Launch Server",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\app.js"
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "program": "${workspaceFolder}\\build\\app.js"
     }
   ]
 }

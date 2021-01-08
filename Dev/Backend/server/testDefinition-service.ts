@@ -1,10 +1,10 @@
-const TestDefinition = require("./testDefnition-model");
-const ReadPreference = require("mongodb").ReadPreference;
+import TestDefinition, { MinimalDefinition } from "./testDefinition-model";
+import { ReadPreference } from "mongodb";
 
 require("./mongo").connect();
 
 //returns all Testdefinitions
-function get(req, res) {
+function get(req: any, res: any) {
   TestDefinition.find({})
     .read(ReadPreference.NEAREST)
     .then((tests) => {
@@ -16,17 +16,18 @@ function get(req, res) {
 }
 
 // test Runs without testCasess
-function getMinimalTestDefinitions(req, res) {
+function getMinimalTestDefinitions(req: any, res: any) {
   TestDefinition.find({})
     .read(ReadPreference.NEAREST)
     .then((tests) => {
-      const minimalDefinitions = [];
+      const minimalDefinitions: MinimalDefinition[] = [];
       tests.forEach((element) => {
         const minimalDefinition = {
           _id: element._id,
-          testers: element.testers,
+          tester: element.tester,
           createdOn: element.createdOn,
           deadline: element.deadline,
+          finished: element.finished,
           __v: element.__v,
           name: element.name,
         };
@@ -37,7 +38,7 @@ function getMinimalTestDefinitions(req, res) {
 }
 
 //returns a single TestDefinition
-function getById(req, res) {
+function getById(req: any, res: any) {
   const _id = req.params;
 
   TestDefinition.findOne({ _id })
@@ -50,8 +51,8 @@ function getById(req, res) {
 }
 
 //create a new TestDefinition
-function create(req, res) {
-  const { name, createdOn, testCases, finished, testers, deadline } = req.body;
+function create(req: any, res: any) {
+  const { name, createdOn, testCases, finished, tester, deadline } = req.body;
 
   var testDefinition = new TestDefinition();
 
@@ -59,7 +60,7 @@ function create(req, res) {
   testDefinition.createdOn = createdOn;
   testDefinition.testCases = testCases;
   testDefinition.finished = finished;
-  testDefinition.testers = testers;
+  testDefinition.tester = tester;
   testDefinition.deadline = deadline;
 
   testDefinition
@@ -73,13 +74,13 @@ function create(req, res) {
 }
 
 //updates a TestDefinition
-function update(req, res) {
+function update(req: any, res: any) {
   const {
     _id,
     name,
     createdOn,
     testCases,
-    testers,
+    tester,
     finished,
     deadline,
   } = req.body;
@@ -87,7 +88,7 @@ function update(req, res) {
   TestDefinition.findOne({ _id })
     .then((test) => {
       test.name = name;
-      test.testers = testers;
+      test.tester = tester;
       test.createdOn = createdOn;
       test.deadline = deadline;
       test.finished = finished;
@@ -100,7 +101,7 @@ function update(req, res) {
 }
 
 //deletes a TestDefinition
-function destroy(req, res) {
+function destroy(req: any, res: any) {
   const { _id } = req.params;
 
   TestDefinition.findOneAndRemove({ _id })
@@ -113,7 +114,7 @@ function destroy(req, res) {
 }
 
 //returns all Test Cases from a given TestDefinition
-function getTestCases(req, res) {
+function getTestCases(req: any, res: any) {
   const _id = req.params;
 
   TestDefinition.findOne({ _id })
@@ -126,7 +127,7 @@ function getTestCases(req, res) {
 }
 
 // all finished Tests
-function getFinishedTestDefinitions(req, res) {
+function getFinishedTestDefinitions(req: any, res: any) {
   TestDefinition.find({})
     .where("finished")
     .equals(true)
