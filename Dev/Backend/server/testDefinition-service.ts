@@ -39,7 +39,7 @@ function getMinimalTestDefinitions(req: any, res: any) {
 
 //returns a single TestDefinition
 function getById(req: any, res: any) {
-  const _id = req.params;
+  const _id = req.params._id;
 
   TestDefinition.findOne({ _id })
     .then((test) => {
@@ -75,24 +75,17 @@ function create(req: any, res: any) {
 
 //updates a TestDefinition
 function update(req: any, res: any) {
-  const {
-    _id,
-    name,
-    createdOn,
-    testCases,
-    tester,
-    finished,
-    deadline,
-  } = req.body;
+  const _id = req.params._id;
+  const { name, createdOn, testCases, tester, finished, deadline } = req.body;
 
   TestDefinition.findOne({ _id })
     .then((test) => {
-      test.name = name;
-      test.tester = tester;
-      test.createdOn = createdOn;
-      test.deadline = deadline;
-      test.finished = finished;
-      test.testCases = testCases;
+      if (name !== undefined) test.name = name;
+      if (tester !== undefined) test.tester = tester;
+      if (createdOn !== undefined) test.createdOn = createdOn;
+      if (deadline !== undefined) test.deadline = deadline;
+      if (finished !== undefined) test.finished = finished;
+      if (testCases !== undefined) test.testCases = testCases;
       test.save().then(res.json(test));
     })
     .catch((err) => {
@@ -102,7 +95,7 @@ function update(req: any, res: any) {
 
 //deletes a TestDefinition
 function destroy(req: any, res: any) {
-  const { _id } = req.params;
+  const { _id } = req.params._id;
 
   TestDefinition.findOneAndRemove({ _id })
     .then((test) => {
@@ -115,7 +108,7 @@ function destroy(req: any, res: any) {
 
 //returns all Test Cases from a given TestDefinition
 function getTestCases(req: any, res: any) {
-  const _id = req.params;
+  const _id = req.params._id;
 
   TestDefinition.findOne({ _id })
     .then((test) => {
@@ -131,8 +124,22 @@ function getFinishedTestDefinitions(req: any, res: any) {
   TestDefinition.find({})
     .where("finished")
     .equals(true)
-    .then((test) => {
-      res.json(test);
+    .then((tests) => {
+      res.json(tests);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+}
+
+// all Tests from one person
+function getTestDefinitionsByTester(req: any, res: any) {
+  const tester = req.params.tester;
+  TestDefinition.find({})
+    .where("tester")
+    .equals(tester)
+    .then((tests) => {
+      res.json(tests);
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -148,4 +155,5 @@ module.exports = {
   update,
   destroy,
   getTestCases,
+  getTestDefinitionsByTester,
 };
