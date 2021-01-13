@@ -23,7 +23,7 @@ router.post("/addTestDefinition", function (req: any, res: any) {
   testDefinitionService.create(req, res);
 });
 
-router.post("/updateTestDefinition", function (req: any, res: any) {
+router.post("/updateTestDefinition/:_id", function (req: any, res: any) {
   testDefinitionService.update(req, res);
 });
 
@@ -33,6 +33,10 @@ router.delete("/deleteTestDefiniton/:_id", function (req: any, res: any) {
 
 router.get("/testCasesByDefinitionId/:_id", function (req: any, res: any) {
   testDefinitionService.getTestCases(req, res);
+});
+
+router.get("/testDefintionsByTester/:tester", function (req: any, res: any) {
+  testDefinitionService.getTestDefinitionsByTester(req, res);
 });
 
 module.exports = router;
