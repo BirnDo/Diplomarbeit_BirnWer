@@ -8,9 +8,7 @@ import TestRunModel from "../model/TestRunModel";
 import TestRunModelMin from "../model/TestRunModelMin";
 import styles from "./TestRunOverview.module.scss";
 
-interface ITestRunOverviewProps {
-  testRunsInfo: TestRunModelMin[];
-}
+interface ITestRunOverviewProps {}
 interface ITestRunOverviewState {
   navLinkGroups: INavLinkGroup[];
 }
@@ -28,24 +26,44 @@ export default class TestRunOverview extends React.Component<
   }
 
   componentDidMount() {
-    const { testRunsInfo } = this.props;
+    this.getTestRunMinData();
+  }
 
+  async getTestRunMinData() {
+    const url = "http://127.0.0.1:3000/minimalTestDefinitions";
+    const requestOptions = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    };
+
+    fetch(url, requestOptions)
+      .then(async (response) => {
+        const body: TestRunModelMin[] = await response.json();
+        this.setNavLinks(body);
+        console.log(body);
+      })
+      .catch((rejected) => console.log(rejected));
+  }
+
+  setNavLinks(testRunsInfo: TestRunModelMin[]) {
     let navLinks: INavLink[] = [];
 
-    testRunsInfo.map((value) => {
-      var element: INavLink = {
-        key: value._id,
-        name: value.title,
-        url: "#/runTest/" + value._id,
-      };
-      navLinks.push(element);
-    });
+    if (testRunsInfo.length != 0) {
+      testRunsInfo.map((value) => {
+        var element: INavLink = {
+          key: value._id,
+          name: value.name,
+          url: "#/runTest/" + value._id,
+        };
+        navLinks.push(element);
+      });
 
-    let navLinkGroups: INavLinkGroup[] = [
-      { name: "Test Runs", links: navLinks },
-    ];
+      let navLinkGroups: INavLinkGroup[] = [
+        { name: "Test Runs", links: navLinks },
+      ];
 
-    this.setState({ navLinkGroups: navLinkGroups });
+      this.setState({ navLinkGroups: navLinkGroups });
+    }
   }
 
   public render(): React.ReactElement<ITestRunOverviewProps> {

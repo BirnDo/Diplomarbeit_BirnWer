@@ -23,32 +23,9 @@ import { UrlQueryParameterCollection } from "@microsoft/sp-core-library";
 class smartQSNav extends React.Component<ISmartqsProps, ISmartqsState> {
   constructor(props) {
     super(props);
-
-    this.state = {
-      testRunsInfo: this.getTestRunMinData(),
-    };
-  }
-
-  getTestRunMinData() {
-    var dummyDataMin: TestRunModelMin[] = [
-      {
-        _id: "0001",
-        title: "Organisationsansicht",
-        createdOn: "2020/10/02",
-      },
-      {
-        _id: "0002",
-        title: "Speiseplan",
-        createdOn: "2020/10/04",
-      },
-    ];
-
-    return dummyDataMin;
   }
 
   public render(): React.ReactElement<ISmartqsProps> {
-    const { testRunsInfo } = this.state;
-
     return (
       <>
         <Pivot
@@ -56,6 +33,7 @@ class smartQSNav extends React.Component<ISmartqsProps, ISmartqsState> {
             this.props["history"].push(e.props.itemKey);
           }}
           selectedKey={this.props["history"]["location"]["pathname"]}
+          defaultSelectedIndex={this.props["history"]["location"]["pathname"]}
         >
           <PivotItem headerText="Home" itemKey="/"></PivotItem>
           <PivotItem headerText="Dashboard" itemKey="/dashboard"></PivotItem>
@@ -75,7 +53,7 @@ class smartQSNav extends React.Component<ISmartqsProps, ISmartqsState> {
             </Route>
             <Route path="/dashboard">Dashboard</Route>
             <Route path="/runTest">
-              <TestRunOverview testRunsInfo={testRunsInfo} />
+              <TestRunOverview />
             </Route>
             <Route path="/createTest">
               <TestRunForms />

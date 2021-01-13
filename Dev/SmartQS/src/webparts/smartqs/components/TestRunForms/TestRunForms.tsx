@@ -20,14 +20,11 @@ import {
 } from "office-ui-fabric-react";
 
 import TestCaseModel from "../model/TestCaseModel";
+import TestRunModel from "../model/TestRunModel";
 
 interface ITestRunFormsProps {}
-interface ITestRunFormsState {
-  title: string;
-  people: string;
-  createdOn: string;
-  testCases: TestCaseModel[];
-}
+interface ITestRunFormsState extends TestRunModel {}
+
 enum TestCaseInputType {
   title = "title",
   description = "description",
@@ -51,18 +48,58 @@ export default class TestRunForms extends React.Component<
     super(props);
 
     this.state = {
-      title: null,
-      people: "",
+      _id: "",
+      name: "",
+      tester: "",
       createdOn: new Date().toISOString(),
+      deadline: null,
+      finished: false,
       testCases: [
-        { title: "", description: "", status: null, active: true, message: "" },
+        {
+          title: "",
+          description: "",
+          status: null,
+          active: true,
+          comments: "",
+          image: "",
+        },
       ],
     };
   }
 
   updateTestRun() {
-    const { title, people, createdOn, testCases } = this.state;
-    // update database
+    const {
+      name,
+      createdOn,
+      tester,
+      finished,
+      deadline,
+      testCases,
+    } = this.state;
+
+    const url = "http://localhost:3000/addTestDefinition";
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        createdOn,
+        tester,
+        finished,
+        deadline,
+        testCases,
+      }),
+    };
+
+    fetch(url, requestOptions)
+      .then(async (response) => {
+        const body = await response.json();
+        console.log(body);
+      })
+      .catch((rejected) => console.log(rejected));
   }
 
   addTestCase() {
@@ -72,7 +109,8 @@ export default class TestRunForms extends React.Component<
       description: "",
       status: null,
       active: false,
-      message: "",
+      comments: "",
+      image: "",
     });
     this.setState({ testCases: newTestCases });
   }
@@ -141,13 +179,13 @@ export default class TestRunForms extends React.Component<
         <Stack {...columnPropsVertical}>
           <TextField
             onChange={(value) => {
-              this.setState({ title: value.target["value"] });
+              this.setState({ name: value.target["value"] });
             }}
             label="Test-Name"
           />
           <TextField
             onChange={(value) => {
-              this.setState({ people: value.target["value"] });
+              this.setState({ tester: value.target["value"] });
             }}
             label="Tester"
           />

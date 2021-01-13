@@ -42,7 +42,7 @@ export interface ITestCaseProps {
 export interface ITestCaseState {
   showModel: boolean;
   showDialog: boolean;
-  message: string;
+  comments: string;
 }
 
 export default class TestCase extends React.Component<
@@ -55,7 +55,7 @@ export default class TestCase extends React.Component<
     this.state = {
       showModel: false,
       showDialog: false,
-      message: "",
+      comments: "",
     };
   }
 
@@ -133,7 +133,7 @@ export default class TestCase extends React.Component<
   }
 
   handleRichText(text: string) {
-    this.setState({ message: text });
+    this.setState({ comments: text });
     return text;
   }
 
@@ -143,7 +143,7 @@ export default class TestCase extends React.Component<
     const dialogContentProps = {
       type: DialogType.largeHeader,
       title: "Was hat nicht funktioniert?",
-      subText: testCase.description,
+      // subText: testCase.description,
     };
     const dialogStyles = {
       main: { maxWidth: "800px !important", width: "fit-content !important" },
@@ -179,7 +179,7 @@ export default class TestCase extends React.Component<
             />
           </div>
           <div className={contentStyles.body}>
-            <p>{testCase.description}</p>
+            <RichText isEditMode={false} value={testCase.description} />
           </div>
         </Modal>
         <Dialog
@@ -188,17 +188,21 @@ export default class TestCase extends React.Component<
           dialogContentProps={dialogContentProps}
           modalProps={modelProps}
         >
-          <RichText onChange={(value) => this.handleRichText(value)} />
+          <RichText isEditMode={false} value={testCase.description} />
+          <RichText
+            className={styles.RichText}
+            onChange={(value) => this.handleRichText(value)}
+          />
           <DialogFooter>
             <PrimaryButton
               onClick={() => {
                 this.hideDialog();
-                testCase.message = this.state.message;
+                testCase.comments = this.state.comments;
                 this.updateTestStatus(index, testCase, false); // sets the status of the current test case to false
               }}
-              text="Save"
+              text="Speichern"
             />
-            <DefaultButton onClick={this.hideDialog} text="Cancel" />
+            <DefaultButton onClick={this.hideDialog} text="Abbrechen" />
           </DialogFooter>
         </Dialog>
       </div>

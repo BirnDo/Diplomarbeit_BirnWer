@@ -1,7 +1,8 @@
-export default interface ElementsModal {
+export default interface TestCaseModel {
   title: string;
   description: string;
   status: boolean;
   active: boolean;
-  message: string;
+  comments: string;
+  image: string;
 }
