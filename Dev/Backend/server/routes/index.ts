@@ -39,4 +39,11 @@ router.get("/testDefintionsByTester/:tester", function (req: any, res: any) {
   testDefinitionService.getTestDefinitionsByTester(req, res);
 });
 
+router.get(
+  "/minimalTestDefintionsByTester/:tester",
+  function (req: any, res: any) {
+    testDefinitionService.getMinimalTestDefinitionsByTester(req, res);
+  }
+);
+
 module.exports = router;
