@@ -11,3 +11,4 @@
 | 23.12.       | Design für Präsentation erstellt                             | 2               |                                                              |
 | 2.1.2021     | Datenmodell erweitert und APIs entsprechend angepasst        | 2               |                                                              |
 | 4.1.2021     | Dokumentation für dox42 gelesen                              | 1               | https://www.dox42.com/de/                                    |
+| 5.1.-12.1.   | Mehrere spezialisierte APIs hinzugefügt, Backend volständig in Typescript übersetzt und Build-Prozess erstellt | 15              |                                                              |

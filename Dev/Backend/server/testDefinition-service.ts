@@ -146,6 +146,30 @@ function getTestDefinitionsByTester(req: any, res: any) {
     });
 }
 
+// for minimal testRuns
+function getMinimalTestDefinitionsByTester(req: any, res: any) {
+  const tester = req.params.tester;
+  TestDefinition.find({})
+    .where("tester")
+    .equals(tester)
+    .then((tests) => {
+      const minimalDefinitions: MinimalDefinition[] = [];
+      tests.forEach((element) => {
+        const minimalDefinition = {
+          _id: element._id,
+          tester: element.tester,
+          createdOn: element.createdOn,
+          deadline: element.deadline,
+          finished: element.finished,
+          __v: element.__v,
+          name: element.name,
+        };
+        minimalDefinitions.push(minimalDefinition);
+      });
+      res.json(minimalDefinitions);
+    });
+}
+
 module.exports = {
   get,
   getMinimalTestDefinitions,
@@ -156,4 +180,5 @@ module.exports = {
   destroy,
   getTestCases,
   getTestDefinitionsByTester,
+  getMinimalTestDefinitionsByTester,
 };
