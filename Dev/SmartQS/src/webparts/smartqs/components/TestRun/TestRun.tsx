@@ -1,6 +1,24 @@
 import * as React from "react";
 import * as _ from "lodash";
 import { withRouter } from "react-router-dom";
+import { Stack, IStackProps } from "office-ui-fabric-react/lib/Stack";
+import {
+  css,
+  classNamesFunction,
+  DefaultButton,
+  IButtonProps,
+  IStyle,
+  Label,
+  PrimaryButton,
+  people,
+} from "office-ui-fabric-react";
+import {
+  ListView,
+  IViewField,
+  SelectionMode,
+  GroupOrder,
+  IGrouping,
+} from "@pnp/spfx-controls-react/lib/ListView";
 
 import TestCase from "../TestCase/TestCase";
 import TestCaseModel from "../model/TestCaseModel";
@@ -8,6 +26,16 @@ import TestRunModel from "../model/TestRunModel";
 
 interface ITestRunProps {}
 interface ITestRunState extends TestRunModel {}
+
+const columnPropsVertical: Partial<IStackProps> = {
+  tokens: { childrenGap: 5 },
+  styles: { root: { width: 500 } },
+};
+
+const columnPropsHorizontal: Partial<IStackProps> = {
+  tokens: { childrenGap: 15 },
+  styles: { root: { width: 500 } },
+};
 
 class TestRun extends React.Component<ITestRunProps, ITestRunState> {
   constructor(props) {
@@ -33,13 +61,14 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     const oldId: string = this.state._id;
 
     if (newId != oldId) {
-      this.updateTestCases(this.state);
+      //this.updateTestCases(this.state);
       this.getTestRun();
     }
   }
 
-  updateTestCases(testRun: TestRunModel) {
-    const url = "http://localhost:3000/updateTestDefinition/";
+  updateTestRun(testRun: TestRunModel) {
+    const id: string = this.props["match"]["params"]["id"];
+    const url = "http://localhost:3000/updateTestDefinition/" + id;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -58,9 +87,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
 
   async getTestRun() {
     const id = this.props["match"]["params"]["id"];
-    console.log("getTestRun");
     if (id != null) {
-      console.log("request");
       const url = "http://localhost:3000/testDefinitionById/" + id;
       const requestOptions = {
         method: "GET",
@@ -97,9 +124,9 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       newTestCases[index] = testCase;
       this.setState({ testCases: newTestCases });
       if (index == this.state.testCases.length - 1) {
-        // if last test case, all test cases are updated on database
         this.updateActiveStatus(index, false);
-        this.updateTestCases(this.state);
+        this.setState({ finished: true });
+        //this.updateTestCases(this.state);
       }
     }
   };
@@ -119,15 +146,14 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     }
   };
 
-  public render(): React.ReactElement<ITestRunProps> {
-    const { _id, name, createdOn, testCases } = this.state;
+  renderTestCases() {
+    const { testCases } = this.state;
+    let renderedTestCases: React.ReactElement[] = [];
 
-    if (_id == null) return <></>;
-
-    return (
-      <>
-        {testCases.map((value, index) => {
-          return (
+    {
+      testCases.map((value, index) => {
+        renderedTestCases.push(
+          <div key={index}>
             <TestCase
               key={index}
               index={index}
@@ -135,9 +161,90 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
               updateTestCase={this.updateTestCase}
               updateActiveStatus={this.updateActiveStatus}
             />
-          );
-        })}
-      </>
+          </div>
+        );
+      });
+    }
+
+    return renderedTestCases;
+  }
+
+  public render(): React.ReactElement<ITestRunProps> {
+    const {
+      _id,
+      name,
+      createdOn,
+      deadline,
+      testCases,
+      tester,
+      finished,
+    } = this.state;
+
+    if (_id == null) return <></>;
+    const viewFields: IViewField[] = [
+      {
+        name: "title",
+        displayName: "Title",
+        isResizable: true,
+        sorting: true,
+        minWidth: 0,
+        maxWidth: 150,
+      },
+      {
+        name: "description",
+        displayName: "Beschreibung",
+        isResizable: true,
+        sorting: true,
+        minWidth: 0,
+        maxWidth: 200,
+      },
+      {
+        name: "comments",
+        displayName: "Comment",
+        isResizable: true,
+        sorting: true,
+        minWidth: 0,
+        maxWidth: 200,
+      },
+    ];
+    let data: TestCaseModel[] = [
+      {
+        title: "1",
+        description: "beschreibung",
+        status: null,
+        active: null,
+        comments: "comment",
+        image: "",
+      },
+    ];
+    return (
+      <Stack {...columnPropsVertical}>
+        <Label>Erstellt am: {new Date(createdOn).toLocaleDateString()}</Label>
+        <Label>Deadline: {new Date(deadline).toLocaleDateString()}</Label>
+
+        {/* this.renderTestCases() */}
+        <ListView
+          items={data}
+          viewFields={viewFields}
+          iconFieldName="ServerRelativeUrl"
+          compact={false}
+          selectionMode={SelectionMode.none}
+          showFilter={false}
+          dragDropFiles={false}
+          stickyHeader={true}
+        />
+        <Stack horizontal {...columnPropsHorizontal}>
+          <PrimaryButton
+            disabled={false}
+            checked={false}
+            text="Test abspeichern"
+            onClick={() => {
+              this.updateTestRun(this.state);
+            }}
+            allowDisabledFocus={true}
+          />
+        </Stack>
+      </Stack>
     );
   }
 }

@@ -26,14 +26,16 @@ class smartQSNav extends React.Component<ISmartqsProps, ISmartqsState> {
   }
 
   public render(): React.ReactElement<ISmartqsProps> {
+    let path: string =
+      "/" + this.props["history"]["location"]["pathname"].split("/")[1];
+
     return (
       <>
         <Pivot
           onLinkClick={(e) => {
             this.props["history"].push(e.props.itemKey);
           }}
-          selectedKey={this.props["history"]["location"]["pathname"]}
-          defaultSelectedIndex={this.props["history"]["location"]["pathname"]}
+          selectedKey={path}
         >
           <PivotItem headerText="Home" itemKey="/"></PivotItem>
           <PivotItem headerText="Dashboard" itemKey="/dashboard"></PivotItem>
