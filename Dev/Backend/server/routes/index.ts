@@ -46,4 +46,18 @@ router.get(
   }
 );
 
+router.get(
+  "/testDefinitionsByChannelID/:channelID",
+  function (req: any, res: any) {
+    testDefinitionService.getTestDefinitionsByChannel(req, res);
+  }
+);
+
+router.get(
+  "/minimalTestDefinitionsByChannelID/:channelID",
+  function (req: any, res: any) {
+    testDefinitionService.getMinimalTestDefinitionsByChannel(req, res);
+  }
+);
+
 module.exports = router;

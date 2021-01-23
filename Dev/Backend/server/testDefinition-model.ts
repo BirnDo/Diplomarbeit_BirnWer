@@ -7,6 +7,7 @@ const testCaseSchema = new Schema({
   active: Boolean,
   comments: String,
   image: String,
+  optional: Boolean,
 });
 
 const testDefinitionSchema = new Schema({
@@ -16,6 +17,7 @@ const testDefinitionSchema = new Schema({
   tester: String,
   finished: Boolean,
   deadline: String,
+  channelID: String,
 });
 
 export interface TestCase {
@@ -25,6 +27,7 @@ export interface TestCase {
   active: Boolean;
   comments: String;
   image: String;
+  optional: Boolean;
 }
 
 export interface TestDefinition extends Document {
@@ -34,6 +37,7 @@ export interface TestDefinition extends Document {
   tester: String;
   finished: Boolean;
   deadline: String;
+  channelID: String;
 }
 
 export interface MinimalDefinition {
@@ -44,6 +48,7 @@ export interface MinimalDefinition {
   finished: Boolean;
   __v: number;
   name: String;
+  channelID: String;
 }
 
 export default model<TestDefinition>("TestDefintion", testDefinitionSchema);

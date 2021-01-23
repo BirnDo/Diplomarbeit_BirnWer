@@ -30,6 +30,7 @@ function getMinimalTestDefinitions(req: any, res: any) {
           finished: element.finished,
           __v: element.__v,
           name: element.name,
+          channelID: element.channelID,
         };
         minimalDefinitions.push(minimalDefinition);
       });
@@ -52,7 +53,15 @@ function getById(req: any, res: any) {
 
 //create a new TestDefinition
 function create(req: any, res: any) {
-  const { name, createdOn, testCases, finished, tester, deadline } = req.body;
+  const {
+    name,
+    createdOn,
+    testCases,
+    finished,
+    tester,
+    deadline,
+    channelID,
+  } = req.body;
 
   var testDefinition = new TestDefinition();
 
@@ -62,6 +71,7 @@ function create(req: any, res: any) {
   testDefinition.finished = finished;
   testDefinition.tester = tester;
   testDefinition.deadline = deadline;
+  testDefinition.channelID = channelID;
 
   testDefinition
     .save()
@@ -76,7 +86,15 @@ function create(req: any, res: any) {
 //updates a TestDefinition
 function update(req: any, res: any) {
   const _id = req.params._id;
-  const { name, createdOn, testCases, tester, finished, deadline } = req.body;
+  const {
+    name,
+    createdOn,
+    testCases,
+    tester,
+    finished,
+    deadline,
+    channelID,
+  } = req.body;
 
   TestDefinition.findOne({ _id })
     .then((test) => {
@@ -86,6 +104,7 @@ function update(req: any, res: any) {
       if (deadline !== undefined) test.deadline = deadline;
       if (finished !== undefined) test.finished = finished;
       if (testCases !== undefined) test.testCases = testCases;
+      if (channelID !== undefined) test.channelID = channelID;
       test.save().then(res.json(test));
     })
     .catch((err) => {
@@ -163,10 +182,56 @@ function getMinimalTestDefinitionsByTester(req: any, res: any) {
           finished: element.finished,
           __v: element.__v,
           name: element.name,
+          channelID: element.channelID,
         };
         minimalDefinitions.push(minimalDefinition);
       });
       res.json(minimalDefinitions);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+}
+
+// tests per Channel
+function getTestDefinitionsByChannel(req: any, res: any) {
+  const channelID = req.params.channelID;
+  TestDefinition.find({})
+    .where("channelID")
+    .equals(channelID)
+    .then((tests) => {
+      res.json(tests);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+}
+
+// Minimal Test per channel
+function getMinimalTestDefinitionsByChannel(req: any, res: any) {
+  const channelID = req.params.channelID;
+  TestDefinition.find({})
+    .where("channelID")
+    .equals(channelID)
+    .then((tests) => {
+      const minimalDefinitions: MinimalDefinition[] = [];
+      tests.forEach((element) => {
+        const minimalDefinition = {
+          _id: element._id,
+          tester: element.tester,
+          createdOn: element.createdOn,
+          deadline: element.deadline,
+          finished: element.finished,
+          __v: element.__v,
+          name: element.name,
+          channelID: element.channelID,
+        };
+        minimalDefinitions.push(minimalDefinition);
+      });
+      res.json(minimalDefinitions);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
     });
 }
 
@@ -181,4 +246,6 @@ module.exports = {
   getTestCases,
   getTestDefinitionsByTester,
   getMinimalTestDefinitionsByTester,
+  getTestDefinitionsByChannel,
+  getMinimalTestDefinitionsByChannel,
 };
