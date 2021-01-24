@@ -114,9 +114,9 @@ function update(req: any, res: any) {
 
 //deletes a TestDefinition
 function destroy(req: any, res: any) {
-  const { _id } = req.params._id;
+  const _id = req.params._id;
 
-  TestDefinition.findOneAndRemove({ _id })
+  TestDefinition.findByIdAndDelete({ _id: _id })
     .then((test) => {
       res.json(test);
     })
