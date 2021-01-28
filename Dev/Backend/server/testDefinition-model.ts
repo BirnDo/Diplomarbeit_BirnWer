@@ -7,7 +7,7 @@ const testCaseSchema = new Schema({
   active: Boolean,
   comments: String,
   image: String,
-  optional: Boolean,
+  required: Boolean,
 });
 
 const testDefinitionSchema = new Schema({
@@ -27,7 +27,7 @@ export interface TestCase {
   active: Boolean;
   comments: String;
   image: String;
-  optional: Boolean;
+  required: Boolean;
 }
 
 export interface TestDefinition extends Document {
