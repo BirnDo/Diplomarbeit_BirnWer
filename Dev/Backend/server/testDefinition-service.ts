@@ -105,7 +105,9 @@ function update(req: any, res: any) {
       if (finished !== undefined) test.finished = finished;
       if (testCases !== undefined) test.testCases = testCases;
       if (channelID !== undefined) test.channelID = channelID;
-      test.save().then(res.json(test));
+      test.save().then((test) => {
+        res.json(test);
+      });
     })
     .catch((err) => {
       res.status(500).send(err);
