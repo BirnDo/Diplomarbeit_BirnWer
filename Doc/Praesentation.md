@@ -3,7 +3,10 @@
    - Excel
    - Testrail
 2. Design (Werner)
-   - 
+   - Farbdesign der App wird an Organisations-Design automatisch angepasst
+   - Microsoft Design Bibliothek vervendet
+   - Übersichtliche Navigation
+   - Browser Lesezeichen können erstellt werden um Zustände zu speichern
 3. Testdurchführung (Werner)
    - Test erstellen
    - Test abarbeiten
