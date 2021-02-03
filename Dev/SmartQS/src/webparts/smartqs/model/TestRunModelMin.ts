@@ -2,7 +2,7 @@ export default interface TestRunModelMin {
   _id: string;
   name: string;
   createdOn: string;
-  testers: string;
+  channelID: string;
   finished: boolean;
   deadline: string;
 }

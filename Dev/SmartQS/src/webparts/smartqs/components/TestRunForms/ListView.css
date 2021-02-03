@@ -1,0 +1,61 @@
+.simple {
+  background: #fff;
+  padding: 10px 20px 20px;
+  border-radius: 5px;
+}
+
+.simple h2 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.simple a,
+.simple a:active,
+.simple a:hover,
+.simple a:visited {
+  color: #22abed;
+}
+
+ol,
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.simple1 ol {
+  background: #fff;
+}
+
+.simple1 ol li {
+  border-bottom: solid 1px #ddd;
+  padding: 16px;
+  position: relative;
+  transition: all ease 0.3s;
+}
+
+.simple1 ol li:hover {
+  background: rgba(34, 171, 237, 0.1);
+}
+
+.simple1 ol li a {
+  position: absolute;
+  right: 20px;
+  cursor: move;
+}
+
+.simple1 ol li:nth-last-child(1) {
+  border-bottom: 0 none;
+}
+
+.simple1 .simple-inner {
+  max-width: 600px;
+  overflow: hidden;
+  border: solid 1px #ddd;
+  border-radius: 5px;
+  height: fit-content;
+  max-height: 400px;
+  min-height: 100px;
+  overflow: auto;
+  margin: 0 auto;
+}

@@ -1,6 +1,9 @@
 @import "~office-ui-fabric-react/dist/sass/References.scss";
 
 .smartqs {
+  font-family: "Segoe UI WestEuropean", "Segoe UI", -apple-system,
+    BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+
   .container {
     max-width: 1000px;
     margin: 0px auto;

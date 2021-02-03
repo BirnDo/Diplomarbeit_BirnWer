@@ -5,4 +5,5 @@ export default interface TestCaseModel {
   active: boolean;
   comments: string;
   image: string;
+  required: boolean;
 }

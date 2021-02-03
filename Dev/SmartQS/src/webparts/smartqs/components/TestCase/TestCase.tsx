@@ -26,10 +26,11 @@ import {
 import { TextField } from "office-ui-fabric-react/lib/TextField";
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
 
+import OptionalIcon from "../../../../assets/SvgIcoOptional";
 import SuccessIcon from "../../../../assets/SvgIcoSuccess";
 import FailureIcon from "../../../../assets/SvgIcoFailure";
 import styles from "./TestCase.module.scss";
-import TestCaseModel from "../model/TestCaseModel";
+import TestCaseModel from "../../model/TestCaseModel";
 
 export interface ITestCaseProps {
   key: number;
@@ -78,7 +79,7 @@ export default class TestCase extends React.Component<
   /**
    * updates the value of the current test case and the active status of the current and following test case
    *
-   * @param {number} index current index of the test run arry to specify the element
+   * @param {number} index current index of the test run array to specify the element
    * @param {TestCaseModel} testCase current test case to pass the changes
    * @param {boolean} status used to specify the value the test status should have
    * @memberof TestCase
@@ -87,9 +88,6 @@ export default class TestCase extends React.Component<
     const newTestCase = testCase;
     testCase.status = status;
     this.props.updateTestCase(index, newTestCase);
-
-    this.props.updateActiveStatus(index, false); // sets active status of current Test Case to false
-    this.props.updateActiveStatus(index + 1, true); // sets active status of next Test Case to true
   }
 
   /**
@@ -113,10 +111,22 @@ export default class TestCase extends React.Component<
                 this.showDialog();
               }}
             />
+            {this.renderOptionalStatusButton(index, testCase)}
           </div>
         </div>
       );
     }
+  }
+
+  renderOptionalStatusButton(index: number, testCase: TestCaseModel) {
+    if (!testCase.required)
+      return (
+        <OptionalIcon
+          onClick={() => {
+            this.updateTestStatus(index, testCase, null);
+          }}
+        />
+      );
   }
 
   /**
