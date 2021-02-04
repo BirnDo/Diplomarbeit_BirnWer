@@ -54,3 +54,12 @@ https://M365x750080.sharepoint.com
 * pro channel testrun
 * nach test druchführung tester reinschreibenm
 * beim test erstellen tester wegnehmen
+* beschreibugn ändert sich nicht
+* kommentar bei optionale tests
+* deadline neu beim kopieren
+* dashboard neu
+* zeitleiste bei bar chart
+* gesamt statisik testruns/testcases
+* dashboard test durchfhüren component mit datum nebenbei
+* property drill down ja nein
+* grid view bei tests erstellen
