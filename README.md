@@ -39,6 +39,14 @@ https://M365x750080.sharepoint.com
 * Optional: Generierung eines "Change-Log" E-Mails
 
 # todo
+## doku
+* firmenlogo
+* name und unterrerschrift bei 3.
+* bis inhaltsverzeichnis abgabe auf plattform
+* zitate erstellen bei referenzen apa
+
+
+## dev
 * grid beim testfall erstellen listview
 * tenet property mit baseurl
 * azure ad authentifizierung
