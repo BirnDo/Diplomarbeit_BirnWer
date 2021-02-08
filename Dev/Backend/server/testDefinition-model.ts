@@ -3,7 +3,7 @@ import { model, Schema, Document } from "mongoose";
 const testCaseSchema = new Schema({
   title: String,
   description: String,
-  status: Boolean,
+  status: String,
   active: Boolean,
   comments: String,
   image: String,
@@ -17,13 +17,14 @@ const testDefinitionSchema = new Schema({
   tester: String,
   finished: Boolean,
   deadline: String,
+  doneOn: String,
   channelID: String,
 });
 
 export interface TestCase {
   title: String;
   description: String;
-  status: Boolean;
+  status: String;
   active: Boolean;
   comments: String;
   image: String;
@@ -37,6 +38,7 @@ export interface TestDefinition extends Document {
   tester: String;
   finished: Boolean;
   deadline: String;
+  doneOn: String;
   channelID: String;
 }
 
