@@ -4,8 +4,11 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "outDir": "build",
-    "allowJs": true
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true
   },
-  "include": ["*.ts", "routes/*.ts", "environment/env.js"],
+  "include": ["*.ts", "routes/*.ts", "environment/env.js", "swagger.json"],
   "exclude": ["node_modules"]
 }

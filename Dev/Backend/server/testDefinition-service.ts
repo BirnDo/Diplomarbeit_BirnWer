@@ -27,6 +27,7 @@ function getMinimalTestDefinitions(req: any, res: any) {
           tester: element.tester,
           createdOn: element.createdOn,
           deadline: element.deadline,
+          doneOn: element.doneOn,
           finished: element.finished,
           __v: element.__v,
           name: element.name,
@@ -61,6 +62,7 @@ function create(req: any, res: any) {
     tester,
     deadline,
     channelID,
+    doneOn,
   } = req.body;
 
   var testDefinition = new TestDefinition();
@@ -72,6 +74,7 @@ function create(req: any, res: any) {
   testDefinition.tester = tester;
   testDefinition.deadline = deadline;
   testDefinition.channelID = channelID;
+  testDefinition.doneOn = doneOn;
 
   testDefinition
     .save()
@@ -94,6 +97,7 @@ function update(req: any, res: any) {
     finished,
     deadline,
     channelID,
+    doneOn,
   } = req.body;
 
   TestDefinition.findOne({ _id })
@@ -105,6 +109,7 @@ function update(req: any, res: any) {
       if (finished !== undefined) test.finished = finished;
       if (testCases !== undefined) test.testCases = testCases;
       if (channelID !== undefined) test.channelID = channelID;
+      if (doneOn !== undefined) test.doneOn = doneOn;
       test.save().then((test) => {
         res.json(test);
       });
@@ -181,6 +186,7 @@ function getMinimalTestDefinitionsByTester(req: any, res: any) {
           tester: element.tester,
           createdOn: element.createdOn,
           deadline: element.deadline,
+          doneOn: element.doneOn,
           finished: element.finished,
           __v: element.__v,
           name: element.name,
@@ -223,6 +229,7 @@ function getMinimalTestDefinitionsByChannel(req: any, res: any) {
           tester: element.tester,
           createdOn: element.createdOn,
           deadline: element.deadline,
+          doneOn: element.doneOn,
           finished: element.finished,
           __v: element.__v,
           name: element.name,
@@ -237,6 +244,102 @@ function getMinimalTestDefinitionsByChannel(req: any, res: any) {
     });
 }
 
+// get Tests in a time period
+function getTestDefinitionsByTimePeriod(req: any, res: any) {
+  const startTime = Date.parse(req.body.startTime);
+  const endTime =
+    req.body.endTime === undefined ? Date.now() : Date.parse(req.body.endTime);
+
+  TestDefinition.find({})
+    .then((tests) => {
+      const filteredDefinitions = tests.filter(
+        (test) =>
+          Date.parse("" + test.doneOn) >= startTime &&
+          Date.parse("" + test.doneOn) <= endTime
+      );
+      res.json(filteredDefinitions);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+}
+
+// get Tests in a time period for a specific channel
+function getTestDefinitionsByTimePeriodAndChannelId(req: any, res: any) {
+  const channelID = req.params.channelID;
+  const startTime = Date.parse(req.body.startTime);
+  const endTime =
+    req.body.endTime === undefined ? Date.now() : Date.parse(req.body.endTime);
+
+  TestDefinition.find({})
+    .where("channelID")
+    .equals(channelID)
+    .then((tests) => {
+      const filteredDefinitions = tests.filter(
+        (test) =>
+          Date.parse("" + test.doneOn) >= startTime &&
+          Date.parse("" + test.doneOn) <= endTime
+      );
+      res.json(filteredDefinitions);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+}
+
+// get Success statistics for all tests
+function getSuccessStatistics(req: any, res: any) {
+  TestDefinition.find({})
+    .then((tests) => {
+      var successful = 0;
+      var failed = 0;
+      var notDone = 0;
+
+      tests.forEach((test) => {
+        if (test.finished == true) {
+          successful++;
+        } else if (test.finished == false) {
+          failed++;
+        } else {
+          notDone++;
+        }
+      });
+
+      res.json({ successful, failed, notDone });
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+}
+
+// get Success statistics for all tests
+function getSuccessStatisticsByChannelId(req: any, res: any) {
+  const channelID = req.params.channelID;
+  TestDefinition.find({})
+    .where("channelID")
+    .equals(channelID)
+    .then((tests) => {
+      var successful = 0;
+      var failed = 0;
+      var notDone = 0;
+
+      tests.forEach((test) => {
+        if (test.finished == true) {
+          successful++;
+        } else if (test.finished == false) {
+          failed++;
+        } else {
+          notDone++;
+        }
+      });
+
+      res.json({ successful, failed, notDone });
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+}
+// get Tests in a time period
 module.exports = {
   get,
   getMinimalTestDefinitions,
@@ -250,4 +353,8 @@ module.exports = {
   getMinimalTestDefinitionsByTester,
   getTestDefinitionsByChannel,
   getMinimalTestDefinitionsByChannel,
+  getTestDefinitionsByTimePeriod,
+  getTestDefinitionsByTimePeriodAndChannelId,
+  getSuccessStatistics,
+  getSuccessStatisticsByChannelId,
 };
