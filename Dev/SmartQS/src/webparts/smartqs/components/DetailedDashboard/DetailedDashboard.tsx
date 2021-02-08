@@ -98,7 +98,6 @@ class DetailedDashboard extends React.Component<
           ? data.datasets[this.chart.getElementAtEvent(e)[0]._datasetIndex]
           : null;
         if (item != null) {
-          console.log(item);
           this.setState({
             title: item.label,
             description: item.description,

@@ -54,11 +54,6 @@ interface ITestRunFormsState extends TestRunModel {
   showModal: boolean;
 }
 
-enum TestCaseInputType {
-  title = "title",
-  description = "description",
-}
-
 const columnPropsVertical: Partial<IStackProps> = {
   tokens: { childrenGap: 15 },
   styles: { root: { width: 200 } },
@@ -157,9 +152,9 @@ export default class TestRunForms extends React.Component<
     this.setState({ testCases: newTestCases });
   }
 
-  updateTestCases(index: number, value: string, type: TestCaseInputType) {
+  handleTitleText(index: number, value: string) {
     let newTestCases: TestCaseModel[] = this.state.testCases;
-    newTestCases[index][type] = value;
+    newTestCases[index].title = value;
     this.setState({ testCases: newTestCases });
   }
 
@@ -199,11 +194,7 @@ export default class TestRunForms extends React.Component<
               <TextField
                 value={value.title}
                 onChange={(value) => {
-                  this.updateTestCases(
-                    index,
-                    value.target["value"],
-                    TestCaseInputType.title
-                  );
+                  this.handleTitleText(index, value.target["value"]);
                 }}
               />
             </Stack>
@@ -232,16 +223,6 @@ export default class TestRunForms extends React.Component<
   };
 
   public render(): React.ReactElement<ITestRunFormsProps> {
-    /*  const dragProps = {
-      onDragEnd: (fromIndex, toIndex) => {
-        const data = this.state.testCases;
-        const item = data.splice(fromIndex, 1)[0];
-        data.splice(toIndex, 0, item);
-        this.setState({ testCases: data });
-      },
-      nodeSelector: "li",
-      handleSelector: "a",
-    }; */
     const that = this;
     const dragProps = {
       onDragEnd(fromIndex, toIndex) {
@@ -306,6 +287,7 @@ export default class TestRunForms extends React.Component<
     };
     const cancelIcon: IIconProps = { iconName: "Cancel" };
 
+    console.log(this.state);
     return (
       <>
         <Stack {...columnPropsVertical}>
