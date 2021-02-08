@@ -28,3 +28,9 @@
 |20.11|added Richtext to Dialog; added the Abillity to switch between test Runs|2||
 |5.12|added React Router to Navigate between the TestRunOverview and the dashboard;|3|https://ravichandran.blog/2020/06/10/react-router-in-spfx/|
 |11.12|added React Router and NavBar to TestRunOverview to navigate between different TestRuns; navbar dynamically renders links from data; added TestRunOverview to list all available TestRun|7| https://www.c-sharpcorner.com/article/single-page-app-in-spfx-using-re/ https://developer.microsoft.com/en-us/fluentui?fabricVer=6#/controls/web/nav|
+|16.12|moved Modeldata; changed requests to channelid;added icon next to test run nav to display if a testrun is successfull or not|5|Problem with async request|
+|20.12|added optional field to the test runs forms; added button to reorder all testcases (custom listview)|7|Problems implementing listview; did not work as it was a old react version; https://github.com/raisezhang/react-drag-listview|
+|04.01|outsourced nav component; added dashboard component; worked on pnpjs charts for drill down chart|6|Problems implenting onclick event|
+|15.01|pnpjs charts did not work; used chartsjs to implement drill down chart successfully|4|pnpjs charts dont work as onclick does not pass correct elements|
+|29.01|added date field for deadline; sortierung der testruns nach Erstelldatum; optionale tests beim durchführen implementiert|5||
+|03.02|implementiert das nach fehler beim testcase automatisch abbrechen; button zum testrun erneut durchführen hinzugefügt, kopiert und setzt testrun zurück|3|Probleme das bei der navbar automatisch der kopierte testrun ausgewählt wird|
