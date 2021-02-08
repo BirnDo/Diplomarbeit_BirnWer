@@ -1,12 +1,29 @@
 import * as React from "react";
 import * as _ from "lodash";
 
+import ReactDragListView from "react-drag-listview/lib/index.js";
+import "./ListView.css";
 import styles from "./TestRunForms.module.scss";
-import {
-  TextField,
-  MaskedTextField,
-} from "office-ui-fabric-react/lib/TextField";
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
+import {
+  getTheme,
+  mergeStyleSets,
+  FontWeights,
+  ContextualMenu,
+  Toggle,
+  Modal,
+  IDragOptions,
+  IconButton,
+  IIconProps,
+  ThemeSettingName,
+  values,
+} from "office-ui-fabric-react";
+import { useId, useBoolean } from "@uifabric/react-hooks";
+import {
+  Dialog,
+  DialogType,
+  DialogFooter,
+} from "office-ui-fabric-react/lib/Dialog";
 import { Stack, IStackProps } from "office-ui-fabric-react/lib/Stack";
 import {
   css,
@@ -17,13 +34,25 @@ import {
   Label,
   PrimaryButton,
   people,
+  Checkbox,
+  TextField,
+  MaskedTextField,
 } from "office-ui-fabric-react";
+import {
+  DatePicker,
+  DayOfWeek,
+  IDatePickerStrings,
+} from "office-ui-fabric-react/lib/DatePicker";
 
-import TestCaseModel from "../model/TestCaseModel";
-import TestRunModel from "../model/TestRunModel";
+import TestCaseModel from "../../model/TestCaseModel";
+import TestRunModel from "../../model/TestRunModel";
 
-interface ITestRunFormsProps {}
-interface ITestRunFormsState extends TestRunModel {}
+interface ITestRunFormsProps {
+  teamsContext: any;
+}
+interface ITestRunFormsState extends TestRunModel {
+  showModal: boolean;
+}
 
 enum TestCaseInputType {
   title = "title",
@@ -48,34 +77,40 @@ export default class TestRunForms extends React.Component<
     super(props);
 
     this.state = {
+      showModal: false,
       _id: "",
       name: "",
-      tester: "",
+      channelID: this.props.teamsContext
+        ? this.props.teamsContext.channelId
+        : null,
       createdOn: new Date().toISOString(),
       deadline: null,
-      finished: false,
+      finished: null,
       testCases: [
         {
           title: "",
           description: "",
           status: null,
-          active: true,
+          active: false,
           comments: "",
           image: "",
+          required: true,
         },
       ],
     };
   }
 
-  updateTestRun() {
+  async addTestRun() {
     const {
       name,
       createdOn,
-      tester,
+      channelID,
       finished,
       deadline,
       testCases,
     } = this.state;
+
+    testCases[0].active = true; // make first element be active
 
     const url = "http://localhost:3000/addTestDefinition";
     const requestOptions = {
@@ -87,7 +122,7 @@ export default class TestRunForms extends React.Component<
       body: JSON.stringify({
         name,
         createdOn,
-        tester,
+        channelID,
         finished,
         deadline,
         testCases,
@@ -107,6 +142,7 @@ export default class TestRunForms extends React.Component<
     newTestCases.push({
       title: "",
       description: "",
+      required: true,
       status: null,
       active: false,
       comments: "",
@@ -134,6 +170,12 @@ export default class TestRunForms extends React.Component<
     return text;
   }
 
+  handleCheckbox(index: number, required: boolean) {
+    let newTestCases: TestCaseModel[] = this.state.testCases;
+    newTestCases[index].required = required;
+    this.setState({ testCases: newTestCases });
+  }
+
   renderTestCases() {
     let testCases: TestCaseModel[] = this.state.testCases;
     let renderedTestCases: React.ReactElement[] = [];
@@ -144,19 +186,27 @@ export default class TestRunForms extends React.Component<
           <Label>
             <b>{index + 1 + ". Testfall"}</b>
           </Label>
-
           <Stack horizontal {...columnPropsHorizontal}>
-            <TextField
-              value={value.title}
-              onChange={(value) => {
-                this.updateTestCases(
-                  index,
-                  value.target["value"],
-                  TestCaseInputType.title
-                );
-              }}
-              label="Titel"
-            />
+            <Stack>
+              <Label>Erforderlich</Label>
+              <Checkbox
+                checked={value.required}
+                onChange={() => this.handleCheckbox(index, !value.required)}
+              />
+            </Stack>
+            <Stack>
+              <Label>Titel</Label>
+              <TextField
+                value={value.title}
+                onChange={(value) => {
+                  this.updateTestCases(
+                    index,
+                    value.target["value"],
+                    TestCaseInputType.title
+                  );
+                }}
+              />
+            </Stack>
             <Stack>
               <Label>Beschreibung</Label>
               <RichText
@@ -173,7 +223,89 @@ export default class TestRunForms extends React.Component<
     return renderedTestCases;
   }
 
+  showModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  hideModal = () => {
+    this.setState({ showModal: false });
+  };
+
   public render(): React.ReactElement<ITestRunFormsProps> {
+    /*  const dragProps = {
+      onDragEnd: (fromIndex, toIndex) => {
+        const data = this.state.testCases;
+        const item = data.splice(fromIndex, 1)[0];
+        data.splice(toIndex, 0, item);
+        this.setState({ testCases: data });
+      },
+      nodeSelector: "li",
+      handleSelector: "a",
+    }; */
+    const that = this;
+    const dragProps = {
+      onDragEnd(fromIndex, toIndex) {
+        const data = [...that.state.testCases];
+        const item = data.splice(fromIndex, 1)[0];
+        data.splice(toIndex, 0, item);
+        that.setState({ testCases: data });
+      },
+      nodeSelector: "li",
+      handleSelector: "a",
+    };
+
+    const DayPickerStrings: IDatePickerStrings = {
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+
+      shortMonths: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+
+      days: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+
+      shortDays: ["S", "M", "T", "W", "T", "F", "S"],
+
+      goToToday: "Go to today",
+      prevMonthAriaLabel: "Go to previous month",
+      nextMonthAriaLabel: "Go to next month",
+      prevYearAriaLabel: "Go to previous year",
+      nextYearAriaLabel: "Go to next year",
+      closeButtonAriaLabel: "Close date picker",
+    };
+    const cancelIcon: IIconProps = { iconName: "Cancel" };
+
     return (
       <>
         <Stack {...columnPropsVertical}>
@@ -183,12 +315,17 @@ export default class TestRunForms extends React.Component<
             }}
             label="Test-Name"
           />
-          <TextField
-            onChange={(value) => {
-              this.setState({ tester: value.target["value"] });
+          <DatePicker
+            firstDayOfWeek={DayOfWeek.Monday}
+            strings={DayPickerStrings}
+            placeholder="Datum auswählen"
+            ariaLabel="Select a date"
+            label="Frist"
+            onSelectDate={(e) => {
+              this.setState({ deadline: e.toISOString() });
             }}
-            label="Tester"
           />
+
           {this.renderTestCases()}
           <Stack horizontal {...columnPropsHorizontal}>
             <PrimaryButton
@@ -209,18 +346,104 @@ export default class TestRunForms extends React.Component<
               }}
               allowDisabledFocus={true}
             />
+            <PrimaryButton
+              disabled={false}
+              checked={false}
+              text="Testfälle neu anordnen"
+              onClick={() => {
+                this.setState({ showModal: true });
+              }}
+              allowDisabledFocus={true}
+            />
           </Stack>
           <DefaultButton
             disabled={false}
             checked={false}
             text="Test abspeichern"
             onClick={() => {
-              this.updateTestRun();
+              this.addTestRun();
             }}
             allowDisabledFocus={true}
           />
+          <Modal
+            isOpen={this.state.showModal}
+            onDismiss={this.hideModal}
+            isBlocking={false}
+            containerClassName={contentStyles.container}
+          >
+            <div className={contentStyles.header}>
+              <span>Testfälle neu anordnen</span>
+              <IconButton
+                styles={iconButtonStyles}
+                iconProps={cancelIcon}
+                ariaLabel="Close popup modal"
+                onClick={this.hideModal}
+              />
+            </div>
+            <div className={contentStyles.body}>
+              <div className="simple simple1">
+                <div className="simple-inner">
+                  <ReactDragListView {...dragProps}>
+                    <ol>
+                      {this.state.testCases.map((item, index) => (
+                        <li key={index}>
+                          {item.title}
+                          <a href="#">Drag</a>
+                        </li>
+                      ))}
+                    </ol>
+                  </ReactDragListView>
+                </div>
+              </div>
+            </div>
+          </Modal>
         </Stack>
       </>
     );
   }
 }
+
+const theme = getTheme();
+const contentStyles = mergeStyleSets({
+  container: {
+    display: "flex",
+    flexFlow: "column nowrap",
+    alignItems: "stretch",
+    minWidth: "800px",
+  },
+  header: [
+    //eslint-disable-next-line deprecation/deprecation
+    theme.fonts.xLargePlus,
+    {
+      flex: "1 1 auto",
+      borderTop: `4px solid ${theme.palette.themePrimary}`,
+      color: theme.palette.neutralPrimary,
+      display: "flex",
+      alignItems: "center",
+      fontWeight: FontWeights.semibold,
+      padding: "12px 12px 14px 24px",
+    },
+  ],
+  body: {
+    flex: "4 4 auto",
+    padding: "0 24px 24px 24px",
+    overflowY: "hidden",
+    selectors: {
+      p: { margin: "14px 0" },
+      "p:first-child": { marginTop: 0 },
+      "p:last-child": { marginBottom: 0 },
+    },
+  },
+});
+
+const iconButtonStyles = {
+  root: {
+    color: theme.palette.neutralPrimary,
+    marginLeft: "auto",
+    marginTop: "4px",
+    marginRight: "2px",
+  },
+  rootHovered: {
+    color: theme.palette.neutralDark,
+  },
+};

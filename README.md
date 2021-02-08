@@ -39,18 +39,24 @@ https://M365x750080.sharepoint.com
 * Optional: Generierung eines "Change-Log" E-Mails
 
 # todo
-* testruns sortiert nach erstell datum 
-* neben testrun x oder hackerl bei nav
-* nach fehler keine weiteren testfälle
-* nach fehler erneut testen einfach kopieren
-* lila fragenzeichen als option, irrelevant, wie hackerl
-* extra option zu testfall erstellen, nur info, dann auch info beim testrun
-* is lilfragezeichen able beim testfall erstellen, teil von info
+## doku
+* firmenlogo
+* name und unterrerschrift bei 3.
+* bis inhaltsverzeichnis abgabe auf plattform
+* zitate erstellen bei referenzen apa
+
+
+## dev
 * grid beim testfall erstellen listview
-* reorder link in teams
-* pnp listview bei testrun
 * tenet property mit baseurl
 * azure ad authentifizierung
-* pro channel testrun
 * nach test druchführung tester reinschreibenm
-* beim test erstellen tester wegnehmen
+* beschreibugn ändert sich nicht beim reorder
+* kommentar bei optionale tests
+* deadline neu beim kopieren
+* dashboard neu
+* zeitleiste bei bar chart
+* gesamt statisik testruns/testcases
+* dashboard test durchfhüren component mit datum nebenbei
+* property drill down ja nein
+* grid view bei tests erstellen

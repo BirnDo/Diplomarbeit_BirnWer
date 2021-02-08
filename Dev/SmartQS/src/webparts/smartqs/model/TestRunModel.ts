@@ -4,7 +4,7 @@ export default interface TestRunModel {
   _id: string;
   name: string;
   createdOn: string;
-  tester: string;
+  channelID: string;
   finished: boolean;
   deadline: string;
   testCases: TestCaseModel[];

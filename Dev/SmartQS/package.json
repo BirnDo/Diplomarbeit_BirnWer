@@ -18,9 +18,11 @@
     "@microsoft/sp-property-pane": "1.11.0",
     "@microsoft/sp-webpart-base": "1.11.0",
     "@pnp/spfx-controls-react": "2.1.0",
+    "chart.js": "^2.9.4",
     "office-ui-fabric-react": "6.214.0",
     "react": "16.8.5",
     "react-dom": "16.8.5",
+    "react-drag-listview": "^0.1.8",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {

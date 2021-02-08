@@ -68,20 +68,25 @@
         width: 20px;
         height: 20px;
         align-items: center;
+        margin-right: 5px;
       }
 
-      svg:first-child {
-        margin-right: 5px;
+      svg:last-child {
+        margin-right: 0px;
       }
 
       svg:first-child:hover circle {
         transition: 0.4s;
         fill: #066905;
       }
-
-      svg:last-child:hover path:first-child {
+      svg:nth-child(2):hover path:first-child {
         transition: 0.4s;
         fill: #9c0915;
+      }
+
+      svg:nth-child(3):hover path:first-child {
+        transition: 0.4s;
+        fill: #6b0062;
       }
     }
   }

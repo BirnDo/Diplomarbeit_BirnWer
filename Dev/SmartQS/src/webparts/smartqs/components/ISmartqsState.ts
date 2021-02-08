@@ -1,5 +1,1 @@
-import TestRunModelMin from "./model/TestRunModelMin";
-
-export interface ISmartqsState {
-  testRunsInfo: TestRunModelMin[];
-}
+export interface ISmartqsState {}

@@ -21,10 +21,12 @@ import {
 } from "@pnp/spfx-controls-react/lib/ListView";
 
 import TestCase from "../TestCase/TestCase";
-import TestCaseModel from "../model/TestCaseModel";
-import TestRunModel from "../model/TestRunModel";
+import TestCaseModel from "../../model/TestCaseModel";
+import TestRunModel from "../../model/TestRunModel";
 
-interface ITestRunProps {}
+interface ITestRunProps {
+  reloadTestRunNav: () => void;
+}
 interface ITestRunState extends TestRunModel {}
 
 const columnPropsVertical: Partial<IStackProps> = {
@@ -47,7 +49,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       createdOn: null,
       deadline: null,
       testCases: null,
-      tester: null,
+      channelID: null,
       finished: null,
     };
   }
@@ -66,9 +68,10 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     }
   }
 
-  updateTestRun(testRun: TestRunModel) {
-    const id: string = this.props["match"]["params"]["id"];
-    const url = "http://localhost:3000/updateTestDefinition/" + id;
+  async updateTestRun() {
+    const testRun = this.state;
+
+    const url = "http://localhost:3000/updateTestDefinition/" + testRun._id;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -79,10 +82,12 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     };
 
     fetch(url, requestOptions)
-      .then(async (response) => {
-        console.log("testrun updated");
+      .then((response) => {
+        this.props.reloadTestRunNav();
       })
-      .catch((rejected) => console.log(rejected));
+      .catch((rejected) => {
+        console.log(rejected);
+      });
   }
 
   async getTestRun() {
@@ -103,12 +108,59 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
             createdOn: body.createdOn,
             deadline: body.deadline,
             testCases: body.testCases,
-            tester: body.tester,
+            channelID: body.channelID,
             finished: body.finished,
           });
         })
         .catch((rejected) => console.log(rejected));
     }
+  }
+
+  async copyTestRun() {
+    let {
+      name,
+      createdOn,
+      channelID,
+      finished,
+      deadline,
+      testCases,
+    } = this.state;
+
+    finished = null; // reset the finished flag
+    createdOn = new Date().toISOString();
+    testCases.forEach((element) => {
+      // reset all test case changes
+      element.status = null;
+      element.active = false;
+      element.comments = "";
+      element.description = "";
+    });
+    testCases[0].active = true; // set first test case to be active
+
+    const url = "http://localhost:3000/addTestDefinition";
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        createdOn,
+        channelID,
+        finished,
+        deadline,
+        testCases,
+      }),
+    };
+
+    fetch(url, requestOptions)
+      .then(async (response) => {
+        const body = await response.json();
+        await this.props.reloadTestRunNav();
+        this.props["history"].push("/runTest/" + body._id);
+      })
+      .catch((rejected) => console.log(rejected));
   }
 
   /**
@@ -123,10 +175,14 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       const newTestCases = this.state.testCases.slice();
       newTestCases[index] = testCase;
       this.setState({ testCases: newTestCases });
-      if (index == this.state.testCases.length - 1) {
-        this.updateActiveStatus(index, false);
-        this.setState({ finished: true });
-        //this.updateTestCases(this.state);
+      this.updateActiveStatus(index, false);
+
+      if (testCase.status == true) {
+        if (index == this.state.testCases.length - 1)
+          this.setState({ finished: true });
+        else this.updateActiveStatus(index + 1, true);
+      } else {
+        this.setState({ finished: false });
       }
     }
   };
@@ -176,54 +232,18 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       createdOn,
       deadline,
       testCases,
-      tester,
+      channelID,
       finished,
     } = this.state;
 
     if (_id == null) return <></>;
-    const viewFields: IViewField[] = [
-      {
-        name: "title",
-        displayName: "Title",
-        isResizable: true,
-        sorting: true,
-        minWidth: 0,
-        maxWidth: 150,
-      },
-      {
-        name: "description",
-        displayName: "Beschreibung",
-        isResizable: true,
-        sorting: true,
-        minWidth: 0,
-        maxWidth: 200,
-      },
-      {
-        name: "comments",
-        displayName: "Comment",
-        isResizable: true,
-        sorting: true,
-        minWidth: 0,
-        maxWidth: 200,
-      },
-    ];
-    let data: TestCaseModel[] = [
-      {
-        title: "1",
-        description: "beschreibung",
-        status: null,
-        active: null,
-        comments: "comment",
-        image: "",
-      },
-    ];
     return (
       <Stack {...columnPropsVertical}>
         <Label>Erstellt am: {new Date(createdOn).toLocaleDateString()}</Label>
         <Label>Deadline: {new Date(deadline).toLocaleDateString()}</Label>
 
-        {/* this.renderTestCases() */}
-        <ListView
+        {this.renderTestCases()}
+        {/* <ListView
           items={data}
           viewFields={viewFields}
           iconFieldName="ServerRelativeUrl"
@@ -232,14 +252,23 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
           showFilter={false}
           dragDropFiles={false}
           stickyHeader={true}
-        />
+        /> */}
         <Stack horizontal {...columnPropsHorizontal}>
           <PrimaryButton
             disabled={false}
             checked={false}
             text="Test abspeichern"
             onClick={() => {
-              this.updateTestRun(this.state);
+              this.updateTestRun();
+            }}
+            allowDisabledFocus={true}
+          />
+          <DefaultButton
+            disabled={false}
+            checked={false}
+            text="Test erneut durchführen"
+            onClick={() => {
+              this.copyTestRun();
             }}
             allowDisabledFocus={true}
           />

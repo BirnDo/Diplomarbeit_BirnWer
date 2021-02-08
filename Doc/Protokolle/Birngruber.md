@@ -11,4 +11,6 @@
 | 23.12.       | Design für Präsentation erstellt                             | 2               |                                                              |
 | 2.1.2021     | Datenmodell erweitert und APIs entsprechend angepasst        | 2               |                                                              |
 | 4.1.2021     | Dokumentation für dox42 gelesen                              | 1               | https://www.dox42.com/de/                                    |
-| 5.1.-12.1.   | Mehrere spezialisierte APIs hinzugefügt, Backend volständig in Typescript übersetzt und Build-Prozess erstellt | 15              |                                                              |
+| 5.1.-12.1.   | Mehrere spezialisierte APIs hinzugefügt, Backend vollständig in Typescript übersetzt und Build-Prozess erstellt | 15              |                                                              |
+| 13.1. - 19.1. | SwaggerUI für API-Dokumentation recherchiert und Dokumentation begonnen, API-Deployment für Azure recherchiert | 12 | https://github.com/swagger-api/swagger-ui |
+| 20.1. - 3.2. | API-Dokumentation fortgeführt, möglichkeit für Optionale Tests hinzugefügt, Punkte für Präsentation genauer spezifiziert | 12 | |

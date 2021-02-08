@@ -4,7 +4,8 @@
    * Chrome browser: https://aka.ms/spfx-debugger-extensions
    */
   "version": "0.2.0",
-  "configurations": [{
+  "configurations": [
+    {
       "name": "Local workbench",
       "type": "chrome",
       "request": "launch",
@@ -17,9 +18,8 @@
         "webpack:///../../../../src/*": "${webRoot}/src/*",
         "webpack:///../../../../../src/*": "${webRoot}/src/*"
       },
-      "runtimeArgs": [
-        "--remote-debugging-port=9222"
-      ]
+      "runtimeArgs": ["--remote-debugging-port=9222"],
+      "includeDefaultArgs": true
     },
     {
       "name": "Hosted workbench",
@@ -36,7 +36,9 @@
       },
       "runtimeArgs": [
         "--remote-debugging-port=9222",
-        "-incognito"
+        "-incognito",
+        "--disable-web-security",
+        "--disable-gpu"
       ]
     }
   ]
