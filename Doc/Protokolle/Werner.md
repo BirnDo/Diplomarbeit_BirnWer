@@ -34,3 +34,5 @@
 |15.01|pnpjs charts did not work; used chartsjs to implement drill down chart successfully|4|pnpjs charts dont work as onclick does not pass correct elements|
 |29.01|added date field for deadline; sortierung der testruns nach Erstelldatum; optionale tests beim durchführen implementiert|5||
 |03.02|implementiert das nach fehler beim testcase automatisch abbrechen; button zum testrun erneut durchführen hinzugefügt, kopiert und setzt testrun zurück|3|Probleme das bei der navbar automatisch der kopierte testrun ausgewählt wird|
+|09.02|added functionallity to mark testcases as optional with comment popup; added tester field and popup when finishing a test; updated drill down chart colors to enable optional|3||
+|10.02|added doneOn property to models; doneOn property gets set when a testrun if either faulty or successful; add popup when copying testrun to set new deadline|1||
