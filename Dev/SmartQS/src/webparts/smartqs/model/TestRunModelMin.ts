@@ -5,4 +5,5 @@ export default interface TestRunModelMin {
   channelID: string;
   finished: boolean;
   deadline: string;
+  tester: string;
 }

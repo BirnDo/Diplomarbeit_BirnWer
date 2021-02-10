@@ -11,6 +11,12 @@ import {
   Label,
   PrimaryButton,
   people,
+  Dialog,
+  getTheme,
+  mergeStyleSets,
+  DialogFooter,
+  DialogType,
+  FontWeights,
 } from "office-ui-fabric-react";
 import {
   ListView,
@@ -19,15 +25,19 @@ import {
   GroupOrder,
   IGrouping,
 } from "@pnp/spfx-controls-react/lib/ListView";
+import { TextField } from "office-ui-fabric-react/lib/TextField";
 
 import TestCase from "../TestCase/TestCase";
 import TestCaseModel from "../../model/TestCaseModel";
 import TestRunModel from "../../model/TestRunModel";
+import { times } from "lodash";
 
 interface ITestRunProps {
   reloadTestRunNav: () => void;
 }
-interface ITestRunState extends TestRunModel {}
+interface ITestRunState extends TestRunModel {
+  showDialog: boolean;
+}
 
 const columnPropsVertical: Partial<IStackProps> = {
   tokens: { childrenGap: 5 },
@@ -51,6 +61,8 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       testCases: null,
       channelID: null,
       finished: null,
+      showDialog: false,
+      tester: null,
     };
   }
 
@@ -111,6 +123,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
             channelID: body.channelID,
             finished: body.finished,
           });
+          console.log(body);
         })
         .catch((rejected) => console.log(rejected));
     }
@@ -177,7 +190,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       this.setState({ testCases: newTestCases });
       this.updateActiveStatus(index, false);
 
-      if (testCase.status == true) {
+      if (testCase.status == "successful") {
         if (index == this.state.testCases.length - 1)
           this.setState({ finished: true });
         else this.updateActiveStatus(index + 1, true);
@@ -225,6 +238,27 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     return renderedTestCases;
   }
 
+  showlDialog = () => {
+    this.setState({ showDialog: true });
+  };
+
+  hideDialog = () => {
+    this.setState({ showDialog: false });
+  };
+
+  renderSaveButton(): React.ReactNode {
+    if (this.state.finished == null)
+      return (
+        <PrimaryButton
+          disabled={false}
+          checked={false}
+          text="Test abspeichern"
+          onClick={this.showlDialog}
+          allowDisabledFocus={true}
+        />
+      );
+  }
+
   public render(): React.ReactElement<ITestRunProps> {
     const {
       _id,
@@ -236,14 +270,26 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       finished,
     } = this.state;
 
+    const dialogStyles = {
+      main: {
+        maxWidth: "1000px !important",
+        width: "fit-content !important",
+      },
+    };
+    const modelProps = {
+      isBlocking: false,
+      styles: dialogStyles,
+    };
+
     if (_id == null) return <></>;
     return (
-      <Stack {...columnPropsVertical}>
-        <Label>Erstellt am: {new Date(createdOn).toLocaleDateString()}</Label>
-        <Label>Deadline: {new Date(deadline).toLocaleDateString()}</Label>
+      <>
+        <Stack {...columnPropsVertical}>
+          <Label>Erstellt am: {new Date(createdOn).toLocaleDateString()}</Label>
+          <Label>Deadline: {new Date(deadline).toLocaleDateString()}</Label>
 
-        {this.renderTestCases()}
-        {/* <ListView
+          {this.renderTestCases()}
+          {/* <ListView
           items={data}
           viewFields={viewFields}
           iconFieldName="ServerRelativeUrl"
@@ -253,29 +299,92 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
           dragDropFiles={false}
           stickyHeader={true}
         /> */}
-        <Stack horizontal {...columnPropsHorizontal}>
-          <PrimaryButton
-            disabled={false}
-            checked={false}
-            text="Test abspeichern"
-            onClick={() => {
-              this.updateTestRun();
-            }}
-            allowDisabledFocus={true}
-          />
-          <DefaultButton
-            disabled={false}
-            checked={false}
-            text="Test erneut durchführen"
-            onClick={() => {
-              this.copyTestRun();
-            }}
-            allowDisabledFocus={true}
-          />
+          <Stack horizontal {...columnPropsHorizontal}>
+            {this.renderSaveButton()}
+            <DefaultButton
+              disabled={false}
+              checked={false}
+              text="Test erneut durchführen"
+              onClick={() => {
+                this.copyTestRun();
+              }}
+              allowDisabledFocus={true}
+            />
+          </Stack>
         </Stack>
-      </Stack>
+        <Dialog
+          hidden={!this.state.showDialog}
+          onDismiss={this.hideDialog}
+          dialogContentProps={{
+            type: DialogType.largeHeader,
+            title: "Wer hat den Test durchgeführt?",
+          }}
+          modalProps={modelProps}
+        >
+          <TextField
+            onChange={(value) => {
+              this.setState({ tester: value.target["value"] });
+            }}
+          />
+          <DialogFooter>
+            <PrimaryButton
+              onClick={() => {
+                this.hideDialog();
+                this.updateTestRun();
+              }}
+              text="Speichern"
+            />
+            <DefaultButton onClick={this.hideDialog} text="Abbrechen" />
+          </DialogFooter>
+        </Dialog>
+      </>
     );
   }
 }
 
 export default withRouter(TestRun);
+
+const theme = getTheme();
+const contentStyles = mergeStyleSets({
+  container: {
+    display: "flex",
+    flexFlow: "column nowrap",
+    alignItems: "stretch",
+    minWidth: "500px",
+  },
+  header: [
+    //eslint-disable-next-line deprecation/deprecation
+    theme.fonts.xLargePlus,
+    {
+      flex: "1 1 auto",
+      borderTop: `4px solid ${theme.palette.themePrimary}`,
+      color: theme.palette.neutralPrimary,
+      display: "flex",
+      alignItems: "center",
+      fontWeight: FontWeights.semibold,
+      padding: "12px 12px 14px 24px",
+    },
+  ],
+  body: {
+    flex: "4 4 auto",
+    padding: "0 24px 24px 24px",
+    overflowY: "hidden",
+    selectors: {
+      p: { margin: "14px 0" },
+      "p:first-child": { marginTop: 0 },
+      "p:last-child": { marginBottom: 0 },
+    },
+  },
+});
+
+const iconButtonStyles = {
+  root: {
+    color: theme.palette.neutralPrimary,
+    marginLeft: "auto",
+    marginTop: "4px",
+    marginRight: "2px",
+  },
+  rootHovered: {
+    color: theme.palette.neutralDark,
+  },
+};

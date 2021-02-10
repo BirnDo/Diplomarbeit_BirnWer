@@ -81,6 +81,7 @@ export default class TestRunForms extends React.Component<
       createdOn: new Date().toISOString(),
       deadline: null,
       finished: null,
+      tester: null,
       testCases: [
         {
           title: "",

@@ -25,8 +25,8 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
     super(props);
 
     /* this.deleteTestruns([
-      "6012cf84da4f01542c0b7340",
-      "5ffc80d5c2a0e9297c734eac",
+      "60214626ed9dc82eb87f0a57",
+      "60214620ed9dc82eb87f0a53",
     ]); */
   }
   deleteTestruns(blacklist: string[]) {

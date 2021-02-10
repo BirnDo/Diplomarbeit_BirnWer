@@ -21,6 +21,7 @@ import {
   Checkbox,
   TextField,
   MaskedTextField,
+  RatingBase,
 } from "office-ui-fabric-react";
 import {
   getTheme,
@@ -152,11 +153,14 @@ class DetailedDashboard extends React.Component<
       data.datasets.push({
         label: value.title,
         data: [10],
-        backgroundColor: value.status
-          ? "rgba(0, 255, 0, 0.9)"
-          : value.status == false
-          ? "rgba(255, 0, 0, 0.9)"
-          : "grey",
+        backgroundColor:
+          value.status == "successful"
+            ? "rgba(0, 255, 0, 0.9)"
+            : value.status == "faulty"
+            ? "rgba(255, 0, 0, 0.9)"
+            : value.status == "optional"
+            ? "rgba(138,16,233, 0.9)"
+            : "grey",
         borderColor: "black",
         borderWidth: 1,
         description: value.description,

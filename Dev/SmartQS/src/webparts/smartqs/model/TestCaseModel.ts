@@ -1,7 +1,7 @@
 export default interface TestCaseModel {
   title: string;
   description: string;
-  status: boolean;
+  status: string;
   active: boolean;
   comments: string;
   image: string;

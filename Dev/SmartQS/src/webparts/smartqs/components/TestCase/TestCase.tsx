@@ -42,7 +42,8 @@ export interface ITestCaseProps {
 
 export interface ITestCaseState {
   showModel: boolean;
-  showDialog: boolean;
+  showErrorDialog: boolean;
+  showOptionalDialog: boolean;
   comments: string;
 }
 
@@ -55,7 +56,8 @@ export default class TestCase extends React.Component<
 
     this.state = {
       showModel: false,
-      showDialog: false,
+      showErrorDialog: false,
+      showOptionalDialog: false,
       comments: "",
     };
   }
@@ -68,12 +70,20 @@ export default class TestCase extends React.Component<
     this.setState({ showModel: false });
   };
 
-  showDialog = () => {
-    this.setState({ showDialog: true });
+  showErrorDialog = () => {
+    this.setState({ showErrorDialog: true });
   };
 
-  hideDialog = () => {
-    this.setState({ showDialog: false });
+  hideErrorDialog = () => {
+    this.setState({ showErrorDialog: false });
+  };
+
+  showOptionalDialog = () => {
+    this.setState({ showOptionalDialog: true });
+  };
+
+  hideOptionalDialog = () => {
+    this.setState({ showOptionalDialog: false });
   };
 
   /**
@@ -84,7 +94,7 @@ export default class TestCase extends React.Component<
    * @param {boolean} status used to specify the value the test status should have
    * @memberof TestCase
    */
-  updateTestStatus(index: number, testCase: TestCaseModel, status: boolean) {
+  updateTestStatus(index: number, testCase: TestCaseModel, status: string) {
     const newTestCase = testCase;
     testCase.status = status;
     this.props.updateTestCase(index, newTestCase);
@@ -103,12 +113,12 @@ export default class TestCase extends React.Component<
           <div className={styles.Group}>
             <SuccessIcon
               onClick={() => {
-                this.updateTestStatus(index, testCase, true); // sets the status of the current test case to true
+                this.updateTestStatus(index, testCase, "successful"); // sets the status of the current test case to true
               }}
             />
             <FailureIcon
               onClick={() => {
-                this.showDialog();
+                this.showErrorDialog();
               }}
             />
             {this.renderOptionalStatusButton(index, testCase)}
@@ -123,7 +133,7 @@ export default class TestCase extends React.Component<
       return (
         <OptionalIcon
           onClick={() => {
-            this.updateTestStatus(index, testCase, null);
+            this.showOptionalDialog();
           }}
         />
       );
@@ -137,8 +147,12 @@ export default class TestCase extends React.Component<
    */
   renderStatus(testCase: TestCaseModel) {
     if (testCase.status != null) {
-      if (testCase.status) return <SuccessIcon className={styles.Status} />;
-      else return <FailureIcon className={styles.Status} />;
+      if (testCase.status == "successful")
+        return <SuccessIcon className={styles.Status} />;
+      else if (testCase.status == "faulty")
+        return <FailureIcon className={styles.Status} />;
+      else if (testCase.status == "optional")
+        return <OptionalIcon className={styles.Status} />;
     }
   }
 
@@ -150,13 +164,12 @@ export default class TestCase extends React.Component<
   public render(): React.ReactElement<ITestCaseProps> {
     const { testCase, index } = this.props;
     const cancelIcon: IIconProps = { iconName: "Cancel" };
-    const dialogContentProps = {
-      type: DialogType.largeHeader,
-      title: "Was hat nicht funktioniert?",
-      // subText: testCase.description,
-    };
     const dialogStyles = {
-      main: { maxWidth: "800px !important", width: "fit-content !important" },
+      main: {
+        maxWidth: "1000px !important",
+        width: "fit-content !important",
+        minWidth: "500px !important",
+      },
     };
     const modelProps = {
       isBlocking: false,
@@ -193,9 +206,41 @@ export default class TestCase extends React.Component<
           </div>
         </Modal>
         <Dialog
-          hidden={!this.state.showDialog}
-          onDismiss={this.hideDialog}
-          dialogContentProps={dialogContentProps}
+          hidden={!this.state.showErrorDialog}
+          onDismiss={this.hideErrorDialog}
+          dialogContentProps={{
+            type: DialogType.largeHeader,
+            title: "Was hat nicht funktioniert?",
+          }}
+          modalProps={modelProps}
+        >
+          {() => {
+            console.log(testCase.description);
+          }}
+          <RichText isEditMode={false} value={testCase.description} />
+          <RichText
+            className={styles.RichText}
+            onChange={(value) => this.handleRichText(value)}
+          />
+          <DialogFooter>
+            <PrimaryButton
+              onClick={() => {
+                this.hideErrorDialog();
+                testCase.comments = this.state.comments;
+                this.updateTestStatus(index, testCase, "faulty"); // sets the status of the current test case to false
+              }}
+              text="Speichern"
+            />
+            <DefaultButton onClick={this.hideErrorDialog} text="Abbrechen" />
+          </DialogFooter>
+        </Dialog>
+        <Dialog
+          hidden={!this.state.showOptionalDialog}
+          onDismiss={this.hideOptionalDialog}
+          dialogContentProps={{
+            type: DialogType.largeHeader,
+            title: "Warum ignorieren sie den Test?",
+          }}
           modalProps={modelProps}
         >
           <RichText isEditMode={false} value={testCase.description} />
@@ -206,13 +251,13 @@ export default class TestCase extends React.Component<
           <DialogFooter>
             <PrimaryButton
               onClick={() => {
-                this.hideDialog();
+                this.hideOptionalDialog();
                 testCase.comments = this.state.comments;
-                this.updateTestStatus(index, testCase, false); // sets the status of the current test case to false
+                this.updateTestStatus(index, testCase, "optional"); // sets the status of the current test case to false
               }}
               text="Speichern"
             />
-            <DefaultButton onClick={this.hideDialog} text="Abbrechen" />
+            <DefaultButton onClick={this.hideErrorDialog} text="Abbrechen" />
           </DialogFooter>
         </Dialog>
       </div>
@@ -226,7 +271,7 @@ const contentStyles = mergeStyleSets({
     display: "flex",
     flexFlow: "column nowrap",
     alignItems: "stretch",
-    minWidth: "800px",
+    minWidth: "500px",
   },
   header: [
     //eslint-disable-next-line deprecation/deprecation
