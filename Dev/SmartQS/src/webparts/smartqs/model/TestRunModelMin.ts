@@ -6,4 +6,5 @@ export default interface TestRunModelMin {
   finished: boolean;
   deadline: string;
   tester: string;
+  doneOn: string;
 }

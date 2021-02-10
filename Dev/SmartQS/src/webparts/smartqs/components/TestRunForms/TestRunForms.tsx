@@ -72,6 +72,7 @@ export default class TestRunForms extends React.Component<
     super(props);
 
     this.state = {
+      doneOn: null,
       showModal: false,
       _id: "",
       name: "",

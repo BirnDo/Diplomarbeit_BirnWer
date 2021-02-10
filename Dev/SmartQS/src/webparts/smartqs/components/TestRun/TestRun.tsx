@@ -17,6 +17,9 @@ import {
   DialogFooter,
   DialogType,
   FontWeights,
+  DatePicker,
+  IDatePickerStrings,
+  DayOfWeek,
 } from "office-ui-fabric-react";
 import {
   ListView,
@@ -36,7 +39,9 @@ interface ITestRunProps {
   reloadTestRunNav: () => void;
 }
 interface ITestRunState extends TestRunModel {
-  showDialog: boolean;
+  showTesterDialog: boolean;
+  showCopyDialog: boolean;
+  newDeadline: string;
 }
 
 const columnPropsVertical: Partial<IStackProps> = {
@@ -54,14 +59,17 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     super(props);
 
     this.state = {
+      doneOn: null,
       _id: null,
       name: null,
       createdOn: null,
       deadline: null,
+      newDeadline: null,
       testCases: null,
       channelID: null,
       finished: null,
-      showDialog: false,
+      showTesterDialog: false,
+      showCopyDialog: false,
       tester: null,
     };
   }
@@ -81,16 +89,37 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
   }
 
   async updateTestRun() {
-    const testRun = this.state;
+    const {
+      _id,
+      name,
+      createdOn,
+      deadline,
+      testCases,
+      channelID,
+      finished,
+      tester,
+    } = this.state;
 
-    const url = "http://localhost:3000/updateTestDefinition/" + testRun._id;
+    let doneOn;
+    if (finished != null) doneOn = new Date().toISOString();
+    const url = "http://localhost:3000/updateTestDefinition/" + _id;
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(testRun),
+      body: JSON.stringify({
+        _id,
+        name,
+        createdOn,
+        deadline,
+        testCases,
+        channelID,
+        finished,
+        tester,
+        doneOn,
+      }),
     };
 
     fetch(url, requestOptions)
@@ -135,12 +164,14 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       createdOn,
       channelID,
       finished,
+      newDeadline,
       deadline,
       testCases,
     } = this.state;
 
     finished = null; // reset the finished flag
     createdOn = new Date().toISOString();
+    deadline = newDeadline;
     testCases.forEach((element) => {
       // reset all test case changes
       element.status = null;
@@ -238,12 +269,20 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     return renderedTestCases;
   }
 
-  showlDialog = () => {
-    this.setState({ showDialog: true });
+  showTesterDialog = () => {
+    this.setState({ showTesterDialog: true });
   };
 
-  hideDialog = () => {
-    this.setState({ showDialog: false });
+  hideTesterDialog = () => {
+    this.setState({ showTesterDialog: false });
+  };
+
+  showCopyDialog = () => {
+    this.setState({ showCopyDialog: true });
+  };
+
+  hideCopyDialog = () => {
+    this.setState({ showCopyDialog: false });
   };
 
   renderSaveButton(): React.ReactNode {
@@ -253,7 +292,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
           disabled={false}
           checked={false}
           text="Test abspeichern"
-          onClick={this.showlDialog}
+          onClick={this.showTesterDialog}
           allowDisabledFocus={true}
         />
       );
@@ -280,13 +319,62 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       isBlocking: false,
       styles: dialogStyles,
     };
+    const DayPickerStrings: IDatePickerStrings = {
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+
+      shortMonths: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+
+      days: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+
+      shortDays: ["S", "M", "T", "W", "T", "F", "S"],
+
+      goToToday: "Go to today",
+      prevMonthAriaLabel: "Go to previous month",
+      nextMonthAriaLabel: "Go to next month",
+      prevYearAriaLabel: "Go to previous year",
+      nextYearAriaLabel: "Go to next year",
+      closeButtonAriaLabel: "Close date picker",
+    };
 
     if (_id == null) return <></>;
     return (
       <>
         <Stack {...columnPropsVertical}>
-          <Label>Erstellt am: {new Date(createdOn).toLocaleDateString()}</Label>
-          <Label>Deadline: {new Date(deadline).toLocaleDateString()}</Label>
+          <Label>Frist: {new Date(deadline).toLocaleDateString()}</Label>
 
           {this.renderTestCases()}
           {/* <ListView
@@ -305,16 +393,14 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
               disabled={false}
               checked={false}
               text="Test erneut durchführen"
-              onClick={() => {
-                this.copyTestRun();
-              }}
+              onClick={this.showCopyDialog}
               allowDisabledFocus={true}
             />
           </Stack>
         </Stack>
         <Dialog
-          hidden={!this.state.showDialog}
-          onDismiss={this.hideDialog}
+          hidden={!this.state.showTesterDialog}
+          onDismiss={this.hideTesterDialog}
           dialogContentProps={{
             type: DialogType.largeHeader,
             title: "Wer hat den Test durchgeführt?",
@@ -329,12 +415,42 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
           <DialogFooter>
             <PrimaryButton
               onClick={() => {
-                this.hideDialog();
+                this.hideTesterDialog();
                 this.updateTestRun();
               }}
               text="Speichern"
             />
-            <DefaultButton onClick={this.hideDialog} text="Abbrechen" />
+            <DefaultButton onClick={this.hideTesterDialog} text="Abbrechen" />
+          </DialogFooter>
+        </Dialog>
+        <Dialog
+          hidden={!this.state.showCopyDialog}
+          onDismiss={this.hideCopyDialog}
+          dialogContentProps={{
+            type: DialogType.largeHeader,
+            title: "Was ist die neue Frist?",
+          }}
+          modalProps={modelProps}
+        >
+          <DatePicker
+            firstDayOfWeek={DayOfWeek.Monday}
+            strings={DayPickerStrings}
+            placeholder="Datum auswählen"
+            ariaLabel="Select a date"
+            label="Frist"
+            onSelectDate={(e) => {
+              this.setState({ newDeadline: e.toISOString() });
+            }}
+          />
+          <DialogFooter>
+            <PrimaryButton
+              onClick={() => {
+                this.hideCopyDialog();
+                this.copyTestRun();
+              }}
+              text="Speichern"
+            />
+            <DefaultButton onClick={this.hideCopyDialog} text="Abbrechen" />
           </DialogFooter>
         </Dialog>
       </>

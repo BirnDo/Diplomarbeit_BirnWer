@@ -7,6 +7,7 @@ export default interface TestRunModel {
   channelID: string;
   finished: boolean;
   deadline: string;
+  doneOn: string;
   tester: string;
   testCases: TestCaseModel[];
 }
