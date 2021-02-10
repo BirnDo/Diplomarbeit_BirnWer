@@ -221,12 +221,16 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       this.setState({ testCases: newTestCases });
       this.updateActiveStatus(index, false);
 
-      if (testCase.status == "successful") {
-        if (index == this.state.testCases.length - 1)
+      if (testCase.status == "successful" || testCase.status == "optional") {
+        if (index == this.state.testCases.length - 1) {
           this.setState({ finished: true });
-        else this.updateActiveStatus(index + 1, true);
+          this.showTesterDialog();
+        } else {
+          this.updateActiveStatus(index + 1, true);
+        }
       } else {
         this.setState({ finished: false });
+        this.showTesterDialog();
       }
     }
   };
