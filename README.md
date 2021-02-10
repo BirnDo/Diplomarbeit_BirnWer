@@ -50,10 +50,7 @@ https://M365x750080.sharepoint.com
 * grid beim testfall erstellen listview
 * tenet property mit baseurl
 * azure ad authentifizierung
-* nach test druchführung tester reinschreibenm
 * beschreibugn ändert sich nicht beim reorder
-* kommentar bei optionale tests
-* deadline neu beim kopieren
 * dashboard neu
 * zeitleiste bei bar chart
 * gesamt statisik testruns/testcases
