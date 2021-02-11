@@ -36,3 +36,5 @@
 |03.02|implementiert das nach fehler beim testcase automatisch abbrechen; button zum testrun erneut durchführen hinzugefügt, kopiert und setzt testrun zurück|3|Probleme das bei der navbar automatisch der kopierte testrun ausgewählt wird|
 |09.02|added functionallity to mark testcases as optional with comment popup; added tester field and popup when finishing a test; updated drill down chart colors to enable optional|3||
 |10.02|added doneOn property to models; doneOn property gets set when a testrun if either faulty or successful; add popup when copying testrun to set new deadline|1||
+|11.02|added readonly flag to set if the test runs should be read only or not; customized testrunoverview, testrun and testcase for generic use|3|Problems changing layout to generic; everything fixed after some testing|
+|11.02|added statistics model; outsourced drill down component; added readonly testrunoverview to dashboard and fixed routing; added chart to dashboard page that displays the statistics of all test runs|4|Problems with routing in dashboard; fixed after some testing|
