@@ -163,7 +163,6 @@ class DrillDownChart extends React.Component<
           text="zurück"
           onClick={() => this.props["history"].push("/dashboard")}
         />
-
         <canvas ref={this.canvasRef} />
       </div>
     );
