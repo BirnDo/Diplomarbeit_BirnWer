@@ -4,44 +4,100 @@ import { Route, NavLink, withRouter } from "react-router-dom";
 import {
   ChartControl,
   ChartType,
+  IAccessibleChartTableState,
 } from "@pnp/spfx-controls-react/lib/ChartControl";
 import Chart from "chart.js";
 import TestRunModelMin from "../../model/TestRunModelMin";
 import { rgb2hsv } from "office-ui-fabric-react";
 import TestRunModel from "../../model/TestRunModel";
-import DetailedDashboard from "../DetailedDashboard/DetailedDashboard";
+import DetailedDashboard from "../DetailedDashboard/DetailedDrillDownChart";
 import styles from "./Dashboard.module.scss";
+import { Accordion } from "@pnp/spfx-controls-react/lib/Accordion";
+import DrillDownChart from "../DrillDownChart/DrillDownChart";
+import TestStatisticModel from "../../model/TestStatisticsModel";
+import TestRunOverview from "../TestRunOverview/TestRunOverview";
 
 interface IDashboardProps {
   teamsContext: any;
 }
-interface IDashboardState {}
+interface IDashboardState {
+  data: Chart.ChartData;
+  options: any;
+}
 
 class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
-  chart: Chart;
-  canvasRef: any;
-
   constructor(props) {
     super(props);
 
-    this.canvasRef = React.createRef();
+    this.state = {
+      data: {
+        labels: ["Erfolgreich", "Fehlerhaft", "Nicht durchgeführt"],
+        datasets: [
+          {
+            label: "",
+            data: [0, 0, 0],
+            backgroundColor: [
+              "rgba(74, 192, 192, 0.2)",
+              "rgba(254, 99, 132, 0.2)",
+              "rgba(200, 203, 207, 0.2)",
+            ],
+            borderColor: [
+              "rgb(74, 192, 192)",
+              "rgb(254, 99, 132)",
+              "rgb(200, 203, 207)",
+            ],
+            borderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Test Statistik",
+        },
+        legend: {
+          display: false,
+        },
+        /* tooltips: {
+          mode: "nearest",
+          callbacks: {
+            title: () => "",
+            label: (tooltipItem, data) => {
+              var label = data.datasets[tooltipItem.datasetIndex];
+              console.log(label);
+              return label;
+            },
+          },
+        }, */
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    };
   }
 
   componentDidMount() {
-    this.getTestRunMinData();
-  }
-
-  componentDidUpdate() {
-    this.getTestRunMinData();
+    if (
+      this.state.data.datasets[0].data[0] == 0 &&
+      this.state.data.datasets[0].data[1] == 0 &&
+      this.state.data.datasets[0].data[2] == 0
+    )
+      this.getTestRunMinData();
   }
 
   async getTestRunMinData() {
     let url: string;
     if (this.props.teamsContext != null)
       url =
-        "http://127.0.0.1:3000/minimalTestDefinitionsByChannelID/" +
+        "http://127.0.0.1:3000/getSuccessStatisticsByChannel/" +
         this.props.teamsContext.channelId;
-    else url = "http://127.0.0.1:3000/minimalTestDefinitions";
+    else url = "http://127.0.0.1:3000/getSuccessStatistics";
     const requestOptions = {
       method: "GET",
       headers: {
@@ -52,107 +108,37 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 
     fetch(url, requestOptions)
       .then(async (response) => {
-        const body: TestRunModelMin[] = await response.json();
-        let filteredBody = body.filter((value) => {
-          return value.finished == true || value.finished == false;
-        });
-        let sortedBody = filteredBody.sort((x, y) => {
-          return x === y ? 0 : x ? -1 : 1;
-        });
-        this.setTestRunsChart(sortedBody);
-        console.log(sortedBody);
+        const body: TestStatisticModel = await response.json();
+        let newData = this.state.data;
+        newData.datasets[0].data[0] = body.successful;
+        newData.datasets[0].data[1] = body.failed;
+        newData.datasets[0].data[2] = body.notDone;
+        this.setState({ data: newData });
       })
+
       .catch((rejected) => console.log(rejected));
   }
 
-  setTestRunsChart(body: TestRunModelMin[]) {
-    let data: any = { datasets: [] };
-
-    const options: any = {
-      onClick: async (e, i) => {
-        let id = this.chart.getElementAtEvent(e)[0]
-          ? data.datasets[this.chart.getElementAtEvent(e)[0]._datasetIndex]._id
-          : null;
-        if (id != null) {
-          this.props["history"].push("/dashboard/" + id);
-        }
-      },
-      scales: {
-        xAxes: [
-          {
-            stacked: true,
-            ticks: {
-              callback: () => "",
-            },
-            gridLines: {
-              display: false,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            stacked: true,
-            ticks: {
-              callback: () => "",
-            },
-            gridLines: {
-              display: false,
-            },
-          },
-        ],
-      },
-      tooltips: {
-        mode: "nearest",
-        callbacks: {
-          title: () => "",
-          label: (tooltipItem, data) => {
-            let item = data.datasets[tooltipItem.datasetIndex];
-            let status = item.finished ? "Erfolgreich" : "Fehlerhaft";
-            return item.label + ": " + status;
-          },
-        },
-      },
-      title: {
-        display: true,
-        text: "Test Runs",
-      },
-    };
-
-    body.map((value, index) => {
-      data.datasets.push({
-        label: value.name,
-        data: [10],
-        backgroundColor: value.finished
-          ? "rgba(0, 255, 0, 0.9)"
-          : value.finished == false
-          ? "rgba(255, 0, 0, 0.9)"
-          : "grey",
-        borderColor: "black",
-        borderWidth: 1,
-        _id: value._id,
-        finished: value.finished,
-      });
-    });
-
-    this.chart = new Chart(this.canvasRef.current, {
-      type: "horizontalBar",
-      data: data,
-      options: options,
-    });
-  }
-
   public render(): React.ReactElement<IDashboardProps> {
+    const { data, options } = this.state;
+
     return (
       <div className={styles.Dashboard}>
-        <Route exact path="/dashboard">
-          <canvas ref={this.canvasRef} />
+        <Route path="/dashboard">
+          <ChartControl type={ChartType.Bar} data={data} options={options} />
+          <TestRunOverview
+            teamsContext={this.props.teamsContext}
+            readonly={true}
+          />
         </Route>
-        <Route path="/dashboard/:id">
+        <Route exact path="/dashboard/drilldown">
+          <DrillDownChart teamsContext={this.props.teamsContext} />
+        </Route>
+        <Route path="/dashboard/drilldown/:id">
           <DetailedDashboard />
         </Route>
       </div>
     );
   }
 }
-
 export default withRouter(Dashboard);

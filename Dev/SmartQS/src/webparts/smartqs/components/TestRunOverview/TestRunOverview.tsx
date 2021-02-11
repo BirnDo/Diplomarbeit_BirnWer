@@ -12,6 +12,7 @@ import { FontSizes } from "office-ui-fabric-react";
 
 interface ITestRunOverviewProps {
   teamsContext: any;
+  readonly: boolean;
 }
 interface ITestRunOverviewState {
   navLinkGroups: INavLinkGroup[];
@@ -64,6 +65,8 @@ class TestRunOverview extends React.Component<
   setNavLinks(testRunsInfo: TestRunModelMin[]) {
     let navLinks: INavLink[] = [];
 
+    const urlPath =
+      "/" + this.props["history"]["location"]["pathname"].split("/")[1];
     // sort test Runs by createdOn Date
     testRunsInfo.sort((x, y) => {
       return new Date(y.createdOn).getTime() - new Date(x.createdOn).getTime();
@@ -74,8 +77,15 @@ class TestRunOverview extends React.Component<
         var element: INavLink = {
           key: value._id,
           name: value.name,
-          url: "#/runTest/" + value._id,
+          url: "#" + urlPath + "/" + value._id,
         };
+        if (
+          this.props.readonly &&
+          (value.finished == true || value.finished == false)
+        )
+          // if nav is readonly, the doneOn Date should be listed
+          element.name =
+            value.name + " " + new Date(value.doneOn).toLocaleDateString();
         if (value.finished) element.icon = "success";
         else if (value.finished == false) element.icon = "failure";
         navLinks.push(element);
@@ -94,6 +104,8 @@ class TestRunOverview extends React.Component<
     const id = this.props["history"]["location"]["pathname"].split("/")[2]
       ? this.props["history"]["location"]["pathname"].split("/")[2]
       : null;
+    const urlPath =
+      "/" + this.props["history"]["location"]["pathname"].split("/")[1];
 
     return (
       <div className={styles.TestRunOverview}>
@@ -114,8 +126,11 @@ class TestRunOverview extends React.Component<
           />
         </div>
         <div className={styles.Testrun}>
-          <Route path="/runTest/:id">
-            <TestRun reloadTestRunNav={this.reloadTestRunNav} />
+          <Route path={urlPath + "/:id"}>
+            <TestRun
+              reloadTestRunNav={this.reloadTestRunNav}
+              readonly={this.props.readonly}
+            />
           </Route>
         </div>
       </div>

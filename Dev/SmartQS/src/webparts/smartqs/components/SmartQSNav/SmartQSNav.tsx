@@ -99,9 +99,16 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
             </Route>
             <Route path="/dashboard">
               <Dashboard teamsContext={this.props.teamsContext} />
+              {/* <TestRunOverview
+                teamsContext={this.props.teamsContext}
+                readonly={true}
+              /> */}
             </Route>
             <Route path="/runTest">
-              <TestRunOverview teamsContext={this.props.teamsContext} />
+              <TestRunOverview
+                teamsContext={this.props.teamsContext}
+                readonly={false}
+              />
             </Route>
             <Route path="/createTest">
               <TestRunForms teamsContext={this.props.teamsContext} />

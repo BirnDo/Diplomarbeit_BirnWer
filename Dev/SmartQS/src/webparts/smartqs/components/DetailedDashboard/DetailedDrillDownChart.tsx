@@ -8,7 +8,7 @@ import {
 import Chart from "chart.js";
 import TestRunModelMin from "../../model/TestRunModelMin";
 import TestRunModel from "../../model/TestRunModel";
-import styles from "./DetailedDashboard.module.scss";
+import styles from "./DetailedDrillDownChart.module.scss";
 import {
   css,
   classNamesFunction,
@@ -38,8 +38,8 @@ import {
 } from "office-ui-fabric-react";
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
 
-interface IDetailedDashboardProps {}
-interface IDetailedDashboardState {
+interface IDetailedDrillDownChartProps {}
+interface IDetailedDrillDownChartState {
   showModal: boolean;
   title: string;
   description: string;
@@ -47,9 +47,9 @@ interface IDetailedDashboardState {
   comments: string;
 }
 
-class DetailedDashboard extends React.Component<
-  IDetailedDashboardProps,
-  IDetailedDashboardState
+class DetailedDrillDownChart extends React.Component<
+  IDetailedDrillDownChartProps,
+  IDetailedDrillDownChartState
 > {
   chart: Chart;
   canvasRef: any;
@@ -194,7 +194,7 @@ class DetailedDashboard extends React.Component<
     this.setState({ showModal: false });
   };
 
-  public render(): React.ReactElement<IDetailedDashboardState> {
+  public render(): React.ReactElement<IDetailedDrillDownChartProps> {
     const { title, description, image, comments } = this.state;
     const cancelIcon: IIconProps = { iconName: "Cancel" };
 
@@ -207,7 +207,7 @@ class DetailedDashboard extends React.Component<
           disabled={false}
           checked={false}
           text="zurück"
-          onClick={() => this.props["history"].push("/dashboard")}
+          onClick={() => this.props["history"].push("/dashboard/drilldown")}
         />
         <canvas ref={this.canvasRef} />
         <Modal
@@ -280,4 +280,4 @@ const iconButtonStyles = {
   },
 };
 
-export default withRouter(DetailedDashboard);
+export default withRouter(DetailedDrillDownChart);

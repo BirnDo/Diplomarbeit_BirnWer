@@ -12,6 +12,7 @@ import {
   IIconProps,
   ThemeSettingName,
   values,
+  Label,
 } from "office-ui-fabric-react";
 import { useId, useBoolean } from "@uifabric/react-hooks";
 import {
@@ -36,6 +37,7 @@ export interface ITestCaseProps {
   key: number;
   index: number;
   testCase: TestCaseModel;
+  readonly: boolean;
   updateTestCase: (index: number, testCase: TestCaseModel) => void;
   updateActiveStatus: (index: number, active: boolean) => void;
 }
@@ -107,7 +109,11 @@ export default class TestCase extends React.Component<
    * @return {*}
    */
   renderStatusButton(index: number, testCase: TestCaseModel) {
-    if (testCase.status == null && testCase.active == true) {
+    if (
+      testCase.status == null &&
+      testCase.active == true &&
+      !this.props.readonly
+    ) {
       return (
         <div className={styles.Button}>
           <div className={styles.Group}>
@@ -156,13 +162,21 @@ export default class TestCase extends React.Component<
     }
   }
 
-  handleRichText(text: string) {
-    this.setState({ comments: text });
-    return text;
+  renderErrorMessage(): React.ReactNode {
+    const { testCase } = this.props;
+
+    if (testCase.comments != "")
+      return (
+        <>
+          <Label>Fehlermeldung</Label>
+          <RichText isEditMode={false} value={testCase.comments} />
+        </>
+      );
   }
 
-  public render(): React.ReactElement<ITestCaseProps> {
-    const { testCase, index } = this.props;
+  renderPopups(): React.ReactNode {
+    const { testCase, index, readonly } = this.props;
+
     const cancelIcon: IIconProps = { iconName: "Cancel" };
     const dialogStyles = {
       main: {
@@ -175,17 +189,8 @@ export default class TestCase extends React.Component<
       isBlocking: false,
       styles: dialogStyles,
     };
-
-    return (
-      <div className={styles.TestCase}>
-        <div className={styles.Content}>
-          <div className={styles.Counter}>{index + 1}</div>
-          <div className={styles.Text} onClick={this.showModal}>
-            {testCase.title}
-          </div>
-          {this.renderStatus(testCase)}
-        </div>
-        {this.renderStatusButton(index, testCase)}
+    if (readonly)
+      return (
         <Modal
           isOpen={this.state.showModel}
           onDismiss={this.hideModal}
@@ -203,63 +208,113 @@ export default class TestCase extends React.Component<
           </div>
           <div className={contentStyles.body}>
             <RichText isEditMode={false} value={testCase.description} />
+            {this.renderErrorMessage()}
           </div>
         </Modal>
-        <Dialog
-          hidden={!this.state.showErrorDialog}
-          onDismiss={this.hideErrorDialog}
-          dialogContentProps={{
-            type: DialogType.largeHeader,
-            title: "Was hat nicht funktioniert?",
-          }}
-          modalProps={modelProps}
-        >
-          {() => {
-            console.log(testCase.description);
-          }}
-          <RichText isEditMode={false} value={testCase.description} />
-          <RichText
-            className={styles.RichText}
-            onChange={(value) => this.handleRichText(value)}
-          />
-          <DialogFooter>
-            <PrimaryButton
-              onClick={() => {
-                this.hideErrorDialog();
-                testCase.comments = this.state.comments;
-                this.updateTestStatus(index, testCase, "faulty"); // sets the status of the current test case to false
-              }}
-              text="Speichern"
+      );
+    else
+      return (
+        <>
+          <Modal
+            isOpen={this.state.showModel}
+            onDismiss={this.hideModal}
+            isBlocking={false}
+            containerClassName={contentStyles.container}
+          >
+            <div className={contentStyles.header}>
+              <span>{testCase.title}</span>
+              <IconButton
+                styles={iconButtonStyles}
+                iconProps={cancelIcon}
+                ariaLabel="Close popup modal"
+                onClick={this.hideModal}
+              />
+            </div>
+            <div className={contentStyles.body}>
+              <RichText isEditMode={false} value={testCase.description} />
+            </div>
+          </Modal>
+          <Dialog
+            hidden={!this.state.showErrorDialog}
+            onDismiss={this.hideErrorDialog}
+            dialogContentProps={{
+              type: DialogType.largeHeader,
+              title: "Was hat nicht funktioniert?",
+            }}
+            modalProps={modelProps}
+          >
+            {() => {
+              console.log(testCase.description);
+            }}
+            <RichText isEditMode={false} value={testCase.description} />
+            <RichText
+              className={styles.RichText}
+              onChange={(value) => this.handleRichText(value)}
             />
-            <DefaultButton onClick={this.hideErrorDialog} text="Abbrechen" />
-          </DialogFooter>
-        </Dialog>
-        <Dialog
-          hidden={!this.state.showOptionalDialog}
-          onDismiss={this.hideOptionalDialog}
-          dialogContentProps={{
-            type: DialogType.largeHeader,
-            title: "Warum ignorieren sie den Test?",
-          }}
-          modalProps={modelProps}
-        >
-          <RichText isEditMode={false} value={testCase.description} />
-          <RichText
-            className={styles.RichText}
-            onChange={(value) => this.handleRichText(value)}
-          />
-          <DialogFooter>
-            <PrimaryButton
-              onClick={() => {
-                this.hideOptionalDialog();
-                testCase.comments = this.state.comments;
-                this.updateTestStatus(index, testCase, "optional"); // sets the status of the current test case to false
-              }}
-              text="Speichern"
+            <DialogFooter>
+              <PrimaryButton
+                onClick={() => {
+                  this.hideErrorDialog();
+                  testCase.comments = this.state.comments;
+                  this.updateTestStatus(index, testCase, "faulty"); // sets the status of the current test case to false
+                }}
+                text="Speichern"
+              />
+              <DefaultButton onClick={this.hideErrorDialog} text="Abbrechen" />
+            </DialogFooter>
+          </Dialog>
+          <Dialog
+            hidden={!this.state.showOptionalDialog}
+            onDismiss={this.hideOptionalDialog}
+            dialogContentProps={{
+              type: DialogType.largeHeader,
+              title: "Warum ignorieren sie den Test?",
+            }}
+            modalProps={modelProps}
+          >
+            <RichText isEditMode={false} value={testCase.description} />
+            <RichText
+              className={styles.RichText}
+              onChange={(value) => this.handleRichText(value)}
             />
-            <DefaultButton onClick={this.hideErrorDialog} text="Abbrechen" />
-          </DialogFooter>
-        </Dialog>
+            <DialogFooter>
+              <PrimaryButton
+                onClick={() => {
+                  this.hideOptionalDialog();
+                  testCase.comments = this.state.comments;
+                  this.updateTestStatus(index, testCase, "optional"); // sets the status of the current test case to false
+                }}
+                text="Speichern"
+              />
+              <DefaultButton
+                onClick={this.hideOptionalDialog}
+                text="Abbrechen"
+              />
+            </DialogFooter>
+          </Dialog>
+        </>
+      );
+  }
+
+  handleRichText(text: string) {
+    this.setState({ comments: text });
+    return text;
+  }
+
+  public render(): React.ReactElement<ITestCaseProps> {
+    const { testCase, index } = this.props;
+
+    return (
+      <div className={styles.TestCase}>
+        <div className={styles.Content}>
+          <div className={styles.Counter}>{index + 1}</div>
+          <div className={styles.Text} onClick={this.showModal}>
+            {testCase.title}
+          </div>
+          {this.renderStatus(testCase)}
+        </div>
+        {this.renderStatusButton(index, testCase)}
+        {this.renderPopups()}
       </div>
     );
   }

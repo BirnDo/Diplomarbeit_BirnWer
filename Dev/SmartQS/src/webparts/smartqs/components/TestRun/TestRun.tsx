@@ -37,6 +37,7 @@ import { times } from "lodash";
 
 interface ITestRunProps {
   reloadTestRunNav: () => void;
+  readonly: boolean;
 }
 interface ITestRunState extends TestRunModel {
   showTesterDialog: boolean;
@@ -168,6 +169,8 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       deadline,
       testCases,
     } = this.state;
+    const urlPath =
+      "/" + this.props["history"]["location"]["pathname"].split("/")[1];
 
     finished = null; // reset the finished flag
     createdOn = new Date().toISOString();
@@ -202,7 +205,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       .then(async (response) => {
         const body = await response.json();
         await this.props.reloadTestRunNav();
-        this.props["history"].push("/runTest/" + body._id);
+        this.props["history"].push(urlPath + "/" + body._id);
       })
       .catch((rejected) => console.log(rejected));
   }
@@ -250,25 +253,24 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     }
   };
 
-  renderTestCases() {
+  renderTestCases(readonly: boolean) {
     const { testCases } = this.state;
     let renderedTestCases: React.ReactElement[] = [];
 
-    {
-      testCases.map((value, index) => {
-        renderedTestCases.push(
-          <div key={index}>
-            <TestCase
-              key={index}
-              index={index}
-              testCase={value}
-              updateTestCase={this.updateTestCase}
-              updateActiveStatus={this.updateActiveStatus}
-            />
-          </div>
-        );
-      });
-    }
+    testCases.map((value, index) => {
+      renderedTestCases.push(
+        <div key={index}>
+          <TestCase
+            key={index}
+            index={index}
+            testCase={value}
+            updateTestCase={this.updateTestCase}
+            updateActiveStatus={this.updateActiveStatus}
+            readonly={readonly}
+          />
+        </div>
+      );
+    });
 
     return renderedTestCases;
   }
@@ -373,15 +375,19 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       nextYearAriaLabel: "Go to next year",
       closeButtonAriaLabel: "Close date picker",
     };
-
     if (_id == null) return <></>;
-    return (
-      <>
-        <Stack {...columnPropsVertical}>
-          <Label>Frist: {new Date(deadline).toLocaleDateString()}</Label>
+    if (this.props.readonly == true)
+      return (
+        <Stack {...columnPropsVertical}>{this.renderTestCases(true)}</Stack>
+      );
+    else
+      return (
+        <>
+          <Stack {...columnPropsVertical}>
+            <Label>Frist: {new Date(deadline).toLocaleDateString()}</Label>
 
-          {this.renderTestCases()}
-          {/* <ListView
+            {this.renderTestCases(false)}
+            {/* <ListView
           items={data}
           viewFields={viewFields}
           iconFieldName="ServerRelativeUrl"
@@ -391,74 +397,74 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
           dragDropFiles={false}
           stickyHeader={true}
         /> */}
-          <Stack horizontal {...columnPropsHorizontal}>
-            {this.renderSaveButton()}
-            <DefaultButton
-              disabled={false}
-              checked={false}
-              text="Test erneut durchführen"
-              onClick={this.showCopyDialog}
-              allowDisabledFocus={true}
-            />
+            <Stack horizontal {...columnPropsHorizontal}>
+              {this.renderSaveButton()}
+              <DefaultButton
+                disabled={false}
+                checked={false}
+                text="Test erneut durchführen"
+                onClick={this.showCopyDialog}
+                allowDisabledFocus={true}
+              />
+            </Stack>
           </Stack>
-        </Stack>
-        <Dialog
-          hidden={!this.state.showTesterDialog}
-          onDismiss={this.hideTesterDialog}
-          dialogContentProps={{
-            type: DialogType.largeHeader,
-            title: "Wer hat den Test durchgeführt?",
-          }}
-          modalProps={modelProps}
-        >
-          <TextField
-            onChange={(value) => {
-              this.setState({ tester: value.target["value"] });
+          <Dialog
+            hidden={!this.state.showTesterDialog}
+            onDismiss={this.hideTesterDialog}
+            dialogContentProps={{
+              type: DialogType.largeHeader,
+              title: "Wer hat den Test durchgeführt?",
             }}
-          />
-          <DialogFooter>
-            <PrimaryButton
-              onClick={() => {
-                this.hideTesterDialog();
-                this.updateTestRun();
+            modalProps={modelProps}
+          >
+            <TextField
+              onChange={(value) => {
+                this.setState({ tester: value.target["value"] });
               }}
-              text="Speichern"
             />
-            <DefaultButton onClick={this.hideTesterDialog} text="Abbrechen" />
-          </DialogFooter>
-        </Dialog>
-        <Dialog
-          hidden={!this.state.showCopyDialog}
-          onDismiss={this.hideCopyDialog}
-          dialogContentProps={{
-            type: DialogType.largeHeader,
-            title: "Was ist die neue Frist?",
-          }}
-          modalProps={modelProps}
-        >
-          <DatePicker
-            firstDayOfWeek={DayOfWeek.Monday}
-            strings={DayPickerStrings}
-            placeholder="Datum auswählen"
-            ariaLabel="Select a date"
-            label="Frist"
-            onSelectDate={(e) => {
-              this.setState({ newDeadline: e.toISOString() });
+            <DialogFooter>
+              <PrimaryButton
+                onClick={() => {
+                  this.hideTesterDialog();
+                  this.updateTestRun();
+                }}
+                text="Speichern"
+              />
+              <DefaultButton onClick={this.hideTesterDialog} text="Abbrechen" />
+            </DialogFooter>
+          </Dialog>
+          <Dialog
+            hidden={!this.state.showCopyDialog}
+            onDismiss={this.hideCopyDialog}
+            dialogContentProps={{
+              type: DialogType.largeHeader,
+              title: "Was ist die neue Frist?",
             }}
-          />
-          <DialogFooter>
-            <PrimaryButton
-              onClick={() => {
-                this.hideCopyDialog();
-                this.copyTestRun();
+            modalProps={modelProps}
+          >
+            <DatePicker
+              firstDayOfWeek={DayOfWeek.Monday}
+              strings={DayPickerStrings}
+              placeholder="Datum auswählen"
+              ariaLabel="Select a date"
+              label="Frist"
+              onSelectDate={(e) => {
+                this.setState({ newDeadline: e.toISOString() });
               }}
-              text="Speichern"
             />
-            <DefaultButton onClick={this.hideCopyDialog} text="Abbrechen" />
-          </DialogFooter>
-        </Dialog>
-      </>
-    );
+            <DialogFooter>
+              <PrimaryButton
+                onClick={() => {
+                  this.hideCopyDialog();
+                  this.copyTestRun();
+                }}
+                text="Speichern"
+              />
+              <DefaultButton onClick={this.hideCopyDialog} text="Abbrechen" />
+            </DialogFooter>
+          </Dialog>
+        </>
+      );
   }
 }
 
