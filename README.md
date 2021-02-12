@@ -51,9 +51,7 @@ https://M365x750080.sharepoint.com
 * tenet property mit baseurl
 * azure ad authentifizierung
 * beschreibugn ändert sich nicht beim reorder
-* dashboard neu
 * zeitleiste bei bar chart
 * gesamt statisik testruns/testcases
-* dashboard test durchfhüren component mit datum nebenbei
 * property drill down ja nein
 * grid view bei tests erstellen
