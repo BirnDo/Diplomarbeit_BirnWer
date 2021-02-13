@@ -1,7 +1,11 @@
 import express from "express";
 var router = express.Router();
 
+require("../mongo").connect();
+
 var testDefinitionService = require("../testDefinition-service");
+var statisticsService = require("../statistics-service");
+var minimalTestDefinitionService = require("../minimalTestDefinition-service");
 
 //#region swagger definitions
 /**
@@ -65,12 +69,6 @@ var testDefinitionService = require("../testDefinition-service");
  *         type: string
  *       channel:
  *         type: string
- *   InvalidResponse:
- *     properties:
- *       statusCode:
- *         type: string
- *       message:
- *         type: string
  *   TestCase:
  *     properties:
  *       title:
@@ -90,11 +88,26 @@ var testDefinitionService = require("../testDefinition-service");
  */
 //#endregion
 
+//#region tags
+/**
+ * @swagger
+ * tags:
+ *  - name: "Test Definitions"
+ *    description: "All APIs for Test Defintions"
+ *  - name: "Minimal Test Definitions"
+ *    description: "All APIs for Minimal Test Defintions"
+ *  - name: "Statistics"
+ *    description: "All APIs for Statistics"
+ */
+//#endregion
+
 //#region swagger
 /**
  * @swagger
  * /testDefinitions:
  *   get:
+ *     tags:
+ *       - "Test Definitions"
  *     description:  Get all the TestDefinitions
  *     produces:
  *       - application/json
@@ -114,22 +127,64 @@ router.get("/testDefinitions", function (req: any, res: any) {
 //#region swagger
 /**
  * @swagger
- * /minimalTestDefinitions:
+ * /testDefinitions/{channelID}:
  *   get:
- *     description:  get minmal Definitions
+ *     tags:
+ *       - "Test Definitions"
+ *     description: returns all Tests for the given channel
  *     produces:
  *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: channelID
+ *         in: path
+ *         description: the ID of the channel
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
  *         description: successful operations
  *         schema:
  *           type: array
  *           items:
- *             $ref: '#/definitions/MinimalTestDefinition'
+ *             $ref: '#/definitions/TestDefinition'
  */
 //#endregion
-router.get("/minimalTestDefinitions", function (req: any, res: any) {
-  testDefinitionService.getMinimalTestDefinitions(req, res);
+router.get("/testDefinitions/:channelID", function (req: any, res: any) {
+  testDefinitionService.getTestDefinitionsByChannel(req, res);
+});
+
+//#region swagger
+/**
+ * @swagger
+ * /testDefinitionsByTester/{tester}:
+ *   get:
+ *     tags:
+ *       - "Test Definitions"
+ *     description: returns all Tests for one Tester, Legacy API
+ *     deprecated: true
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: tester
+ *         in: path
+ *         description: email-address of the tester
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/TestDefinition'
+ */
+//#endregion
+router.get("/testDefintionsByTester/:tester", function (req: any, res: any) {
+  testDefinitionService.getTestDefinitionsByTester(req, res);
 });
 
 //#region swagger
@@ -137,6 +192,8 @@ router.get("/minimalTestDefinitions", function (req: any, res: any) {
  * @swagger
  * /finishedTestDefinitions:
  *   get:
+ *     tags:
+ *       - "Test Definitions"
  *     description:  get finished tests
  *     produces:
  *       - application/json
@@ -158,6 +215,8 @@ router.get("/finishedTestDefinitions", function (req: any, res: any) {
  * @swagger
  * /testDefinitionById/{_id}:
  *   get:
+ *     tags:
+ *       - "Test Definitions"
  *     description: get the Defintion with thte specified _id
  *     produces:
  *       - application/json
@@ -183,6 +242,8 @@ router.get("/testDefinitionById/:_id", function (req: any, res: any) {
  * @swagger
  * /addTestDefinition:
  *   post:
+ *     tags:
+ *       - "Test Definitions"
  *     description: add a new Test Definition
  *     produces:
  *       - application/json
@@ -237,6 +298,8 @@ router.post("/addTestDefinition", function (req: any, res: any) {
  * @swagger
  * /updateTestDefinition/{_id}:
  *   post:
+ *     tags:
+ *       - "Test Definitions"
  *     description: update the testDefinition with the given _id
  *     produces:
  *       - application/json
@@ -294,8 +357,10 @@ router.post("/updateTestDefinition/:_id", function (req: any, res: any) {
 //#region swagger
 /**
  * @swagger
- * /deleteTestDefiniiton/{_id}:
+ * /deleteTestDefiniton/{_id}:
  *   delete:
+ *     tags:
+ *       - "Test Definitions"
  *     description: deletets the Test with the specified _id
  *     produces:
  *       - application/json
@@ -323,6 +388,8 @@ router.delete("/deleteTestDefiniton/:_id", function (req: any, res: any) {
  * @swagger
  * /testCasesByDefinitionId/{_id}:
  *   get:
+ *     tags:
+ *       - "Test Definitions"
  *     description: returns the TestCases from the test with the specified _id
  *     produces:
  *       - application/json
@@ -350,133 +417,10 @@ router.get("/testCasesByDefinitionId/:_id", function (req: any, res: any) {
 //#region swagger
 /**
  * @swagger
- * /testDefinitionsByTester/{tester}:
- *   get:
- *     description: returns all Tests for one Tester
- *     produces:
- *       - application/json
- *     consumes:
- *       - application/json
- *     parameters:
- *       - name: tester
- *         in: path
- *         description: email-address of the tester
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: successful operations
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/TestDefinition'
- */
-//#endregion
-router.get("/testDefintionsByTester/:tester", function (req: any, res: any) {
-  testDefinitionService.getTestDefinitionsByTester(req, res);
-});
-
-//#region swagger
-/**
- * @swagger
- * /minimalTestDefintionsByTester/{tester}:
- *   get:
- *     description: returns all Minimal Tests for one Tester
- *     produces:
- *       - application/json
- *     consumes:
- *       - application/json
- *     parameters:
- *       - name: tester
- *         in: path
- *         description: email-address of the tester
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: successful operations
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/MinimalTestDefinition'
- */
-//#endregion
-router.get(
-  "/minimalTestDefintionsByTester/:tester",
-  function (req: any, res: any) {
-    testDefinitionService.getMinimalTestDefinitionsByTester(req, res);
-  }
-);
-
-//#region swagger
-/**
- * @swagger
- * /testDefinitionsByChannelID/{channelID}:
- *   get:
- *     description: returns all Tests for the given channel
- *     produces:
- *       - application/json
- *     consumes:
- *       - application/json
- *     parameters:
- *       - name: tester
- *         in: path
- *         description: the ID of the channel
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: successful operations
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/TestDefinition'
- */
-//#endregion
-router.get(
-  "/testDefinitionsByChannelID/:channelID",
-  function (req: any, res: any) {
-    testDefinitionService.getTestDefinitionsByChannel(req, res);
-  }
-);
-
-//#region swagger
-/**
- * @swagger
- * /minimalTestDefinitionsByChannelID/{channelID}:
- *   get:
- *     description: returns all Minimal Tests for the given channel
- *     produces:
- *       - application/json
- *     consumes:
- *       - application/json
- *     parameters:
- *       - name: tester
- *         in: path
- *         description: the ID of the channel
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: successful operations
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/MinimalTestDefinition'
- */
-//#endregion
-router.get(
-  "/minimalTestDefinitionsByChannelID/:channelID",
-  function (req: any, res: any) {
-    testDefinitionService.getMinimalTestDefinitionsByChannel(req, res);
-  }
-);
-
-//#region swagger
-/**
- * @swagger
  * /getDefinitionsByTimePeriod:
  *   post:
+ *     tags:
+ *       - "Test Definitions"
  *     description: returns all Tests in a given Time period
  *     produces:
  *       - application/json
@@ -509,8 +453,10 @@ router.post("/getDefinitionsByTimePeriod", function (req: any, res: any) {
 //#region swagger
 /**
  * @swagger
- * /getDefinitionsByTimePeriodAndChannel/{channelID}:
+ * /getDefinitionsByTimePeriod/{channelID}:
  *   post:
+ *     tags:
+ *       - "Test Definitions"
  *     description: returns all Tests in a given Time period for a given channel
  *     produces:
  *       - application/json
@@ -542,7 +488,7 @@ router.post("/getDefinitionsByTimePeriod", function (req: any, res: any) {
  */
 //#endregion
 router.post(
-  "/getDefinitionsByTimePeriodAndChannel/:channelID",
+  "/getDefinitionsByTimePeriod/:channelID",
   function (req: any, res: any) {
     testDefinitionService.getDefinitionsByTimePeriodAndChannel(req, res);
   }
@@ -551,9 +497,183 @@ router.post(
 //#region swagger
 /**
  * @swagger
+ * /minimalTestDefinitions:
+ *   get:
+ *     tags:
+ *       - "Minimal Test Definitions"
+ *     description:  get minmal Definitions
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/MinimalTestDefinition'
+ */
+//#endregion
+router.get("/minimalTestDefinitions", function (req: any, res: any) {
+  minimalTestDefinitionService.getMinimalTestDefinitions(req, res);
+});
+
+//#region swagger
+/**
+ * @swagger
+ * /minimalTestDefinitions/{channelID}:
+ *   get:
+ *     tags:
+ *       - "Minimal Test Definitions"
+ *     description: returns all Minimal Tests for the given channel
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: channelID
+ *         in: path
+ *         description: the ID of the channel
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/MinimalTestDefinition'
+ */
+//#endregion
+router.get("/minimalTestDefinitions/:channelID", function (req: any, res: any) {
+  minimalTestDefinitionService.getMinimalTestDefinitionsByChannel(req, res);
+});
+
+//#region swagger
+/**
+ * @swagger
+ * /minimalTestDefintionsByTester/{tester}:
+ *   get:
+ *     tags:
+ *       - "Minimal Test Definitions"
+ *     description: returns all Minimal Tests for one Tester, Legacy API
+ *     deprecated: true
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: tester
+ *         in: path
+ *         description: email-address of the tester
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/MinimalTestDefinition'
+ */
+//#endregion
+router.get(
+  "/minimalTestDefintionsByTester/:tester",
+  function (req: any, res: any) {
+    minimalTestDefinitionService.getMinimalTestDefinitionsByTester(req, res);
+  }
+);
+
+//#region swagger
+/**
+ * @swagger
+ * /getMinimalDefinitionsByTimePeriod:
+ *   post:
+ *     tags:
+ *       - "Minimal Test Definitions"
+ *     description: returns all minimal Tests in a given Time period
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: startTime
+ *         in: body
+ *         description: the start Date
+ *         required: true
+ *         type: string
+ *       - name: endTime
+ *         in: body
+ *         description: the end Date (if not given defaults to current Date)
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/MinimalTestDefinition'
+ */
+//#endregion
+router.post(
+  "/getMinimalDefinitionsByTimePeriod",
+  function (req: any, res: any) {
+    minimalTestDefinitionService.getTestDefinitionsByTimePeriod(req, res);
+  }
+);
+
+//#region swagger
+/**
+ * @swagger
+ * /getMinimalDefinitionsByTimePeriod/{channelID}:
+ *   post:
+ *     tags:
+ *       - "Minimal Test Definitions"
+ *     description: returns all minimal Tests in a given Time period for a given channel
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: channelID
+ *         in: path
+ *         description: the channelID
+ *         required: true
+ *         type: string
+ *       - name: startTime
+ *         in: body
+ *         description: the start Date
+ *         required: true
+ *         type: string
+ *       - name: endTime
+ *         in: body
+ *         description: the end Date (if not given defaults to current Date)
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/MinimalTestDefinition'
+ */
+//#endregion
+router.post(
+  "/getMinimalDefinitionsByTimePeriod/:channelID",
+  function (req: any, res: any) {
+    minimalTestDefinitionService.getDefinitionsByTimePeriodAndChannel(req, res);
+  }
+);
+
+//#region swagger
+/**
+ * @swagger
  * /getSuccessStatistics:
  *   get:
- *     description: returns successful, unsuccelssful and not finished tests
+ *     tags:
+ *       - "Statistics"
+ *     description: returns successful, failed and not finished tests
  *     produces:
  *       - application/json
  *     responses:
@@ -574,15 +694,17 @@ router.post(
  */
 //#endregion
 router.get("/getSuccessStatistics", function (req: any, res: any) {
-  testDefinitionService.getSuccessStatistics(req, res);
+  statisticsService.getSuccessStatistics(req, res);
 });
 
 //#region swagger
 /**
  * @swagger
- * /getSuccessStatisticsByChannel/{channelID}:
+ * /getSuccessStatistics/{channelID}:
  *   get:
- *     description: returns successful, unsuccelssful and not finished tests for te given channel
+ *     tags:
+ *       - "Statistics"
+ *     description: returns successful, failed and not finished tests for te given channel
  *     produces:
  *       - application/json
  *     consumes:
@@ -610,10 +732,86 @@ router.get("/getSuccessStatistics", function (req: any, res: any) {
  *               description: the amount of open tests
  */
 //#endregion
+router.get("/getSuccessStatistics/:channelID", function (req: any, res: any) {
+  statisticsService.getSuccessStatisticsByChannelId(req, res);
+});
+
+//#region swagger
+/**
+ * @swagger
+ * /getTestCaseSuccessStatistics:
+ *   get:
+ *     tags:
+ *       - "Statistics"
+ *     description: returns successful, failed, optional and not finished tests
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: object
+ *           properties:
+ *             successful:
+ *               type: integer
+ *               description: the amount of successful tests
+ *             failed:
+ *               type: integer
+ *               description: the amount of failed tests
+ *             optional:
+ *               type: integer
+ *               description: the amount of optional tests
+ *             notDone:
+ *               type: integer
+ *               description: the amount of open tests
+ */
+//#endregion
+router.get("/getTestCaseSuccessStatistics", function (req: any, res: any) {
+  statisticsService.getTestCaseSuccessStatistics(req, res);
+});
+
+//#region swagger
+/**
+ * @swagger
+ * /getTestCaseSuccessStatistics/{channelID}:
+ *   get:
+ *     tags:
+ *       - "Statistics"
+ *     description: returns successful, failed, optional and not finished tests
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: channelID
+ *         in: path
+ *         description: the channelID
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: object
+ *           properties:
+ *             successful:
+ *               type: integer
+ *               description: the amount of successful tests
+ *             failed:
+ *               type: integer
+ *               description: the amount of failed tests
+ *             optional:
+ *               type: integer
+ *               description: the amount of optional tests
+ *             notDone:
+ *               type: integer
+ *               description: the amount of open tests
+ */
+//#endregion
 router.get(
-  "/getSuccessStatisticsByChannel/:channelID",
+  "/getTestCaseSuccessStatistics/:channelID",
   function (req: any, res: any) {
-    testDefinitionService.getSuccessStatisticsByChannelId(req, res);
+    statisticsService.getTestCaseSuccessStatisticsByChannelId(req, res);
   }
 );
 

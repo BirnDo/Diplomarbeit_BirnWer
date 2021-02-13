@@ -1,7 +1,5 @@
-import TestDefinition, { MinimalDefinition } from "./testDefinition-model";
+import TestDefinition from "./testDefinition-model";
 import { ReadPreference } from "mongodb";
-
-require("./mongo").connect();
 
 //returns all Testdefinitions
 function get(req: any, res: any) {
@@ -12,30 +10,6 @@ function get(req: any, res: any) {
     })
     .catch((err) => {
       res.status(500).send(err);
-    });
-}
-
-// test Runs without testCasess
-function getMinimalTestDefinitions(req: any, res: any) {
-  TestDefinition.find({})
-    .read(ReadPreference.NEAREST)
-    .then((tests) => {
-      const minimalDefinitions: MinimalDefinition[] = [];
-      tests.forEach((element) => {
-        const minimalDefinition = {
-          _id: element._id,
-          tester: element.tester,
-          createdOn: element.createdOn,
-          deadline: element.deadline,
-          doneOn: element.doneOn,
-          finished: element.finished,
-          __v: element.__v,
-          name: element.name,
-          channelID: element.channelID,
-        };
-        minimalDefinitions.push(minimalDefinition);
-      });
-      res.json(minimalDefinitions);
     });
 }
 
@@ -172,35 +146,6 @@ function getTestDefinitionsByTester(req: any, res: any) {
     });
 }
 
-// for minimal testRuns
-function getMinimalTestDefinitionsByTester(req: any, res: any) {
-  const tester = req.params.tester;
-  TestDefinition.find({})
-    .where("tester")
-    .equals(tester)
-    .then((tests) => {
-      const minimalDefinitions: MinimalDefinition[] = [];
-      tests.forEach((element) => {
-        const minimalDefinition = {
-          _id: element._id,
-          tester: element.tester,
-          createdOn: element.createdOn,
-          deadline: element.deadline,
-          doneOn: element.doneOn,
-          finished: element.finished,
-          __v: element.__v,
-          name: element.name,
-          channelID: element.channelID,
-        };
-        minimalDefinitions.push(minimalDefinition);
-      });
-      res.json(minimalDefinitions);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-}
-
 // tests per Channel
 function getTestDefinitionsByChannel(req: any, res: any) {
   const channelID = req.params.channelID;
@@ -209,35 +154,6 @@ function getTestDefinitionsByChannel(req: any, res: any) {
     .equals(channelID)
     .then((tests) => {
       res.json(tests);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-}
-
-// Minimal Test per channel
-function getMinimalTestDefinitionsByChannel(req: any, res: any) {
-  const channelID = req.params.channelID;
-  TestDefinition.find({})
-    .where("channelID")
-    .equals(channelID)
-    .then((tests) => {
-      const minimalDefinitions: MinimalDefinition[] = [];
-      tests.forEach((element) => {
-        const minimalDefinition = {
-          _id: element._id,
-          tester: element.tester,
-          createdOn: element.createdOn,
-          deadline: element.deadline,
-          doneOn: element.doneOn,
-          finished: element.finished,
-          __v: element.__v,
-          name: element.name,
-          channelID: element.channelID,
-        };
-        minimalDefinitions.push(minimalDefinition);
-      });
-      res.json(minimalDefinitions);
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -287,62 +203,8 @@ function getTestDefinitionsByTimePeriodAndChannelId(req: any, res: any) {
     });
 }
 
-// get Success statistics for all tests
-function getSuccessStatistics(req: any, res: any) {
-  TestDefinition.find({})
-    .then((tests) => {
-      var successful = 0;
-      var failed = 0;
-      var notDone = 0;
-
-      tests.forEach((test) => {
-        if (test.finished == true) {
-          successful++;
-        } else if (test.finished == false) {
-          failed++;
-        } else {
-          notDone++;
-        }
-      });
-
-      res.json({ successful, failed, notDone });
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-}
-
-// get Success statistics for all tests
-function getSuccessStatisticsByChannelId(req: any, res: any) {
-  const channelID = req.params.channelID;
-  TestDefinition.find({})
-    .where("channelID")
-    .equals(channelID)
-    .then((tests) => {
-      var successful = 0;
-      var failed = 0;
-      var notDone = 0;
-
-      tests.forEach((test) => {
-        if (test.finished == true) {
-          successful++;
-        } else if (test.finished == false) {
-          failed++;
-        } else {
-          notDone++;
-        }
-      });
-
-      res.json({ successful, failed, notDone });
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-}
-// get Tests in a time period
 module.exports = {
   get,
-  getMinimalTestDefinitions,
   getFinishedTestDefinitions,
   getById,
   create,
@@ -350,11 +212,7 @@ module.exports = {
   destroy,
   getTestCases,
   getTestDefinitionsByTester,
-  getMinimalTestDefinitionsByTester,
   getTestDefinitionsByChannel,
-  getMinimalTestDefinitionsByChannel,
   getTestDefinitionsByTimePeriod,
   getTestDefinitionsByTimePeriodAndChannelId,
-  getSuccessStatistics,
-  getSuccessStatisticsByChannelId,
 };
