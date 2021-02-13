@@ -58,8 +58,6 @@ function getSuccessStatisticsByTimePeriod(req: any, res: any) {
   const endTime =
     req.body.endTime === undefined ? Date.now() : Date.parse(req.body.endTime);
 
-  console.log(req.body);
-
   TestDefinition.find({})
     .then((tests) => {
       const filteredDefinitions = tests.filter(

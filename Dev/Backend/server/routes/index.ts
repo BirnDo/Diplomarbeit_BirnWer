@@ -51,6 +51,40 @@ var minimalTestDefinitionService = require("../minimalTestDefinition-service");
  *               type: string
  *             required:
  *               type: boolean
+ *   InsertDefinition:
+ *     properties:
+ *       name:
+ *         type: string
+ *       createdOn:
+ *         type: string
+ *       tester:
+ *         type: string
+ *       finished:
+ *         type: boolean
+ *       deadline:
+ *         type: string
+ *       doneOn:
+ *         type: string
+ *       channelID:
+ *         type: string
+ *       testCases:
+ *         type: array
+ *         items:
+ *           properties:
+ *             title:
+ *               type: string
+ *             description:
+ *               type: string
+ *             status:
+ *               type: string
+ *             active:
+ *               type: boolean
+ *             comments:
+ *               type: string
+ *             image:
+ *               type: string
+ *             required:
+ *               type: boolean
  *   MinimalTestDefinition:
  *     properties:
  *       _id:
@@ -85,6 +119,12 @@ var minimalTestDefinitionService = require("../minimalTestDefinition-service");
  *         type: string
  *       required:
  *         type: boolean
+ *   TimePeriod:
+ *     properties:
+ *       startTime:
+ *         type: string
+ *       endTime:
+ *         type: string
  */
 //#endregion
 
@@ -250,38 +290,12 @@ router.get("/testDefinitionById/:_id", function (req: any, res: any) {
  *     consumes:
  *       - application/json
  *     parameters:
- *       - name: name
+ *       - name: body
  *         in: body
- *         description: name of the TestDefinition
+ *         description: The content of the newly created task
  *         required: true
- *         type: string
- *       - name: tester
- *         in: body
- *         description: email of the tester
- *         required: true
- *         type: string
- *       - name: createdOn
- *         in: body
- *         description: Date of creation
- *         required: true
- *         type: string
- *       - name: finished
- *         in: body
- *         description: wether the test is finished or not
- *         required: true
- *         type: boolean
- *       - name: deadline
- *         in: body
- *         description: the Date of the deadline
- *         required: true
- *         type: string
- *       - name: testCases
- *         in: body
- *         description: an array of testCases
- *         required: true
- *         type: array
- *         items:
- *           $ref: '#/definitions/TestCase'
+ *         schema:
+ *           $ref: '#/definitions/InsertDefinition'
  *     responses:
  *       200:
  *         description: successful operations
@@ -311,38 +325,12 @@ router.post("/addTestDefinition", function (req: any, res: any) {
  *         description: _id of the TestDefinition
  *         required: true
  *         type: string
- *       - name: name
+ *       - name: body
  *         in: body
- *         description: name of the TestDefinition
- *         required: fasle
- *         type: string
- *       - name: tester
- *         in: body
- *         description: email of the tester
- *         required: false
- *         type: string
- *       - name: createdOn
- *         in: body
- *         description: Date of creation
- *         required: false
- *         type: string
- *       - name: finished
- *         in: body
- *         description: wether the test is finished or not
- *         required: false
- *         type: boolean
- *       - name: deadline
- *         in: body
- *         description: the Date of the deadline
- *         required: false
- *         type: string
- *       - name: testCases
- *         in: body
- *         description: an array of testCases
- *         required: false
- *         type: array
- *         items:
- *           $ref: '#/definitions/TestCase'
+ *         description: Fields that should get updated, every field is optional, except _id
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/InsertDefinition'
  *     responses:
  *       200:
  *         description: successful operations
@@ -427,16 +415,12 @@ router.get("/testCasesByDefinitionId/:_id", function (req: any, res: any) {
  *     consumes:
  *       - application/json
  *     parameters:
- *       - name: startTime
+ *       - name: body
  *         in: body
- *         description: the start Date
+ *         description: the start and end Date, end Date is optional
  *         required: true
- *         type: string
- *       - name: endTime
- *         in: body
- *         description: the end Date (if not given defaults to current Date)
- *         required: false
- *         type: string
+ *         schema:
+ *           $ref: '#/definitions/TimePeriod'
  *     responses:
  *       200:
  *         description: successful operations
@@ -468,16 +452,12 @@ router.post("/getDefinitionsByTimePeriod", function (req: any, res: any) {
  *         description: the channelID
  *         required: true
  *         type: string
- *       - name: startTime
+ *       - name: body
  *         in: body
- *         description: the start Date
+ *         description: the start and end Date, end Date is optional
  *         required: true
- *         type: string
- *       - name: endTime
- *         in: body
- *         description: the end Date (if not given defaults to current Date)
- *         required: false
- *         type: string
+ *         schema:
+ *           $ref: '#/definitions/TimePeriod'
  *     responses:
  *       200:
  *         description: successful operations
@@ -596,16 +576,12 @@ router.get(
  *     consumes:
  *       - application/json
  *     parameters:
- *       - name: startTime
+ *       - name: body
  *         in: body
- *         description: the start Date
+ *         description: the start and end Date, end Date is optional
  *         required: true
- *         type: string
- *       - name: endTime
- *         in: body
- *         description: the end Date (if not given defaults to current Date)
- *         required: false
- *         type: string
+ *         schema:
+ *           $ref: '#/definitions/TimePeriod'
  *     responses:
  *       200:
  *         description: successful operations
@@ -640,16 +616,12 @@ router.post(
  *         description: the channelID
  *         required: true
  *         type: string
- *       - name: startTime
+ *       - name: body
  *         in: body
- *         description: the start Date
+ *         description: the start and end Date, end Date is optional
  *         required: true
- *         type: string
- *       - name: endTime
- *         in: body
- *         description: the end Date (if not given defaults to current Date)
- *         required: false
- *         type: string
+ *         schema:
+ *           $ref: '#/definitions/TimePeriod'
  *     responses:
  *       200:
  *         description: successful operations
@@ -749,16 +721,12 @@ router.get("/getSuccessStatistics/:channelID", function (req: any, res: any) {
  *     consumes:
  *       - application/json
  *     parameters:
- *       - name: startTime
+ *       - name: body
  *         in: body
- *         description: the start Date
+ *         description: the start and end Date, end Date is optional
  *         required: true
- *         type: string
- *       - name: endTime
- *         in: body
- *         description: the end Date (if not given defaults to current Date)
- *         required: false
- *         type: string
+ *         schema:
+ *           $ref: '#/definitions/TimePeriod'
  *     responses:
  *       200:
  *         description: successful operations
@@ -798,16 +766,12 @@ router.post("/getSuccessStatisticsByTimePeriod", function (req: any, res: any) {
  *         description: the channelID
  *         required: true
  *         type: string
- *       - name: startTime
+ *       - name: body
  *         in: body
- *         description: the start Date
+ *         description: the start and end Date, end Date is optional
  *         required: true
- *         type: string
- *       - name: endTime
- *         in: body
- *         description: the end Date (if not given defaults to current Date)
- *         required: false
- *         type: string
+ *         schema:
+ *           $ref: '#/definitions/TimePeriod'
  *     responses:
  *       200:
  *         description: successful operations
@@ -924,16 +888,12 @@ router.get(
  *     consumes:
  *       - application/json
  *     parameters:
- *       - name: startTime
+ *       - name: body
  *         in: body
- *         description: the start Date
+ *         description: the start and end Date, end Date is optional
  *         required: true
- *         type: string
- *       - name: endTime
- *         in: body
- *         description: the end Date (if not given defaults to current Date)
- *         required: false
- *         type: string
+ *         schema:
+ *           $ref: '#/definitions/TimePeriod'
  *     responses:
  *       200:
  *         description: successful operations
@@ -979,16 +939,12 @@ router.post(
  *         description: the channelID
  *         required: true
  *         type: string
- *       - name: startTime
+ *       - name: body
  *         in: body
- *         description: the start Date
+ *         description: the start and end Date, end Date is optional
  *         required: true
- *         type: string
- *       - name: endTime
- *         in: body
- *         description: the end Date (if not given defaults to current Date)
- *         required: false
- *         type: string
+ *         schema:
+ *           $ref: '#/definitions/TimePeriod'
  *     responses:
  *       200:
  *         description: successful operations
