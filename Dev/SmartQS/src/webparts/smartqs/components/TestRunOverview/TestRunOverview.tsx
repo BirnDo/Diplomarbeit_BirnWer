@@ -8,11 +8,13 @@ import TestRunModel from "../../model/TestRunModel";
 import TestRunModelMin from "../../model/TestRunModelMin";
 import styles from "./TestRunOverview.module.scss";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
-import { FontSizes } from "office-ui-fabric-react";
+import { FontSizes, ThemeSettingName } from "office-ui-fabric-react";
 
 interface ITestRunOverviewProps {
   teamsContext: any;
   readonly: boolean;
+  startDate: string;
+  endDate: string;
 }
 interface ITestRunOverviewState {
   navLinkGroups: INavLinkGroup[];
@@ -34,20 +36,51 @@ class TestRunOverview extends React.Component<
     this.getTestRunMinData();
   }
 
+  componentWillReceiveProps(prevProps: object) {
+    /* if (
+      prevProps["startDate"] != this.props.startDate ||
+      prevProps["endDate"] != this.props.endDate
+    ) { */
+
+    console.log(
+      "🚀 ~ file: TestRunOverview.tsx ~ line 44 ~ componentWillReceiveProps ~ this.props.startDate",
+      this.props.startDate
+    );
+    console.log(
+      "🚀 ~ file: TestRunOverview.tsx ~ line 43 ~ componentWillReceiveProps ~ this.props.endDate",
+      this.props.endDate
+    );
+
+    this.getTestRunMinData();
+    //}
+  }
+
   async getTestRunMinData() {
+    const { teamsContext, startDate, endDate } = this.props;
+    let channelID: string = teamsContext ? teamsContext.channelId : "";
     let url: string;
-    if (this.props.teamsContext != null)
+    let requestOptions: any;
+    if (startDate == null) {
+      url = "http://127.0.0.1:3000/minimalTestDefinitions/" + channelID;
+      requestOptions = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      };
+    } else {
       url =
-        "http://127.0.0.1:3000/minimalTestDefinitionsByChannelID/" +
-        this.props.teamsContext.channelId;
-    else url = "http://127.0.0.1:3000/minimalTestDefinitions";
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    };
+        "http://127.0.0.1:3000/getMinimalDefinitionsByTimePeriod/" + channelID;
+      requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ startDate, endDate }),
+      };
+    }
 
     fetch(url, requestOptions)
       .then(async (response) => {
@@ -94,6 +127,7 @@ class TestRunOverview extends React.Component<
       let navLinkGroups: INavLinkGroup[] = [
         { name: "Test Runs", links: navLinks },
       ];
+      console.log(navLinkGroups);
 
       this.setState({ navLinkGroups: navLinkGroups });
     }
