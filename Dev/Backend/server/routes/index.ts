@@ -121,9 +121,9 @@ var minimalTestDefinitionService = require("../minimalTestDefinition-service");
  *         type: boolean
  *   TimePeriod:
  *     properties:
- *       startTime:
+ *       startDate:
  *         type: string
- *       endTime:
+ *       endDate:
  *         type: string
  */
 //#endregion
@@ -417,7 +417,7 @@ router.get("/testCasesByDefinitionId/:_id", function (req: any, res: any) {
  *     parameters:
  *       - name: body
  *         in: body
- *         description: the start and end Date, end Date is optional
+ *         description: the start and end Date, end Date can be null and will be replaced with the current Date
  *         required: true
  *         schema:
  *           $ref: '#/definitions/TimePeriod'
@@ -454,7 +454,7 @@ router.post("/getDefinitionsByTimePeriod", function (req: any, res: any) {
  *         type: string
  *       - name: body
  *         in: body
- *         description: the start and end Date, end Date is optional
+ *         description: the start and end Date, end Date can be null and will be replaced with the current Date
  *         required: true
  *         schema:
  *           $ref: '#/definitions/TimePeriod'
@@ -578,7 +578,7 @@ router.get(
  *     parameters:
  *       - name: body
  *         in: body
- *         description: the start and end Date, end Date is optional
+ *         description: the start and end Date, end Date can be null and will be replaced with the current Date
  *         required: true
  *         schema:
  *           $ref: '#/definitions/TimePeriod'
@@ -621,7 +621,7 @@ router.post(
  *         type: string
  *       - name: body
  *         in: body
- *         description: the start and end Date, end Date is optional
+ *         description: the start and end Date, end Date can be null and will be replaced with the current Date
  *         required: true
  *         schema:
  *           $ref: '#/definitions/TimePeriod'
@@ -729,7 +729,7 @@ router.get("/getSuccessStatistics/:channelID", function (req: any, res: any) {
  *     parameters:
  *       - name: body
  *         in: body
- *         description: the start and end Date, end Date is optional
+ *         description: the start and end Date, end Date can be null and will be replaced with the current Date
  *         required: true
  *         schema:
  *           $ref: '#/definitions/TimePeriod'
@@ -774,7 +774,7 @@ router.post("/getSuccessStatisticsByTimePeriod", function (req: any, res: any) {
  *         type: string
  *       - name: body
  *         in: body
- *         description: the start and end Date, end Date is optional
+ *         description: the start and end Date, end Date can be null and will be replaced with the current Date
  *         required: true
  *         schema:
  *           $ref: '#/definitions/TimePeriod'
@@ -896,7 +896,7 @@ router.get(
  *     parameters:
  *       - name: body
  *         in: body
- *         description: the start and end Date, end Date is optional
+ *         description: the start and end Date, end Date can be null and will be replaced with the current Date
  *         required: true
  *         schema:
  *           $ref: '#/definitions/TimePeriod'
@@ -947,7 +947,7 @@ router.post(
  *         type: string
  *       - name: body
  *         in: body
- *         description: the start and end Date, end Date is optional
+ *         description: the start and end Date, end Date can be null and will be replaced with the current Date
  *         required: true
  *         schema:
  *           $ref: '#/definitions/TimePeriod'

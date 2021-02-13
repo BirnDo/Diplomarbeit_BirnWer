@@ -54,16 +54,16 @@ function getSuccessStatisticsByChannelId(req: any, res: any) {
 }
 
 function getSuccessStatisticsByTimePeriod(req: any, res: any) {
-  const startTime = Date.parse(req.body.startTime);
-  const endTime =
-    req.body.endTime === undefined ? Date.now() : Date.parse(req.body.endTime);
+  const startDate = Date.parse(req.body.startDate);
+  const endDate =
+    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
 
   TestDefinition.find({})
     .then((tests) => {
       const filteredDefinitions = tests.filter(
         (test) =>
-          Date.parse("" + test.doneOn) >= startTime &&
-          Date.parse("" + test.doneOn) <= endTime
+          Date.parse("" + test.doneOn) >= startDate &&
+          Date.parse("" + test.doneOn) <= endDate
       );
 
       var successful = 0;
@@ -89,9 +89,9 @@ function getSuccessStatisticsByTimePeriod(req: any, res: any) {
 
 function getSuccessStatisticsByTimePeriodAndChannelId(req: any, res: any) {
   const channelID = req.params.channelID;
-  const startTime = Date.parse(req.body.startTime);
-  const endTime =
-    req.body.endTime === undefined ? Date.now() : Date.parse(req.body.endTime);
+  const startDate = Date.parse(req.body.startDate);
+  const endDate =
+    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
 
   TestDefinition.find({})
     .where("channelID")
@@ -99,8 +99,8 @@ function getSuccessStatisticsByTimePeriodAndChannelId(req: any, res: any) {
     .then((tests) => {
       const filteredDefinitions = tests.filter(
         (test) =>
-          Date.parse("" + test.doneOn) >= startTime &&
-          Date.parse("" + test.doneOn) <= endTime
+          Date.parse("" + test.doneOn) >= startDate &&
+          Date.parse("" + test.doneOn) <= endDate
       );
 
       var successful = 0;
@@ -203,16 +203,16 @@ function getTestCaseSuccessStatisticsByChannelId(req: any, res: any) {
 
 function getTestCaseSuccessStatisticsByTimePeriod(req: any, res: any) {
   var allTestCases: TestCase[] = [];
-  const startTime = Date.parse(req.body.startTime);
-  const endTime =
-    req.body.endTime === undefined ? Date.now() : Date.parse(req.body.endTime);
+  const startDate = Date.parse(req.body.startDate);
+  const endDate =
+    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
 
   TestDefinition.find({})
     .then((tests) => {
       const filteredDefinitions = tests.filter(
         (test) =>
-          Date.parse("" + test.doneOn) >= startTime &&
-          Date.parse("" + test.doneOn) <= endTime
+          Date.parse("" + test.doneOn) >= startDate &&
+          Date.parse("" + test.doneOn) <= endDate
       );
       filteredDefinitions.forEach((test) => {
         test.testCases.forEach((testCase) => {
@@ -251,9 +251,9 @@ function getTestCaseSuccessStatisticsByTimePeriodAndChannelId(
 ) {
   var allTestCases: TestCase[] = [];
   const channelID = req.params.channelID;
-  const startTime = Date.parse(req.body.startTime);
-  const endTime =
-    req.body.endTime === undefined ? Date.now() : Date.parse(req.body.endTime);
+  const startDate = Date.parse(req.body.startDate);
+  const endDate =
+    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
 
   TestDefinition.find({})
     .where("channelID")
@@ -261,8 +261,8 @@ function getTestCaseSuccessStatisticsByTimePeriodAndChannelId(
     .then((tests) => {
       const filteredDefinitions = tests.filter(
         (test) =>
-          Date.parse("" + test.doneOn) >= startTime &&
-          Date.parse("" + test.doneOn) <= endTime
+          Date.parse("" + test.doneOn) >= startDate &&
+          Date.parse("" + test.doneOn) <= endDate
       );
       filteredDefinitions.forEach((test) => {
         test.testCases.forEach((testCase) => {
