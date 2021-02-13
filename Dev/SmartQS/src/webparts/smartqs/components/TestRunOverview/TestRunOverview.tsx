@@ -37,22 +37,7 @@ class TestRunOverview extends React.Component<
   }
 
   componentWillReceiveProps(prevProps: object) {
-    /* if (
-      prevProps["startDate"] != this.props.startDate ||
-      prevProps["endDate"] != this.props.endDate
-    ) { */
-
-    console.log(
-      "🚀 ~ file: TestRunOverview.tsx ~ line 44 ~ componentWillReceiveProps ~ this.props.startDate",
-      this.props.startDate
-    );
-    console.log(
-      "🚀 ~ file: TestRunOverview.tsx ~ line 43 ~ componentWillReceiveProps ~ this.props.endDate",
-      this.props.endDate
-    );
-
     this.getTestRunMinData();
-    //}
   }
 
   async getTestRunMinData() {
