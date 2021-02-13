@@ -923,7 +923,7 @@ router.get(
 router.post(
   "/getTestCaseSuccessStatisticsByTimePeriod",
   function (req: any, res: any) {
-    statisticsService.getTestCaseSuccessStatistics(req, res);
+    statisticsService.getTestCaseSuccessStatisticsByTimePeriod(req, res);
   }
 );
 
@@ -974,7 +974,10 @@ router.post(
 router.post(
   "/getTestCaseSuccessStatisticsByTimePeriod/:channelID",
   function (req: any, res: any) {
-    statisticsService.getTestCaseSuccessStatisticsByChannelId(req, res);
+    statisticsService.getTestCaseSuccessStatisticsByTimePeriodAndChannelId(
+      req,
+      res
+    );
   }
 );
 

@@ -214,13 +214,13 @@ function getTestCaseSuccessStatisticsByTimePeriod(req: any, res: any) {
           Date.parse("" + test.doneOn) >= startDate &&
           Date.parse("" + test.doneOn) <= endDate
       );
+
       filteredDefinitions.forEach((test) => {
         test.testCases.forEach((testCase) => {
           allTestCases.push(testCase);
         });
       });
-    })
-    .then(() => {
+
       var successful = 0;
       var failed = 0;
       var notDone = 0;
@@ -269,8 +269,7 @@ function getTestCaseSuccessStatisticsByTimePeriodAndChannelId(
           allTestCases.push(testCase);
         });
       });
-    })
-    .then(() => {
+
       var successful = 0;
       var failed = 0;
       var notDone = 0;
