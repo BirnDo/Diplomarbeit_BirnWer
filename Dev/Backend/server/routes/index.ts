@@ -739,6 +739,102 @@ router.get("/getSuccessStatistics/:channelID", function (req: any, res: any) {
 //#region swagger
 /**
  * @swagger
+ * /getSuccessStatisticsByTimePeriod:
+ *   post:
+ *     tags:
+ *       - "Statistics"
+ *     description: returns successful, failed and not finished tests
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: startTime
+ *         in: body
+ *         description: the start Date
+ *         required: true
+ *         type: string
+ *       - name: endTime
+ *         in: body
+ *         description: the end Date (if not given defaults to current Date)
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: object
+ *           properties:
+ *             successful:
+ *               type: integer
+ *               description: the amount of successful tests
+ *             failed:
+ *               type: integer
+ *               description: the amount of failed tests
+ *             notDone:
+ *               type: integer
+ *               description: the amount of open tests
+ */
+//#endregion
+router.post("/getSuccessStatisticsByTimePeriod", function (req: any, res: any) {
+  statisticsService.getSuccessStatisticsByTimePeriod(req, res);
+});
+
+//#region swagger
+/**
+ * @swagger
+ * /getSuccessStatisticsByTimePeriod/{channelID}:
+ *   post:
+ *     tags:
+ *       - "Statistics"
+ *     description: returns successful, failed and not finished tests for te given channel
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: channelID
+ *         in: path
+ *         description: the channelID
+ *         required: true
+ *         type: string
+ *       - name: startTime
+ *         in: body
+ *         description: the start Date
+ *         required: true
+ *         type: string
+ *       - name: endTime
+ *         in: body
+ *         description: the end Date (if not given defaults to current Date)
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: object
+ *           properties:
+ *             successful:
+ *               type: integer
+ *               description: the amount of successful tests
+ *             failed:
+ *               type: integer
+ *               description: the amount of failed tests
+ *             notDone:
+ *               type: integer
+ *               description: the amount of open tests
+ */
+//#endregion
+router.post(
+  "/getSuccessStatisticsByTimePeriod/:channelID",
+  function (req: any, res: any) {
+    statisticsService.getSuccessStatisticsByTimePeriodAndChannelId(req, res);
+  }
+);
+
+//#region swagger
+/**
+ * @swagger
  * /getTestCaseSuccessStatistics:
  *   get:
  *     tags:
@@ -810,6 +906,111 @@ router.get("/getTestCaseSuccessStatistics", function (req: any, res: any) {
 //#endregion
 router.get(
   "/getTestCaseSuccessStatistics/:channelID",
+  function (req: any, res: any) {
+    statisticsService.getTestCaseSuccessStatisticsByChannelId(req, res);
+  }
+);
+
+//#region swagger
+/**
+ * @swagger
+ * /getTestCaseSuccessStatisticsByTimePeriod:
+ *   post:
+ *     tags:
+ *       - "Statistics"
+ *     description: returns successful, failed, optional and not finished tests
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: startTime
+ *         in: body
+ *         description: the start Date
+ *         required: true
+ *         type: string
+ *       - name: endTime
+ *         in: body
+ *         description: the end Date (if not given defaults to current Date)
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: object
+ *           properties:
+ *             successful:
+ *               type: integer
+ *               description: the amount of successful tests
+ *             failed:
+ *               type: integer
+ *               description: the amount of failed tests
+ *             optional:
+ *               type: integer
+ *               description: the amount of optional tests
+ *             notDone:
+ *               type: integer
+ *               description: the amount of open tests
+ */
+//#endregion
+router.post(
+  "/getTestCaseSuccessStatisticsByTimePeriod",
+  function (req: any, res: any) {
+    statisticsService.getTestCaseSuccessStatistics(req, res);
+  }
+);
+
+//#region swagger
+/**
+ * @swagger
+ * /getTestCaseSuccessStatisticsByTimePeriod/{channelID}:
+ *   post:
+ *     tags:
+ *       - "Statistics"
+ *     description: returns successful, failed, optional and not finished tests
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: channelID
+ *         in: path
+ *         description: the channelID
+ *         required: true
+ *         type: string
+ *       - name: startTime
+ *         in: body
+ *         description: the start Date
+ *         required: true
+ *         type: string
+ *       - name: endTime
+ *         in: body
+ *         description: the end Date (if not given defaults to current Date)
+ *         required: false
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: successful operations
+ *         schema:
+ *           type: object
+ *           properties:
+ *             successful:
+ *               type: integer
+ *               description: the amount of successful tests
+ *             failed:
+ *               type: integer
+ *               description: the amount of failed tests
+ *             optional:
+ *               type: integer
+ *               description: the amount of optional tests
+ *             notDone:
+ *               type: integer
+ *               description: the amount of open tests
+ */
+//#endregion
+router.post(
+  "/getTestCaseSuccessStatisticsByTimePeriod/:channelID",
   function (req: any, res: any) {
     statisticsService.getTestCaseSuccessStatisticsByChannelId(req, res);
   }
