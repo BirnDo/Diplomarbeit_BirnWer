@@ -594,7 +594,10 @@ router.get(
 router.post(
   "/getMinimalDefinitionsByTimePeriod",
   function (req: any, res: any) {
-    minimalTestDefinitionService.getTestDefinitionsByTimePeriod(req, res);
+    minimalTestDefinitionService.getMinimalTestDefinitionsByTimePeriod(
+      req,
+      res
+    );
   }
 );
 
@@ -634,7 +637,10 @@ router.post(
 router.post(
   "/getMinimalDefinitionsByTimePeriod/:channelID",
   function (req: any, res: any) {
-    minimalTestDefinitionService.getDefinitionsByTimePeriodAndChannel(req, res);
+    minimalTestDefinitionService.getMinimalTestDefinitionsByTimePeriodAndChannelId(
+      req,
+      res
+    );
   }
 );
 
