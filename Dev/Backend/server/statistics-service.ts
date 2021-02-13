@@ -54,9 +54,13 @@ function getSuccessStatisticsByChannelId(req: any, res: any) {
 }
 
 function getSuccessStatisticsByTimePeriod(req: any, res: any) {
-  const startDate = Date.parse(req.body.startDate);
+  const startDate = Date.parse(
+    req.body.startDate.split("T")[0] + "T00:00:00.000Z"
+  );
   const endDate =
-    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
+    req.body.endDate == null
+      ? Date.now()
+      : Date.parse(req.body.endDate.split("T")[0] + "T23:59:59.999Z");
 
   TestDefinition.find({})
     .then((tests) => {
@@ -89,9 +93,13 @@ function getSuccessStatisticsByTimePeriod(req: any, res: any) {
 
 function getSuccessStatisticsByTimePeriodAndChannelId(req: any, res: any) {
   const channelID = req.params.channelID;
-  const startDate = Date.parse(req.body.startDate);
+  const startDate = Date.parse(
+    req.body.startDate.split("T")[0] + "T00:00:00.000Z"
+  );
   const endDate =
-    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
+    req.body.endDate == null
+      ? Date.now()
+      : Date.parse(req.body.endDate.split("T")[0] + "T23:59:59.999Z");
 
   TestDefinition.find({})
     .where("channelID")
@@ -203,9 +211,13 @@ function getTestCaseSuccessStatisticsByChannelId(req: any, res: any) {
 
 function getTestCaseSuccessStatisticsByTimePeriod(req: any, res: any) {
   var allTestCases: TestCase[] = [];
-  const startDate = Date.parse(req.body.startDate);
+  const startDate = Date.parse(
+    req.body.startDate.split("T")[0] + "T00:00:00.000Z"
+  );
   const endDate =
-    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
+    req.body.endDate == null
+      ? Date.now()
+      : Date.parse(req.body.endDate.split("T")[0] + "T23:59:59.999Z");
 
   TestDefinition.find({})
     .then((tests) => {
@@ -251,10 +263,13 @@ function getTestCaseSuccessStatisticsByTimePeriodAndChannelId(
 ) {
   var allTestCases: TestCase[] = [];
   const channelID = req.params.channelID;
-  const startDate = Date.parse(req.body.startDate);
+  const startDate = Date.parse(
+    req.body.startDate.split("T")[0] + "T00:00:00.000Z"
+  );
   const endDate =
-    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
-
+    req.body.endDate == null
+      ? Date.now()
+      : Date.parse(req.body.endDate.split("T")[0] + "T23:59:59.999Z");
   TestDefinition.find({})
     .where("channelID")
     .equals(channelID)

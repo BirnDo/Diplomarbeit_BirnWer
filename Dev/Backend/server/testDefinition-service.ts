@@ -162,9 +162,13 @@ function getTestDefinitionsByChannel(req: any, res: any) {
 
 // get Tests in a time period
 function getTestDefinitionsByTimePeriod(req: any, res: any) {
-  const startDate = Date.parse(req.body.startDate);
+  const startDate = Date.parse(
+    req.body.startDate.split("T")[0] + "T00:00:00.000Z"
+  );
   const endDate =
-    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
+    req.body.endDate == null
+      ? Date.now()
+      : Date.parse(req.body.endDate.split("T")[0] + "T23:59:59.999Z");
 
   TestDefinition.find({})
     .then((tests) => {
@@ -183,10 +187,13 @@ function getTestDefinitionsByTimePeriod(req: any, res: any) {
 // get Tests in a time period for a specific channel
 function getTestDefinitionsByTimePeriodAndChannelId(req: any, res: any) {
   const channelID = req.params.channelID;
-  const startDate = Date.parse(req.body.startDate);
+  const startDate = Date.parse(
+    req.body.startDate.split("T")[0] + "T00:00:00.000Z"
+  );
   const endDate =
-    req.body.endDate == null ? Date.now() : Date.parse(req.body.endDate);
-
+    req.body.endDate == null
+      ? Date.now()
+      : Date.parse(req.body.endDate.split("T")[0] + "T23:59:59.999Z");
   TestDefinition.find({})
     .where("channelID")
     .equals(channelID)
