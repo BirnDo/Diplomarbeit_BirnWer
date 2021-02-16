@@ -12,7 +12,7 @@ import Smartqs from "./components/Smartqs";
 import { ISmartqsProps } from "./components/ISmartqsProps";
 
 export interface ISmartqsWebPartProps {
-  description: string;
+  serverURL: string;
 }
 
 export default class SmartqsWebPart extends BaseClientSideWebPart<
@@ -22,7 +22,7 @@ export default class SmartqsWebPart extends BaseClientSideWebPart<
     const element: React.ReactElement<ISmartqsProps> = React.createElement(
       Smartqs,
       {
-        description: this.properties.description,
+        serverURL: this.properties.serverURL,
         context: this.context,
       }
     );
@@ -42,15 +42,11 @@ export default class SmartqsWebPart extends BaseClientSideWebPart<
     return {
       pages: [
         {
-          header: {
-            description: strings.PropertyPaneDescription,
-          },
           groups: [
             {
-              groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("description", {
-                  label: strings.DescriptionFieldLabel,
+                PropertyPaneTextField("serverURL", {
+                  label: "Backend URL",
                 }),
               ],
             },

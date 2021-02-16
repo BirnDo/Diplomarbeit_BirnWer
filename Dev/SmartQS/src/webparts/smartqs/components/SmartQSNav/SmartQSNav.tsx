@@ -98,20 +98,23 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
               Tool für manuelles Software-Testing
             </Route>
             <Route path="/dashboard">
-              <Dashboard teamsContext={this.props.teamsContext} />
-              {/* <TestRunOverview
+              <Dashboard
                 teamsContext={this.props.teamsContext}
-                readonly={true}
-              /> */}
+                serverURL={this.props.serverURL}
+              />
             </Route>
             <Route path="/runTest">
               <TestRunOverview
                 teamsContext={this.props.teamsContext}
                 readonly={false}
+                serverURL={this.props.serverURL}
               />
             </Route>
             <Route path="/createTest">
-              <TestRunForms teamsContext={this.props.teamsContext} />
+              <TestRunForms
+                teamsContext={this.props.teamsContext}
+                serverURL={this.props.serverURL}
+              />
             </Route>
           </Switch>
         </div>

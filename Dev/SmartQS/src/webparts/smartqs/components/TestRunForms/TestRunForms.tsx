@@ -49,6 +49,7 @@ import TestRunModel from "../../model/TestRunModel";
 
 interface ITestRunFormsProps {
   teamsContext: any;
+  serverURL: string;
 }
 interface ITestRunFormsState extends TestRunModel {
   showModal: boolean;
@@ -109,7 +110,7 @@ export default class TestRunForms extends React.Component<
 
     testCases[0].active = true; // make first element be active
 
-    const url = "http://localhost:3000/addTestDefinition";
+    const url = this.props.serverURL + "/addTestDefinition";
     const requestOptions = {
       method: "POST",
       headers: {

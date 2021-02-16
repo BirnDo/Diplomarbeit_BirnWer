@@ -21,6 +21,7 @@ import styles from "./DrillDownChart.module.scss";
 
 interface IDrillDownChartProps {
   teamsContext: any;
+  serverURL: string;
 }
 interface IDrillDownChartState {}
 
@@ -49,9 +50,10 @@ class DrillDownChart extends React.Component<
     let url: string;
     if (this.props.teamsContext != null)
       url =
-        "http://127.0.0.1:3000/minimalTestDefinitionsByChannelID/" +
+        this.props.serverURL +
+        "/minimalTestDefinitionsByChannelID/" +
         this.props.teamsContext.channelId;
-    else url = "http://127.0.0.1:3000/minimalTestDefinitions";
+    else url = this.props.serverURL + "/minimalTestDefinitions";
     const requestOptions = {
       method: "GET",
       headers: {
@@ -153,18 +155,23 @@ class DrillDownChart extends React.Component<
 
   public render(): React.ReactElement<IDrillDownChartProps> {
     return (
-      <div>
-        <DefaultButton
-          className={styles.Button}
-          data-automation-id="test"
-          allowDisabledFocus={true}
-          disabled={false}
-          checked={false}
-          text="zurück"
-          onClick={() => this.props["history"].push("/dashboard")}
-        />
-        <canvas ref={this.canvasRef} />
-      </div>
+      <>
+        <Route exact path="/dashboard/drilldown">
+          <DefaultButton
+            className={styles.Button}
+            data-automation-id="test"
+            allowDisabledFocus={true}
+            disabled={false}
+            checked={false}
+            text="zurück"
+            onClick={() => this.props["history"].push("/dashboard")}
+          />
+          <canvas ref={this.canvasRef} />
+        </Route>
+        <Route path="/dashboard/drilldown/:id">
+          <DetailedDashboard serverURL={this.props.serverURL} />
+        </Route>
+      </>
     );
   }
 }

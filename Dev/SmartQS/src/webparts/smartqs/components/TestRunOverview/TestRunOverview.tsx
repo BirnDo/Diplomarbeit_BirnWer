@@ -15,6 +15,7 @@ interface ITestRunOverviewProps {
   readonly: boolean;
   startDate: string;
   endDate: string;
+  serverURL: string;
 }
 interface ITestRunOverviewState {
   navLinkGroups: INavLinkGroup[];
@@ -46,7 +47,7 @@ class TestRunOverview extends React.Component<
     let url: string;
     let requestOptions: any;
     if (startDate == null) {
-      url = "http://127.0.0.1:3000/minimalTestDefinitions/" + channelID;
+      url = this.props.serverURL + "/minimalTestDefinitions/" + channelID;
       requestOptions = {
         method: "GET",
         headers: {
@@ -56,7 +57,9 @@ class TestRunOverview extends React.Component<
       };
     } else {
       url =
-        "http://127.0.0.1:3000/getMinimalDefinitionsByTimePeriod/" + channelID;
+        this.props.serverURL +
+        "/getMinimalDefinitionsByTimePeriod/" +
+        channelID;
       requestOptions = {
         method: "POST",
         headers: {
@@ -66,7 +69,7 @@ class TestRunOverview extends React.Component<
         body: JSON.stringify({ startDate, endDate }),
       };
     }
-
+    console.log(requestOptions);
     fetch(url, requestOptions)
       .then(async (response) => {
         const body: TestRunModelMin[] = await response.json();
@@ -120,6 +123,8 @@ class TestRunOverview extends React.Component<
 
   public render(): React.ReactElement<ITestRunOverviewProps> {
     const { navLinkGroups } = this.state;
+    console.log("updated");
+    console.log(navLinkGroups);
     const id = this.props["history"]["location"]["pathname"].split("/")[2]
       ? this.props["history"]["location"]["pathname"].split("/")[2]
       : null;
@@ -149,6 +154,7 @@ class TestRunOverview extends React.Component<
             <TestRun
               reloadTestRunNav={this.reloadTestRunNav}
               readonly={this.props.readonly}
+              serverURL={this.props.serverURL}
             />
           </Route>
         </div>

@@ -38,6 +38,7 @@ import { times } from "lodash";
 interface ITestRunProps {
   reloadTestRunNav: () => void;
   readonly: boolean;
+  serverURL: string;
 }
 interface ITestRunState extends TestRunModel {
   showTesterDialog: boolean;
@@ -103,7 +104,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
 
     let doneOn;
     if (finished != null) doneOn = new Date().toISOString();
-    const url = "http://localhost:3000/updateTestDefinition/" + _id;
+    const url = this.props.serverURL + "/updateTestDefinition/" + _id;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -135,7 +136,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
   async getTestRun() {
     const id = this.props["match"]["params"]["id"];
     if (id != null) {
-      const url = "http://localhost:3000/testDefinitionById/" + id;
+      const url = this.props.serverURL + "/testDefinitionById/" + id;
       const requestOptions = {
         method: "GET",
         headers: { Accept: "application/json" },
@@ -184,7 +185,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     });
     testCases[0].active = true; // set first test case to be active
 
-    const url = "http://localhost:3000/addTestDefinition";
+    const url = this.props.serverURL + "/addTestDefinition";
     const requestOptions = {
       method: "POST",
       headers: {

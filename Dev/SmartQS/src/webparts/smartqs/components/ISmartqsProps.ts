@@ -1,6 +1,6 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export interface ISmartqsProps {
-  description: string;
+  serverURL: string;
   context: WebPartContext;
 }

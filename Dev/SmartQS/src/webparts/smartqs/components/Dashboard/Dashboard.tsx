@@ -30,6 +30,7 @@ import TestRunOverview from "../TestRunOverview/TestRunOverview";
 
 interface IDashboardProps {
   teamsContext: any;
+  serverURL: string;
 }
 interface IDashboardState {
   runData: Chart.ChartData;
@@ -191,7 +192,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
     let url: string;
     let requestOptions: any;
     if (startDate == null) {
-      url = "http://127.0.0.1:3000/getSuccessStatistics/" + channelID;
+      url = this.props.serverURL + "/getSuccessStatistics/" + channelID;
       requestOptions = {
         method: "GET",
         headers: {
@@ -201,7 +202,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
       };
     } else {
       url =
-        "http://127.0.0.1:3000/getSuccessStatisticsByTimePeriod/" + channelID;
+        this.props.serverURL + "/getSuccessStatisticsByTimePeriod/" + channelID;
       requestOptions = {
         method: "POST",
         headers: {
@@ -233,7 +234,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
     let url: string;
     let requestOptions: any;
     if (startDate == null) {
-      url = "http://127.0.0.1:3000/getTestCaseSuccessStatistics/" + channelID;
+      url = this.props.serverURL + "/getTestCaseSuccessStatistics/" + channelID;
       requestOptions = {
         method: "GET",
         headers: {
@@ -243,7 +244,8 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
       };
     } else {
       url =
-        "http://127.0.0.1:3000/getTestCaseSuccessStatisticsByTimePeriod/" +
+        this.props.serverURL +
+        "/getTestCaseSuccessStatisticsByTimePeriod/" +
         channelID;
       requestOptions = {
         method: "POST",
@@ -399,13 +401,14 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
             readonly={true}
             startDate={startDate}
             endDate={endDate}
+            serverURL={this.props.serverURL}
           />
         </Route>
-        <Route exact path="/dashboard/drilldown">
-          <DrillDownChart teamsContext={this.props.teamsContext} />
-        </Route>
-        <Route path="/dashboard/drilldown/:id">
-          <DetailedDashboard />
+        <Route path="/dashboard/drilldown">
+          <DrillDownChart
+            teamsContext={this.props.teamsContext}
+            serverURL={this.props.serverURL}
+          />
         </Route>
       </div>
     );

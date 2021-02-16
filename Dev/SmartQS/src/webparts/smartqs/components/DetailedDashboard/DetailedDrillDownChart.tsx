@@ -38,7 +38,9 @@ import {
 } from "office-ui-fabric-react";
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
 
-interface IDetailedDrillDownChartProps {}
+interface IDetailedDrillDownChartProps {
+  serverURL: string;
+}
 interface IDetailedDrillDownChartState {
   showModal: boolean;
   title: string;
@@ -75,7 +77,7 @@ class DetailedDrillDownChart extends React.Component<
   async getSingleTestRunData() {
     const id = this.props["match"]["params"]["id"];
     if (id != null) {
-      const url = "http://localhost:3000/testDefinitionById/" + id;
+      const url = this.props.serverURL + "/testDefinitionById/" + id;
       const requestOptions = {
         method: "GET",
         headers: { Accept: "application/json" },

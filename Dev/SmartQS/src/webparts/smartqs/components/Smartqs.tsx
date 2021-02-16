@@ -34,6 +34,7 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
                 ? this.props.context.sdks.microsoftTeams.context
                 : null
             }
+            serverURL={this.props.serverURL}
           />
         </HashRouter>
       </div>
