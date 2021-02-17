@@ -49,6 +49,57 @@ const columnPropsHorizontal: Partial<IStackProps> = {
   tokens: { childrenGap: 5 },
   styles: { root: { width: 400 } },
 };
+
+const DayPickerStrings: IDatePickerStrings = {
+  months: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+
+  shortMonths: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+
+  days: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+
+  shortDays: ["S", "M", "T", "W", "T", "F", "S"],
+
+  goToToday: "Go to today",
+  prevMonthAriaLabel: "Go to previous month",
+  nextMonthAriaLabel: "Go to next month",
+  prevYearAriaLabel: "Go to previous year",
+  nextYearAriaLabel: "Go to next year",
+  closeButtonAriaLabel: "Close date picker",
+};
 class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
   constructor(props) {
     super(props);
@@ -159,6 +210,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
     };
   }
 
+  /* #region  react lifecycle methods */
   componentDidMount() {
     if (
       this.state.runData.datasets[0].data[0] == 0 &&
@@ -182,8 +234,10 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
       this.getTestCaseStatistics();
       this.getTestRunStatistics();
     }
+    /* #endregion */
   }
 
+  /* #region  database request methods */
   async getTestRunStatistics() {
     const { startDate, endDate } = this.state;
     const { teamsContext } = this.props;
@@ -270,6 +324,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 
       .catch((rejected) => console.log(rejected));
   }
+  /* #endregion */
 
   public render(): React.ReactElement<IDashboardProps> {
     const {
@@ -281,56 +336,6 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
       endDate,
     } = this.state;
 
-    const DayPickerStrings: IDatePickerStrings = {
-      months: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
-
-      shortMonths: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-
-      days: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-
-      shortDays: ["S", "M", "T", "W", "T", "F", "S"],
-
-      goToToday: "Go to today",
-      prevMonthAriaLabel: "Go to previous month",
-      nextMonthAriaLabel: "Go to next month",
-      prevYearAriaLabel: "Go to previous year",
-      nextYearAriaLabel: "Go to next year",
-      closeButtonAriaLabel: "Close date picker",
-    };
     const resetIcon: IIconProps = { iconName: "Cancel" };
 
     return (
@@ -416,6 +421,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 }
 export default withRouter(Dashboard);
 
+/* #region  styling for fluent ui components */
 const theme = getTheme();
 const iconButtonStyles = {
   root: {
@@ -428,3 +434,4 @@ const iconButtonStyles = {
     color: theme.palette.neutralDark,
   },
 };
+/* #endregion */

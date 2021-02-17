@@ -70,10 +70,18 @@ class DetailedDrillDownChart extends React.Component<
     };
   }
 
+  /* #region  react lifecycle methods */
   componentDidMount() {
     this.getSingleTestRunData();
   }
+  /* #endregion */
 
+  /* #region  database request methods */
+  /**
+   * receives a specific test run an calls setDetailedTestRunChart()
+   *
+   * @memberof DetailedDrillDownChart
+   */
   async getSingleTestRunData() {
     const id = this.props["match"]["params"]["id"];
     if (id != null) {
@@ -91,7 +99,15 @@ class DetailedDrillDownChart extends React.Component<
         .catch((rejected) => console.log(rejected));
     }
   }
+  /* #endregion */
 
+  /* #region  state helper methods */
+  /**
+   * sets the chart data that is given by the database request
+   *
+   * @param {TestRunModel} body
+   * @memberof DetailedDrillDownChart
+   */
   setDetailedTestRunChart(body: TestRunModel) {
     let data: any = { datasets: [] };
 
@@ -178,6 +194,23 @@ class DetailedDrillDownChart extends React.Component<
     });
   }
 
+  showModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  hideModal = () => {
+    this.setState({ showModal: false });
+  };
+  /* #endregion */
+
+  /* #region  render helper methods */
+  /**
+   * returns the error message if available at current test case
+   *
+   * @param {string} comments
+   * @return {*}  {React.ReactNode}
+   * @memberof DetailedDrillDownChart
+   */
   renderErrorMessage(comments: string): React.ReactNode {
     if (comments != null)
       return (
@@ -187,14 +220,7 @@ class DetailedDrillDownChart extends React.Component<
         </>
       );
   }
-
-  showModal = () => {
-    this.setState({ showModal: true });
-  };
-
-  hideModal = () => {
-    this.setState({ showModal: false });
-  };
+  /* #endregion */
 
   public render(): React.ReactElement<IDetailedDrillDownChartProps> {
     const { title, description, image, comments } = this.state;
@@ -237,6 +263,9 @@ class DetailedDrillDownChart extends React.Component<
   }
 }
 
+export default withRouter(DetailedDrillDownChart);
+
+/* #region  styling for fluent ui components */
 const theme = getTheme();
 const contentStyles = mergeStyleSets({
   container: {
@@ -281,5 +310,4 @@ const iconButtonStyles = {
     color: theme.palette.neutralDark,
   },
 };
-
-export default withRouter(DetailedDrillDownChart);
+/* #endregion */

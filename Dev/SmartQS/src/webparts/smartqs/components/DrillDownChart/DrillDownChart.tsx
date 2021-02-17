@@ -38,6 +38,7 @@ class DrillDownChart extends React.Component<
     this.canvasRef = React.createRef();
   }
 
+  /* #region  react lifecycle methods */
   componentDidMount() {
     this.getTestRunMinData();
   }
@@ -45,7 +46,17 @@ class DrillDownChart extends React.Component<
   componentDidUpdate() {
     this.getTestRunMinData();
   }
+  /* #endregion */
 
+  /* #region  database request methods */
+  /**
+   * receives all test run min data
+   * filters only test runs that are completed
+   * sorts the test runs by completion
+   * calls setTestRunsChart() to set the chart data
+   *
+   * @memberof DrillDownChart
+   */
   async getTestRunMinData() {
     let url: string;
     if (this.props.teamsContext != null)
@@ -76,7 +87,15 @@ class DrillDownChart extends React.Component<
       })
       .catch((rejected) => console.log(rejected));
   }
+  /* #endregion */
 
+  /* #region  state helper methods */
+  /**
+   * sets the chart data from given database request
+   *
+   * @param {TestRunModelMin[]} body
+   * @memberof DrillDownChart
+   */
   setTestRunsChart(body: TestRunModelMin[]) {
     let data: any = { datasets: [] };
 
@@ -152,6 +171,7 @@ class DrillDownChart extends React.Component<
       options: options,
     });
   }
+  /* #endregion */
 
   public render(): React.ReactElement<IDrillDownChartProps> {
     return (
@@ -177,6 +197,7 @@ class DrillDownChart extends React.Component<
 }
 export default withRouter(DrillDownChart);
 
+/* #region  styling for fluent ui components */
 const theme = getTheme();
 const contentStyles = mergeStyleSets({
   container: {
@@ -221,3 +242,4 @@ const iconButtonStyles = {
     color: theme.palette.neutralDark,
   },
 };
+/* #endregion */

@@ -56,6 +56,56 @@ const columnPropsHorizontal: Partial<IStackProps> = {
   styles: { root: { width: 500 } },
 };
 
+const DayPickerStrings: IDatePickerStrings = {
+  months: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+
+  shortMonths: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+
+  days: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+
+  shortDays: ["S", "M", "T", "W", "T", "F", "S"],
+
+  goToToday: "Go to today",
+  prevMonthAriaLabel: "Go to previous month",
+  nextMonthAriaLabel: "Go to next month",
+  prevYearAriaLabel: "Go to previous year",
+  nextYearAriaLabel: "Go to next year",
+  closeButtonAriaLabel: "Close date picker",
+};
 class TestRun extends React.Component<ITestRunProps, ITestRunState> {
   constructor(props) {
     super(props);
@@ -76,6 +126,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     };
   }
 
+  /* #region  react lifecycle methods */
   componentDidMount() {
     this.getTestRun();
   }
@@ -89,7 +140,9 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       this.getTestRun();
     }
   }
+  /* #endregion */
 
+  /* #region  database request methods */
   async updateTestRun() {
     const {
       _id,
@@ -210,7 +263,27 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       })
       .catch((rejected) => console.log(rejected));
   }
+  /* #endregion */
 
+  /* #region  state helper methods */
+  showTesterDialog = () => {
+    this.setState({ showTesterDialog: true });
+  };
+
+  hideTesterDialog = () => {
+    this.setState({ showTesterDialog: false });
+  };
+
+  showCopyDialog = () => {
+    this.setState({ showCopyDialog: true });
+  };
+
+  hideCopyDialog = () => {
+    this.setState({ showCopyDialog: false });
+  };
+  /* #endregion */
+
+  /* #region  state management functions for external use */
   /**
    * updates a specific test case of a test run
    *
@@ -220,21 +293,25 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
    */
   updateTestCase = (index: number, testCase: TestCaseModel) => {
     if (index < this.state.testCases.length) {
-      const newTestCases = this.state.testCases.slice();
-      newTestCases[index] = testCase;
-      this.setState({ testCases: newTestCases });
-      this.updateActiveStatus(index, false);
+      const newTestCases = this.state.testCases.slice(); // creates a local copy of all test cases from state
+      newTestCases[index] = testCase; // updates the specific test case with the passed value
+      this.setState({ testCases: newTestCases }); // updates state with the updated test cases
+      this.updateActiveStatus(index, false); // disables the activity status of the current test case
 
       if (testCase.status == "successful" || testCase.status == "optional") {
+        // if the test case got either marked successful or optional
         if (index == this.state.testCases.length - 1) {
-          this.setState({ finished: true });
-          this.showTesterDialog();
+          // if current test case is the last test case
+          this.setState({ finished: true }); // marks the test run as completed successfully
+          this.showTesterDialog(); // prompts the user to enter the name of the tester
         } else {
-          this.updateActiveStatus(index + 1, true);
+          // if current test case is not the last element
+          this.updateActiveStatus(index + 1, true); // next test case is be marked to be active
         }
       } else {
-        this.setState({ finished: false });
-        this.showTesterDialog();
+        // if the test case marked as faulty
+        this.setState({ finished: false }); // the test run should be canceled and therefore the finished property gets updated to be faulty
+        this.showTesterDialog(); // prompts the user to enter the name of the tester
       }
     }
   };
@@ -253,8 +330,17 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       this.setState({ testCases: newTestCases });
     }
   };
+  /* #endregion */
 
-  renderTestCases(readonly: boolean) {
+  /* #region  render helper methods */
+  /**
+   * renders all test cases given in the state
+   *
+   * @param {boolean} readonly
+   * @return {*}  {React.ReactNode}
+   * @memberof TestRun
+   */
+  renderTestCases(readonly: boolean): React.ReactNode {
     const { testCases } = this.state;
     let renderedTestCases: React.ReactElement[] = [];
 
@@ -276,22 +362,13 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     return renderedTestCases;
   }
 
-  showTesterDialog = () => {
-    this.setState({ showTesterDialog: true });
-  };
-
-  hideTesterDialog = () => {
-    this.setState({ showTesterDialog: false });
-  };
-
-  showCopyDialog = () => {
-    this.setState({ showCopyDialog: true });
-  };
-
-  hideCopyDialog = () => {
-    this.setState({ showCopyDialog: false });
-  };
-
+  /**
+   * conditional render method
+   * renders the save button only if the test run is not yet done
+   *
+   * @return {*}  {React.ReactNode}
+   * @memberof TestRun
+   */
   renderSaveButton(): React.ReactNode {
     if (this.state.finished == null)
       return (
@@ -304,6 +381,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
         />
       );
   }
+  /* #endregion */
 
   public render(): React.ReactElement<ITestRunProps> {
     const {
@@ -326,56 +404,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       isBlocking: false,
       styles: dialogStyles,
     };
-    const DayPickerStrings: IDatePickerStrings = {
-      months: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
 
-      shortMonths: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-
-      days: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-
-      shortDays: ["S", "M", "T", "W", "T", "F", "S"],
-
-      goToToday: "Go to today",
-      prevMonthAriaLabel: "Go to previous month",
-      nextMonthAriaLabel: "Go to next month",
-      prevYearAriaLabel: "Go to previous year",
-      nextYearAriaLabel: "Go to next year",
-      closeButtonAriaLabel: "Close date picker",
-    };
     if (_id == null) return <></>;
     if (this.props.readonly == true)
       return (
@@ -469,8 +498,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
   }
 }
 
-export default withRouter(TestRun);
-
+/* #region  styling for fluent ui components */
 const theme = getTheme();
 const contentStyles = mergeStyleSets({
   container: {
@@ -515,3 +543,6 @@ const iconButtonStyles = {
     color: theme.palette.neutralDark,
   },
 };
+/* #endregion */
+
+export default withRouter(TestRun);

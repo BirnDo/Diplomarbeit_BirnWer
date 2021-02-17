@@ -33,6 +33,7 @@ class TestRunOverview extends React.Component<
     };
   }
 
+  /* #region  react lifecycle methods */
   componentDidMount() {
     this.getTestRunMinData();
   }
@@ -40,7 +41,16 @@ class TestRunOverview extends React.Component<
   componentWillReceiveProps(prevProps: object) {
     this.getTestRunMinData();
   }
+  /* #endregion */
 
+  /* #region  database request methods */
+  /**
+   * receives the minimal test runs from the database
+   * if date range is given only receives those
+   * calls setNavLinks method
+   *
+   * @memberof TestRunOverview
+   */
   async getTestRunMinData() {
     const { teamsContext, startDate, endDate } = this.props;
     let channelID: string = teamsContext ? teamsContext.channelId : "";
@@ -78,16 +88,23 @@ class TestRunOverview extends React.Component<
       })
       .catch((rejected) => console.log(rejected));
   }
+  /* #endregion */
 
-  reloadTestRunNav = () => {
-    this.getTestRunMinData();
-  };
-
+  /* #region  state helper methods */
+  /**
+   * sets the nav bar links according to the given data
+   * sorts the test runs by creation date
+   * adds a successful or faulty icon if test run has already been done
+   *
+   * @param {TestRunModelMin[]} testRunsInfo
+   * @memberof TestRunOverview
+   */
   setNavLinks(testRunsInfo: TestRunModelMin[]) {
     let navLinks: INavLink[] = [];
 
     const urlPath =
       "/" + this.props["history"]["location"]["pathname"].split("/")[1];
+
     // sort test Runs by createdOn Date
     testRunsInfo.sort((x, y) => {
       return new Date(y.createdOn).getTime() - new Date(x.createdOn).getTime();
@@ -120,16 +137,29 @@ class TestRunOverview extends React.Component<
       this.setState({ navLinkGroups: navLinkGroups });
     }
   }
+  /* #endregion */
+
+  /* #region  state management functions */
+  /**
+   * is passed to child component to allow it to reload the navbar if the test run updated
+   *
+   * @memberof TestRunOverview
+   */
+  reloadTestRunNav = () => {
+    this.getTestRunMinData();
+  };
+  /* #endregion */
 
   public render(): React.ReactElement<ITestRunOverviewProps> {
     const { navLinkGroups } = this.state;
-    console.log("updated");
+
     console.log(navLinkGroups);
+
     const id = this.props["history"]["location"]["pathname"].split("/")[2]
       ? this.props["history"]["location"]["pathname"].split("/")[2]
-      : null;
+      : null; // receives the id from url to set the selected nav bar element
     const urlPath =
-      "/" + this.props["history"]["location"]["pathname"].split("/")[1];
+      "/" + this.props["history"]["location"]["pathname"].split("/")[1]; // receives the url path like /dashboard or /runTest for route configuration
 
     return (
       <div className={styles.TestRunOverview}>
@@ -145,16 +175,18 @@ class TestRunOverview extends React.Component<
                 background: "white",
               },
             }}
-            groups={navLinkGroups}
-            selectedKey={id}
+            groups={navLinkGroups} // passing nav links that are updated when database receives data
+            selectedKey={id} // selecting the url id if the page got reloaded
           />
         </div>
         <div className={styles.Testrun}>
-          <Route path={urlPath + "/:id"}>
+          <Route
+            path={urlPath + "/:id"} // dynamically setting route path as this component gets called from /dashboard or /runTest
+          >
             <TestRun
-              reloadTestRunNav={this.reloadTestRunNav}
-              readonly={this.props.readonly}
-              serverURL={this.props.serverURL}
+              reloadTestRunNav={this.reloadTestRunNav} // helper function to allow the test run to update the navbar
+              readonly={this.props.readonly} // readonly flag to pass the given value to the test run
+              serverURL={this.props.serverURL} // backend url for database request usage
             />
           </Route>
         </div>

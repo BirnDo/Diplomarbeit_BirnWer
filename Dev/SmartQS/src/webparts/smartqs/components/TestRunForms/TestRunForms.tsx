@@ -65,6 +65,57 @@ const columnPropsHorizontal: Partial<IStackProps> = {
   styles: { root: { width: 500 } },
 };
 
+const DayPickerStrings: IDatePickerStrings = {
+  months: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+
+  shortMonths: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+
+  days: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+
+  shortDays: ["S", "M", "T", "W", "T", "F", "S"],
+
+  goToToday: "Go to today",
+  prevMonthAriaLabel: "Go to previous month",
+  nextMonthAriaLabel: "Go to next month",
+  prevYearAriaLabel: "Go to previous year",
+  nextYearAriaLabel: "Go to next year",
+  closeButtonAriaLabel: "Close date picker",
+};
+
 export default class TestRunForms extends React.Component<
   ITestRunFormsProps,
   ITestRunFormsState
@@ -98,6 +149,12 @@ export default class TestRunForms extends React.Component<
     };
   }
 
+  /* #region  database request methods */
+  /**
+   * adds the current test run to the database
+   *
+   * @memberof TestRunForms
+   */
   async addTestRun() {
     const {
       name,
@@ -134,7 +191,9 @@ export default class TestRunForms extends React.Component<
       })
       .catch((rejected) => console.log(rejected));
   }
+  /* #endregion */
 
+  /* #region  state helper methods */
   addTestCase() {
     let newTestCases: TestCaseModel[] = this.state.testCases;
     newTestCases.push({
@@ -174,7 +233,23 @@ export default class TestRunForms extends React.Component<
     this.setState({ testCases: newTestCases });
   }
 
-  renderTestCases() {
+  showModal = () => {
+    this.setState({ showModal: true });
+  };
+
+  hideModal = () => {
+    this.setState({ showModal: false });
+  };
+  /* #endregion */
+
+  /* #region  render helper methods */
+  /**
+   * renders the test cases given in the state
+   *
+   * @return {*}  {React.ReactNode}
+   * @memberof TestRunForms
+   */
+  renderTestCases(): React.ReactNode {
     let testCases: TestCaseModel[] = this.state.testCases;
     let renderedTestCases: React.ReactElement[] = [];
 
@@ -216,14 +291,7 @@ export default class TestRunForms extends React.Component<
 
     return renderedTestCases;
   }
-
-  showModal = () => {
-    this.setState({ showModal: true });
-  };
-
-  hideModal = () => {
-    this.setState({ showModal: false });
-  };
+  /* #endregion */
 
   public render(): React.ReactElement<ITestRunFormsProps> {
     const that = this;
@@ -238,56 +306,6 @@ export default class TestRunForms extends React.Component<
       handleSelector: "a",
     };
 
-    const DayPickerStrings: IDatePickerStrings = {
-      months: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
-
-      shortMonths: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-
-      days: [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-
-      shortDays: ["S", "M", "T", "W", "T", "F", "S"],
-
-      goToToday: "Go to today",
-      prevMonthAriaLabel: "Go to previous month",
-      nextMonthAriaLabel: "Go to next month",
-      prevYearAriaLabel: "Go to previous year",
-      nextYearAriaLabel: "Go to next year",
-      closeButtonAriaLabel: "Close date picker",
-    };
     const cancelIcon: IIconProps = { iconName: "Cancel" };
 
     console.log(this.state);
@@ -388,6 +406,7 @@ export default class TestRunForms extends React.Component<
   }
 }
 
+/* #region  styling for fluent ui components */
 const theme = getTheme();
 const contentStyles = mergeStyleSets({
   container: {
@@ -432,3 +451,5 @@ const iconButtonStyles = {
     color: theme.palette.neutralDark,
   },
 };
+
+/* #endregion */

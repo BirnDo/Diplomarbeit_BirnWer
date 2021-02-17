@@ -64,6 +64,21 @@ export default class TestCase extends React.Component<
     };
   }
 
+  /* #region  state helper methods */
+  /**
+   * updates the value of the current test case and the active status of the current and following test case
+   *
+   * @param {number} index current index of the test run array to specify the element
+   * @param {TestCaseModel} testCase current test case to pass the changes
+   * @param {boolean} status used to specify the value the test status should have
+   * @memberof TestCase
+   */
+  updateTestStatus(index: number, testCase: TestCaseModel, status: string) {
+    const newTestCase = testCase;
+    testCase.status = status;
+    this.props.updateTestCase(index, newTestCase);
+  }
+
   showModal = () => {
     this.setState({ showModel: true });
   };
@@ -88,23 +103,17 @@ export default class TestCase extends React.Component<
     this.setState({ showOptionalDialog: false });
   };
 
-  /**
-   * updates the value of the current test case and the active status of the current and following test case
-   *
-   * @param {number} index current index of the test run array to specify the element
-   * @param {TestCaseModel} testCase current test case to pass the changes
-   * @param {boolean} status used to specify the value the test status should have
-   * @memberof TestCase
-   */
-  updateTestStatus(index: number, testCase: TestCaseModel, status: string) {
-    const newTestCase = testCase;
-    testCase.status = status;
-    this.props.updateTestCase(index, newTestCase);
+  handleRichText(text: string) {
+    this.setState({ comments: text });
+    return text;
   }
+  /* #endregion */
 
+  /* #region   */
   /**
    * renders the status button for each test case
    * only visible when the test status is null and the active status is true
+   * also only visible when readonly flag is set to false
    *
    * @return {*}
    */
@@ -134,6 +143,14 @@ export default class TestCase extends React.Component<
     }
   }
 
+  /**
+   * renders the optional button only if the test case is not required
+   *
+   * @param {number} index
+   * @param {TestCaseModel} testCase
+   * @return {*}
+   * @memberof TestCase
+   */
   renderOptionalStatusButton(index: number, testCase: TestCaseModel) {
     if (!testCase.required)
       return (
@@ -162,18 +179,13 @@ export default class TestCase extends React.Component<
     }
   }
 
-  renderErrorMessage(): React.ReactNode {
-    const { testCase } = this.props;
-
-    if (testCase.comments != "")
-      return (
-        <>
-          <Label>Fehlermeldung</Label>
-          <RichText isEditMode={false} value={testCase.comments} />
-        </>
-      );
-  }
-
+  /**
+   * renders all popups
+   * conditional rendering when readonly flag is either true or false
+   *
+   * @return {*}  {React.ReactNode}
+   * @memberof TestCase
+   */
   renderPopups(): React.ReactNode {
     const { testCase, index, readonly } = this.props;
 
@@ -296,10 +308,25 @@ export default class TestCase extends React.Component<
       );
   }
 
-  handleRichText(text: string) {
-    this.setState({ comments: text });
-    return text;
+  /**
+   * renders the error message of the given test case
+   * only called when readonly flag is set to true
+   *
+   * @return {*}  {React.ReactNode}
+   * @memberof TestCase
+   */
+  renderErrorMessage(): React.ReactNode {
+    const { testCase } = this.props;
+
+    if (testCase.comments != "")
+      return (
+        <>
+          <Label>Fehlermeldung</Label>
+          <RichText isEditMode={false} value={testCase.comments} />
+        </>
+      );
   }
+  /* #endregion */
 
   public render(): React.ReactElement<ITestCaseProps> {
     const { testCase, index } = this.props;
@@ -320,6 +347,7 @@ export default class TestCase extends React.Component<
   }
 }
 
+/* #region  styling for fluent ui components */
 const theme = getTheme();
 const contentStyles = mergeStyleSets({
   container: {
@@ -364,3 +392,4 @@ const iconButtonStyles = {
     color: theme.palette.neutralDark,
   },
 };
+/* #endregion */

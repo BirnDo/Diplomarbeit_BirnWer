@@ -13,6 +13,7 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
   constructor(props) {
     super(props);
 
+    // registers icons for usage in navbar
     registerIcons({
       style: {
         fontSize: "50px",

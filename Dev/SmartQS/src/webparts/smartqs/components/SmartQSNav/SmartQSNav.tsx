@@ -29,6 +29,7 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
       "60214620ed9dc82eb87f0a53",
     ]); */
   }
+
   deleteTestruns(blacklist: string[]) {
     var url = "http://127.0.0.1:3000/minimalTestDefinitions";
     var requestOptions = {
@@ -71,15 +72,15 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
 
   public render(): React.ReactElement<ISmartQSNavProps> {
     let path: string =
-      "/" + this.props["history"]["location"]["pathname"].split("/")[1];
+      "/" + this.props["history"]["location"]["pathname"].split("/")[1]; // path that excludes any id to set the selected pivot element
 
     return (
       <>
         <Pivot
           onLinkClick={(e) => {
             this.props["history"].push(e.props.itemKey);
-          }}
-          selectedKey={path}
+          }} // link to navigate between pages
+          selectedKey={path} // currently selected element
         >
           <PivotItem headerText="Home" itemKey="/"></PivotItem>
           <PivotItem headerText="Dashboard" itemKey="/dashboard"></PivotItem>
