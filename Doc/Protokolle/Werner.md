@@ -42,3 +42,4 @@
 |13.02|added 2 datepicker to select the start and end date to filter the graphs and the testrun navbar; added reset button to reset the datepicker; added the abillity to filter the statistics of testcases and testruns by date range|3|Problems with Datepicker, it internally selects to previous date because it thinks the datepicker is meant as a "minDate"; fixed by added 1 hour to every datepicker date;
 |13.02|added abillity to filter the testrun navbar by start and enddate; added props to parse the date values|2|problems with date request; problems when to refetch the request; lifecycle method used that only updates when props changed|
 |16.02|added feature to configure server url of the backend; done via property pane; outsourced drilldown detailed chart to drilldown component; deleted unused code and comments|2||
+|17.02|added Code Documentation to all methods; added region splitting to all files for better code readability; formatted some code parts|1||| 
