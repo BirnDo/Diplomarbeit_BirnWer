@@ -54,3 +54,4 @@ https://M365x750080.sharepoint.com
 ### known bugs
 * beschreibung im richtext ändert sich nicht beim reorder -> state ist richtig; richtext aktualisiert den wert nicht
 * dialog mit datepicker hat teilweise anzeigefehler
+* beim Filtern der test runs durch einen Zeitraum -> falls die datumseingrenzung nicht ergibt wird die nav links nicht aktualiesert; warum?
