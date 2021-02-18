@@ -50,8 +50,7 @@ https://M365x750080.sharepoint.com
 * grid beim testfall erstellen listview
 * tenet property mit baseurl
 * azure ad authentifizierung
-* beschreibugn ändert sich nicht beim reorder
-* zeitleiste bei bar chart
-* gesamt statisik testruns/testcases
 * property drill down ja nein
-* grid view bei tests erstellen
+### known bugs
+* beschreibung im richtext ändert sich nicht beim reorder -> state ist richtig; richtext aktualisiert den wert nicht
+* dialog mit datepicker hat teilweise anzeigefehler
