@@ -370,7 +370,9 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
    * @memberof TestRun
    */
   renderSaveButton(): React.ReactNode {
-    if (this.state.finished == null)
+    const { finished } = this.state;
+
+    if (finished == null)
       return (
         <PrimaryButton
           disabled={false}
@@ -380,6 +382,18 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
           allowDisabledFocus={true}
         />
       );
+  }
+
+  /**
+   * conditional render method
+   * only renders the deadline of the test run if the test run is not yet done
+   * @return {*}  {React.ReactNode}
+   * @memberof TestRun
+   */
+  renderDeadline(): React.ReactNode {
+    const { deadline, finished } = this.state;
+    if (finished == null)
+      return <Label>Frist: {new Date(deadline).toLocaleDateString()}</Label>;
   }
   /* #endregion */
 
@@ -414,10 +428,9 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
       return (
         <>
           <Stack {...columnPropsVertical}>
-            <Label>Frist: {new Date(deadline).toLocaleDateString()}</Label>
-
+            {this.renderDeadline()}
             {this.renderTestCases(false)}
-            {/* <ListView
+            {/* <ListView // list view not working as react version is probably outdated
           items={data}
           viewFields={viewFields}
           iconFieldName="ServerRelativeUrl"
