@@ -19,5 +19,5 @@
    - Datenbank speichert Objekte und nicht Daten in Tabellen
    - Mongoose Liefert JSON zurück -> wenig Konvertierung
 6. Erweiterbarkeit und Pläne der Firma (Birngruber)
-   - Datenbank kann leicht mit neuen Objekten erweitert werden
+   - Das gesamte Projekt ist leicht erweiterbar
    - Firma wird Diplomarbeit produktiv nutzen
