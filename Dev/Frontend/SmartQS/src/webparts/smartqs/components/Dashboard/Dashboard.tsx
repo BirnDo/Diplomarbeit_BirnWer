@@ -11,6 +11,7 @@ import TestRunModelMin from "../../model/TestRunModelMin";
 import {
   DatePicker,
   DayOfWeek,
+  getFocusableByIndexPath,
   getTheme,
   IconButton,
   IDatePickerStrings,
@@ -27,27 +28,28 @@ import DrillDownChart from "../DrillDownChart/DrillDownChart";
 import TestRunStatisticModel from "../../model/TestRunStatisticsModel";
 import TestCaseStatisticModel from "../../model/TestCaseStatisticsModel";
 import TestRunOverview from "../TestRunOverview/TestRunOverview";
+import { Bar, Line } from "react-chartjs-2";
 
 interface IDashboardProps {
   teamsContext: any;
   serverURL: string;
+  enableDrillDown: boolean;
+  enableStatisticsChart: boolean;
 }
 interface IDashboardState {
   runData: Chart.ChartData;
-  runOptions: any;
   caseData: Chart.ChartData;
+  runOptions: any;
   caseOptions: any;
   startDate: string;
   endDate: string;
 }
 const columnPropsVertical: Partial<IStackProps> = {
   tokens: { childrenGap: 15 },
-  styles: { root: { width: 500 } },
 };
 
 const columnPropsHorizontal: Partial<IStackProps> = {
-  tokens: { childrenGap: 5 },
-  styles: { root: { width: 400 } },
+  tokens: { childrenGap: 15 },
 };
 
 const DayPickerStrings: IDatePickerStrings = {
@@ -101,33 +103,33 @@ const DayPickerStrings: IDatePickerStrings = {
   closeButtonAriaLabel: "Close date picker",
 };
 class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
+  testCaseChartReference: any;
+  testRunChartReference: any;
+  testCaseChart: Chart;
+  testRunChart: Chart;
+
   constructor(props) {
     super(props);
+
+    this.testCaseChartReference = React.createRef();
+    this.testRunChartReference = React.createRef();
 
     this.state = {
       startDate: null,
       endDate: null,
-      runData: {
-        labels: ["Erfolgreich", "Fehlerhaft", "Nicht durchgeführt"],
-        datasets: [
-          {
-            label: "",
-            data: [0, 0, 0],
-            backgroundColor: [
-              "rgba(74, 192, 192, 0.2)",
-              "rgba(254, 99, 132, 0.2)",
-              "rgba(200, 203, 207, 0.2)",
-            ],
-            borderColor: [
-              "rgb(74, 192, 192)",
-              "rgb(254, 99, 132)",
-              "rgb(200, 203, 207)",
-            ],
-            borderWidth: 0,
-          },
-        ],
-      },
+      runData: null,
+      caseData: null,
       runOptions: {
+        responsive: true,
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          },
+        },
+        barThickness: "flex",
         title: {
           display: true,
           text: "Test Statistik",
@@ -145,40 +147,36 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
               return label;
             },
           },
-        }, */
-        scales: {
+        }, */ scales: {
           yAxes: [
             {
               ticks: {
                 beginAtZero: true,
+                fontSize: 11,
+              },
+            },
+          ],
+          xAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                fontSize: 9,
               },
             },
           ],
         },
       },
-      caseData: {
-        labels: ["Erfolgreich", "Fehlerhaft", "Optional", "Nicht durchgeführt"],
-        datasets: [
-          {
-            label: "",
-            data: [0, 0, 0, 0],
-            backgroundColor: [
-              "rgba(74, 192, 192, 0.2)",
-              "rgba(254, 99, 132, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(200, 203, 207, 0.2)",
-            ],
-            borderColor: [
-              "rgb(74, 192, 192)",
-              "rgb(254, 99, 132)",
-              "rgb(153, 102, 255)",
-              "rgb(200, 203, 207)",
-            ],
-            borderWidth: 0,
-          },
-        ],
-      },
       caseOptions: {
+        responsive: true,
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          },
+        },
+        barThickness: "flex",
         title: {
           display: true,
           text: "Testfall Statistik",
@@ -202,6 +200,15 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
             {
               ticks: {
                 beginAtZero: true,
+                fontSize: 11,
+              },
+            },
+          ],
+          xAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                fontSize: 9,
               },
             },
           ],
@@ -212,30 +219,24 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 
   /* #region  react lifecycle methods */
   componentDidMount() {
-    if (
-      this.state.runData.datasets[0].data[0] == 0 &&
-      this.state.runData.datasets[0].data[1] == 0 &&
-      this.state.runData.datasets[0].data[2] == 0
-    )
-      this.getTestRunStatistics();
-    if (
-      this.state.caseData.datasets[0].data[0] == 0 &&
-      this.state.caseData.datasets[0].data[1] == 0 &&
-      this.state.caseData.datasets[0].data[2] == 0
-    )
-      this.getTestCaseStatistics();
+    const { runData, caseData } = this.state;
+
+    if (!runData) this.getTestRunStatistics();
+    if (!caseData) this.getTestCaseStatistics();
   }
 
   componentDidUpdate(prevProps: object, prevState: object) {
+    const { startDate, endDate } = this.state;
+
     if (
-      prevState["startDate"] != this.state.startDate ||
-      prevState["endDate"] != this.state.endDate
+      prevState["startDate"] != startDate ||
+      prevState["endDate"] != endDate
     ) {
       this.getTestCaseStatistics();
       this.getTestRunStatistics();
     }
-    /* #endregion */
   }
+  /* #endregion */
 
   /* #region  database request methods */
   async getTestRunStatistics() {
@@ -270,11 +271,29 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
     fetch(url, requestOptions)
       .then(async (response) => {
         const body: TestRunStatisticModel = await response.json();
-        let newData = this.state.runData;
-        newData.datasets[0].data[0] = body.successful;
-        newData.datasets[0].data[1] = body.failed;
-        newData.datasets[0].data[2] = body.notDone;
-        this.setState({ runData: newData });
+        const { runData } = this.state;
+        let newData = runData;
+        (newData = {
+          labels: ["Erfolgreich", "Fehlerhaft", "Nicht durchgeführt"],
+          datasets: [
+            {
+              label: "",
+              data: [body.successful, body.failed, body.notDone],
+              backgroundColor: [
+                "rgba(74, 192, 192, 0.2)",
+                "rgba(254, 99, 132, 0.2)",
+                "rgba(200, 203, 207, 0.2)",
+              ],
+              borderColor: [
+                "rgb(74, 192, 192)",
+                "rgb(254, 99, 132)",
+                "rgb(200, 203, 207)",
+              ],
+              borderWidth: 0,
+            },
+          ],
+        }),
+          this.setState({ runData: newData });
       })
 
       .catch((rejected) => console.log(rejected));
@@ -314,35 +333,103 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
     fetch(url, requestOptions)
       .then(async (response) => {
         const body: TestCaseStatisticModel = await response.json();
-        let newData = this.state.caseData;
-        newData.datasets[0].data[0] = body.successful;
-        newData.datasets[0].data[1] = body.failed;
-        newData.datasets[0].data[2] = body.optional;
-        newData.datasets[0].data[3] = body.notDone;
-        this.setState({ caseData: newData });
+        const { caseData } = this.state;
+        let newData = caseData;
+        (newData = {
+          labels: [
+            "Erfolgreich",
+            "Fehlerhaft",
+            "Optional",
+            "Nicht durchgeführt",
+          ],
+          datasets: [
+            {
+              label: "",
+              data: [body.successful, body.failed, body.optional, body.notDone],
+              backgroundColor: [
+                "rgba(74, 192, 192, 0.2)",
+                "rgba(254, 99, 132, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(200, 203, 207, 0.2)",
+              ],
+              borderColor: [
+                "rgb(74, 192, 192)",
+                "rgb(254, 99, 132)",
+                "rgb(153, 102, 255)",
+                "rgb(200, 203, 207)",
+              ],
+              borderWidth: 0,
+            },
+          ],
+        }),
+          this.setState({ caseData: newData });
       })
 
       .catch((rejected) => console.log(rejected));
   }
   /* #endregion */
 
+  renderStatisticsCharts() {
+    const { runData, caseData, runOptions, caseOptions } = this.state;
+    const { enableStatisticsChart } = this.props;
+
+    if (enableStatisticsChart) {
+      if (runData || caseData) {
+        return (
+          <div className={styles.ChartContainer}>
+            {runData ? (
+              <div className={styles.leftChart}>
+                <Bar
+                  redraw={true}
+                  ref={this.testRunChartReference}
+                  height={300}
+                  data={runData}
+                  options={runOptions}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+            {caseData ? (
+              <div className={styles.rightChart}>
+                <Bar
+                  redraw={true}
+                  ref={this.testCaseChartReference}
+                  height={300}
+                  data={caseData}
+                  options={caseOptions}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        );
+      }
+    }
+  }
+
+  renderDrillDownChart(): React.ReactNode {
+    const { enableDrillDown } = this.props;
+    if (enableDrillDown)
+      return (
+        <DrillDownChart
+          teamsContext={this.props.teamsContext}
+          serverURL={this.props.serverURL}
+        />
+      );
+  }
+
   public render(): React.ReactElement<IDashboardProps> {
-    const {
-      runData,
-      runOptions,
-      caseData,
-      caseOptions,
-      startDate,
-      endDate,
-    } = this.state;
+    const { startDate, endDate } = this.state;
 
     const resetIcon: IIconProps = { iconName: "Cancel" };
 
     return (
       <div className={styles.Dashboard}>
-        <Route path="/dashboard">
-          <Stack {...columnPropsVertical}>
-            <Stack horizontal {...columnPropsHorizontal}>
+        <Stack {...columnPropsVertical}>
+          <Stack horizontal {...columnPropsHorizontal}>
+            <Stack horizontal>
               <DatePicker
                 firstDayOfWeek={DayOfWeek.Monday}
                 strings={DayPickerStrings}
@@ -366,7 +453,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
                 onClick={() => this.setState({ startDate: null })}
               />
             </Stack>
-            <Stack horizontal {...columnPropsHorizontal}>
+            <Stack horizontal>
               <DatePicker
                 firstDayOfWeek={DayOfWeek.Monday}
                 strings={DayPickerStrings}
@@ -391,30 +478,9 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
               />
             </Stack>
           </Stack>
-          <ChartControl
-            type={ChartType.Bar}
-            data={runData}
-            options={runOptions}
-          />
-          <ChartControl
-            type={ChartType.Bar}
-            data={caseData}
-            options={caseOptions}
-          />
-          <TestRunOverview
-            teamsContext={this.props.teamsContext}
-            readonly={true}
-            startDate={startDate}
-            endDate={endDate}
-            serverURL={this.props.serverURL}
-          />
-        </Route>
-        <Route path="/dashboard/drilldown">
-          <DrillDownChart
-            teamsContext={this.props.teamsContext}
-            serverURL={this.props.serverURL}
-          />
-        </Route>
+          {this.renderStatisticsCharts()}
+          {this.renderDrillDownChart()}
+        </Stack>
       </div>
     );
   }

@@ -1,6 +1,21 @@
 .Dashboard {
-  margin: 5px;
+  Stack {
+    margin-top: 0px;
+  }
 }
 .DatePicker {
   width: 220px;
+}
+.ChartContainer {
+  width: 100%;
+}
+.leftChart {
+  float: left;
+  width: 50%;
+  position: relative;
+}
+.rightChart {
+  float: right;
+  width: 50%;
+  position: relative;
 }
