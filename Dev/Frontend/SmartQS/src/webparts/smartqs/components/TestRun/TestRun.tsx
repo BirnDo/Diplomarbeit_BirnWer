@@ -135,6 +135,8 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
     const newId: string = this.props["match"]["params"]["id"];
     const oldId: string = this.state._id;
 
+    console.log(newId);
+
     if (newId != oldId) {
       //this.updateTestCases(this.state);
       this.getTestRun();
@@ -188,6 +190,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
 
   async getTestRun() {
     const id = this.props["match"]["params"]["id"];
+    console.log(id);
     if (id != null) {
       const url = this.props.serverURL + "/testDefinitionById/" + id;
       const requestOptions = {

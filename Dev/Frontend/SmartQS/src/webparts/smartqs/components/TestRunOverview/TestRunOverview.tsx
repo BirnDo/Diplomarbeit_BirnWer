@@ -158,13 +158,18 @@ class TestRunOverview extends React.Component<
     const id = this.props["history"]["location"]["pathname"].split("/")[2]
       ? this.props["history"]["location"]["pathname"].split("/")[2]
       : null; // receives the id from url to set the selected nav bar element
-    const urlPath =
+    let urlPath =
       "/" + this.props["history"]["location"]["pathname"].split("/")[1]; // receives the url path like /dashboard or /runTest for route configuration
+    console.log(urlPath);
+    if (urlPath == "/") urlPath += ":id";
+    else urlPath += "/:id";
 
+    console.log(urlPath);
     return (
       <div className={styles.TestRunOverview}>
-        <div className={styles.Nav}>
+        <div>
           <Nav
+            className={styles.Nav}
             styles={{
               root: {
                 width: "fit-content",
@@ -181,7 +186,8 @@ class TestRunOverview extends React.Component<
         </div>
         <div className={styles.Testrun}>
           <Route
-            path={urlPath + "/:id"} // dynamically setting route path as this component gets called from /dashboard or /runTest
+            exact
+            path={urlPath} // dynamically setting route path as this component gets called from /dashboard or /runTest
           >
             <TestRun
               reloadTestRunNav={this.reloadTestRunNav} // helper function to allow the test run to update the navbar
