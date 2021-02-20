@@ -22,6 +22,7 @@
     "chart.js": "^2.9.4",
     "office-ui-fabric-react": "6.214.0",
     "react": "16.8.5",
+    "react-chartjs-2": "^2.11.1",
     "react-dom": "16.8.5",
     "react-drag-listview": "^0.1.8",
     "react-router-dom": "^5.2.0"
