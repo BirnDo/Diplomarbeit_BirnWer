@@ -4,6 +4,7 @@ import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
+  PropertyPaneToggle,
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 
@@ -13,6 +14,8 @@ import { ISmartqsProps } from "./components/ISmartqsProps";
 
 export interface ISmartqsWebPartProps {
   serverURL: string;
+  enableDrillDown: boolean;
+  enableStatisticsChart: boolean;
 }
 
 export default class SmartqsWebPart extends BaseClientSideWebPart<
@@ -24,6 +27,8 @@ export default class SmartqsWebPart extends BaseClientSideWebPart<
       {
         serverURL: this.properties.serverURL,
         context: this.context,
+        enableDrillDown: this.properties.enableDrillDown,
+        enableStatisticsChart: this.properties.enableStatisticsChart,
       }
     );
 
@@ -47,6 +52,14 @@ export default class SmartqsWebPart extends BaseClientSideWebPart<
               groupFields: [
                 PropertyPaneTextField("serverURL", {
                   label: "Backend URL",
+                }),
+                PropertyPaneToggle("enableDrillDown", {
+                  label: "Drill Down Chart",
+                  checked: true,
+                }),
+                PropertyPaneToggle("enableStatisticsChart", {
+                  label: "Test Statistik Chart",
+                  checked: true,
                 }),
               ],
             },

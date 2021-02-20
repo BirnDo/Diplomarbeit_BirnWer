@@ -36,6 +36,8 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
                 : null
             }
             serverURL={this.props.serverURL}
+            enableDrillDown={this.props.enableDrillDown}
+            enableStatisticsChart={this.props.enableStatisticsChart}
           />
         </HashRouter>
       </div>

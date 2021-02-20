@@ -19,6 +19,7 @@ import TestRunOverview from "../TestRunOverview/TestRunOverview";
 import { Pivot, PivotItem } from "office-ui-fabric-react/lib/Pivot";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { UrlQueryParameterCollection } from "@microsoft/sp-core-library";
+import Home from "../Home/Home";
 
 class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
   constructor(props) {
@@ -28,6 +29,7 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
       "60214626ed9dc82eb87f0a57",
       "60214620ed9dc82eb87f0a53",
     ]); */
+    this.props["history"].push("/home");
   }
 
   deleteTestruns(blacklist: string[]) {
@@ -82,7 +84,7 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
           }} // link to navigate between pages
           selectedKey={path} // currently selected element
         >
-          <PivotItem headerText="Home" itemKey="/"></PivotItem>
+          <PivotItem headerText="Home" itemKey="/home"></PivotItem>
           <PivotItem headerText="Dashboard" itemKey="/dashboard"></PivotItem>
           <PivotItem
             headerText="Tests durchführen"
@@ -95,13 +97,19 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
         </Pivot>
         <div className={styles.Switch}>
           <Switch>
-            <Route exact path="/">
-              Tool für manuelles Software-Testing
+            <Route path="/home">
+              <Home
+                teamsContext={this.props.teamsContext}
+                serverURL={this.props.serverURL}
+                readonly={true}
+              />
             </Route>
             <Route path="/dashboard">
               <Dashboard
                 teamsContext={this.props.teamsContext}
                 serverURL={this.props.serverURL}
+                enableDrillDown={this.props.enableDrillDown}
+                enableStatisticsChart={this.props.enableStatisticsChart}
               />
             </Route>
             <Route path="/runTest">
