@@ -13,11 +13,13 @@ import {
   getTheme,
   mergeStyleSets,
   rgb2hsv,
+  TextField,
 } from "office-ui-fabric-react";
 import TestRunModel from "../../model/TestRunModel";
 import DetailedDashboard from "../DetailedDashboard/DetailedDrillDownChart";
 import { Accordion } from "@pnp/spfx-controls-react/lib/Accordion";
 import styles from "./DrillDownChart.module.scss";
+import { Bar } from "react-chartjs-2";
 
 interface IDrillDownChartProps {
   teamsContext: any;
@@ -105,7 +107,7 @@ class DrillDownChart extends React.Component<
           ? data.datasets[this.chart.getElementAtEvent(e)[0]._datasetIndex]._id
           : null;
         if (id != null) {
-          this.props["history"].push("/dashboard/drilldown/" + id);
+          this.props["history"].push("/dashboard/" + id);
         }
       },
       scales: {
@@ -152,13 +154,14 @@ class DrillDownChart extends React.Component<
     body.map((value, index) => {
       data.datasets.push({
         label: value.name,
-        data: [10],
-        backgroundColor: value.finished
-          ? "rgba(0, 255, 0, 0.9)"
-          : value.finished == false
-          ? "rgba(255, 0, 0, 0.9)"
-          : "grey",
-        borderColor: "black",
+        data: [1],
+        backgroundColor:
+          value.finished == true
+            ? "rgba(74, 192, 192, 0.2)"
+            : value.finished == false
+            ? "rgba(254, 99, 132, 0.2)"
+            : "rgba(200, 203, 207, 0.2)",
+        borderColor: "rgb(74, 192, 192)",
         borderWidth: 1,
         _id: value._id,
         finished: value.finished,
@@ -176,19 +179,24 @@ class DrillDownChart extends React.Component<
   public render(): React.ReactElement<IDrillDownChartProps> {
     return (
       <>
-        <Route exact path="/dashboard/drilldown">
-          <DefaultButton
-            className={styles.Button}
-            data-automation-id="test"
-            allowDisabledFocus={true}
-            disabled={false}
-            checked={false}
-            text="zurück"
-            onClick={() => this.props["history"].push("/dashboard")}
-          />
+        <Route exact path="/dashboard">
           <canvas ref={this.canvasRef} />
+          {/* <Bar
+            data={{
+              labels: ["test1", "test2", "test3"],
+              datasets: [{ data: [3, 2, 4] }],
+            }}
+            width={1000}
+          /> */}
+          {/* <ChartControl
+            type={ChartType.Bar}
+            data={{
+              labels: ["test1", "test2", "test3"],
+              datasets: [{ data: [3, 2, 4] }],
+            }}
+          /> */}
         </Route>
-        <Route path="/dashboard/drilldown/:id">
+        <Route path="/dashboard/:id">
           <DetailedDashboard serverURL={this.props.serverURL} />
         </Route>
       </>

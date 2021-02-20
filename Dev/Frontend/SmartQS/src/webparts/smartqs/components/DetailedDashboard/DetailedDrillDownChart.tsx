@@ -173,13 +173,18 @@ class DetailedDrillDownChart extends React.Component<
         data: [10],
         backgroundColor:
           value.status == "successful"
-            ? "rgba(0, 255, 0, 0.9)"
+            ? "rgba(74, 192, 192, 0.2)"
             : value.status == "faulty"
-            ? "rgba(255, 0, 0, 0.9)"
+            ? "rgba(254, 99, 132, 0.2)"
             : value.status == "optional"
-            ? "rgba(138,16,233, 0.9)"
-            : "grey",
-        borderColor: "black",
+            ? "rgba(153, 102, 255, 0.2)"
+            : "rgba(200, 203, 207, 0.2)",
+        borderColor: [
+          "rgb(74, 192, 192)",
+          "rgb(254, 99, 132)",
+          "rgb(153, 102, 255)",
+          "rgb(200, 203, 207)",
+        ],
         borderWidth: 1,
         description: value.description,
         comments: value.comments,
@@ -235,7 +240,7 @@ class DetailedDrillDownChart extends React.Component<
           disabled={false}
           checked={false}
           text="zurück"
-          onClick={() => this.props["history"].push("/dashboard/drilldown")}
+          onClick={() => this.props["history"].push("/dashboard")}
         />
         <canvas ref={this.canvasRef} />
         <Modal
