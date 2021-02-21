@@ -16,6 +16,7 @@ interface ITestRunOverviewProps {
   startDate: string;
   endDate: string;
   serverURL: string;
+  navTitle: string;
 }
 interface ITestRunOverviewState {
   navLinkGroups: INavLinkGroup[];
@@ -105,6 +106,12 @@ class TestRunOverview extends React.Component<
     const urlPath =
       "/" + this.props["history"]["location"]["pathname"].split("/")[1];
 
+    if (this.props.readonly)
+      // only show completed when readonly mode is set
+      testRunsInfo.filter((value) => {
+        value.finished != null;
+      });
+
     // sort test Runs by createdOn Date
     testRunsInfo.sort((x, y) => {
       return new Date(y.createdOn).getTime() - new Date(x.createdOn).getTime();
@@ -130,7 +137,7 @@ class TestRunOverview extends React.Component<
       });
 
       let navLinkGroups: INavLinkGroup[] = [
-        { name: "Test Runs", links: navLinks },
+        { name: this.props.navTitle, links: navLinks },
       ];
       console.log(navLinkGroups);
 
