@@ -50,11 +50,9 @@ https://M365x750080.sharepoint.com
 * grid beim testfall erstellen listview
 * tenet property mit baseurl
 * azure ad authentifizierung
-* property drill down ja nein
-* home mit test runs von dashboard mit filter möglichkeit; navbar unbennen zu druchgeführte tests; nur completed angezeigt
-* dashboard page graphs nebeneinander; datepicker nebeinander
 * bei optioal abgehackte tests bei readonly steht fehlermeldung
 ### known bugs
 * beschreibung im richtext ändert sich nicht beim reorder -> state ist richtig; richtext aktualisiert den wert nicht
 * dialog mit datepicker hat teilweise anzeigefehler
 * beim Filtern der test runs durch einen Zeitraum -> falls die datumseingrenzung keiner Ergebnisse liefert werden die nav links nicht aktualiesert; warum?
+* dashboard ansicht hat oben vor datpicker eine margin, bei home ansich nicht --> liegt an cavas, mit ChartControl keine margin
