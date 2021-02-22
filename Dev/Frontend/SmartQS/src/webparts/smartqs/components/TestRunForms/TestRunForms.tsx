@@ -1,6 +1,13 @@
 import * as React from "react";
 import * as _ from "lodash";
 
+import {
+  ListView,
+  IViewField,
+  SelectionMode,
+  GroupOrder,
+  IGrouping,
+} from "@pnp/spfx-controls-react/lib/ListView";
 import ReactDragListView from "react-drag-listview/lib/index.js";
 import "./ListView.css";
 import styles from "./TestRunForms.module.scss";
@@ -309,8 +316,33 @@ export default class TestRunForms extends React.Component<
     const cancelIcon: IIconProps = { iconName: "Cancel" };
 
     console.log(this.state);
+    const viewFields: IViewField[] = [
+      {
+        name: "id",
+        displayName: "",
+      },
+      { name: "title" },
+      { name: "desc" },
+    ];
+    const items: any[] = [
+      { id: "1", title: "11", desc: "111" },
+      { id: "2", title: "22", desc: "222" },
+    ];
+
     return (
       <>
+        <ListView
+          items={items}
+          viewFields={viewFields}
+          /* iconFieldName="ServerRelativeUrl" */
+          compact={true}
+          selectionMode={SelectionMode.none}
+          /* selection={this._getSelection} */
+          /* groupByFields={groupByFields} */
+          dragDropFiles={false}
+          /* onDrop={this._getDropFiles} */
+          stickyHeader={true}
+        />
         <Stack {...columnPropsVertical}>
           <TextField
             onChange={(value) => {
