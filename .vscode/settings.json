@@ -1,7 +1,0 @@
-{
-  "cSpell.words": ["Smartqs", "sdks"],
-  "vim.handleKeys": {
-    "<C-c>": false,
-    "<C-v>": false
-  }
-}
