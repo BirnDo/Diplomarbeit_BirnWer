@@ -422,6 +422,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 
   public render(): React.ReactElement<IDashboardProps> {
     const { startDate, endDate } = this.state;
+    console.log(this.props);
 
     const resetIcon: IIconProps = { iconName: "Cancel" };
 

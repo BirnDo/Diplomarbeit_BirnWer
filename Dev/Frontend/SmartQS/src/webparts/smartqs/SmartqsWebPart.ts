@@ -56,10 +56,12 @@ export default class SmartqsWebPart extends BaseClientSideWebPart<
                 PropertyPaneToggle("enableDrillDown", {
                   label: "Drill Down Chart",
                   checked: true,
+                  key: "drilldown",
                 }),
                 PropertyPaneToggle("enableStatisticsChart", {
                   label: "Test Statistik Chart",
                   checked: true,
+                  key: "statistics",
                 }),
               ],
             },
