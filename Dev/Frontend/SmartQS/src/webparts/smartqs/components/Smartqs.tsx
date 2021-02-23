@@ -12,6 +12,7 @@ import styles from "./Smartqs.module.scss";
 class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
   constructor(props) {
     super(props);
+    console.log(this.props);
 
     // registers icons for usage in navbar
     registerIcons({
