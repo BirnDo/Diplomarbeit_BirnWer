@@ -17,6 +17,7 @@ import { StorageEntityService } from "../services/StorageEntityService";
 class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
   constructor(props) {
     super(props);
+    console.log(this.props);
 
     this.state = {
       serverURL: "",
