@@ -8,11 +8,19 @@ import FailureIcon from "../../../assets/SvgIcoFailure";
 import { registerIcons } from "@uifabric/styling";
 import SmartQSNav from "./SmartQSNav/SmartQSNav";
 import styles from "./Smartqs.module.scss";
+import { Web } from "@pnp/sp/webs";
+import { sp, SPHttpClient } from "@pnp/sp";
+
+import { personaPresenceSize } from "office-ui-fabric-react";
+import { StorageEntityService } from "../services/StorageEntityService";
 
 class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
   constructor(props) {
     super(props);
 
+    this.state = {
+      serverURL: "",
+    };
     // registers icons for usage in navbar
     registerIcons({
       style: {
@@ -25,7 +33,21 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
     });
   }
 
+  async componentDidMount() {
+    this.loadTenantProperty();
+  }
+
+  async loadTenantProperty() {
+    let spService: StorageEntityService = new StorageEntityService(
+      this.props.context
+    );
+    debugger;
+    const prop: string = await spService.GetStorageEntity("smartqsserviceurl");
+    this.setState({ serverURL: prop });
+  }
+
   public render(): React.ReactElement<ISmartqsProps> {
+    const { serverURL } = this.state;
     return (
       <div className={styles.smartqs}>
         <HashRouter>
@@ -35,7 +57,7 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
                 ? this.props.context.sdks.microsoftTeams.context
                 : null
             }
-            serverURL={this.props.serverURL}
+            serverURL={serverURL}
             enableDrillDown={this.props.enableDrillDown}
             enableStatisticsChart={this.props.enableStatisticsChart}
           />

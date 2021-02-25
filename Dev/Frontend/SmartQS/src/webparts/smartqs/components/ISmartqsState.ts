@@ -1,1 +1,3 @@
-export interface ISmartqsState {}
+export interface ISmartqsState {
+  serverURL: string;
+}

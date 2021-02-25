@@ -13,19 +13,15 @@ import Smartqs from "./components/Smartqs";
 import { ISmartqsProps } from "./components/ISmartqsProps";
 
 export interface ISmartqsWebPartProps {
-  serverURL: string;
   enableDrillDown: boolean;
   enableStatisticsChart: boolean;
 }
 
-export default class SmartqsWebPart extends BaseClientSideWebPart<
-  ISmartqsWebPartProps
-> {
+export default class SmartqsWebPart extends BaseClientSideWebPart<ISmartqsWebPartProps> {
   public render(): void {
     const element: React.ReactElement<ISmartqsProps> = React.createElement(
       Smartqs,
       {
-        serverURL: this.properties.serverURL,
         context: this.context,
         enableDrillDown: this.properties.enableDrillDown,
         enableStatisticsChart: this.properties.enableStatisticsChart,
@@ -50,9 +46,6 @@ export default class SmartqsWebPart extends BaseClientSideWebPart<
           groups: [
             {
               groupFields: [
-                PropertyPaneTextField("serverURL", {
-                  label: "Backend URL",
-                }),
                 PropertyPaneToggle("enableDrillDown", {
                   label: "Drill Down Chart",
                   checked: true,
