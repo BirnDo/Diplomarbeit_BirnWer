@@ -15,4 +15,5 @@
 | 13.1. - 19.1. | SwaggerUI für API-Dokumentation recherchiert und Dokumentation begonnen, API-Deployment für Azure recherchiert | 12 | https://github.com/swagger-api/swagger-ui |
 | 20.1. - 3.2. | API-Dokumentation fortgeführt, möglichkeit für Optionale Tests hinzugefügt, Punkte für Präsentation genauer spezifiziert | 12 | |
 | 4.2. - 11.2. | APIs für erhalt von Statistiken erstellt, Dokumentation weitergeführt | 15 | |
-| 12.2. - 17.2. | Endpoints der Verschiedenen APIs pro Channel mit allgemeinen Requests zusammengeführt, möglichkeit für FIltern nach Datum hinzugefügt, Dokumentation angepasst  | 20 | |
+| 12.2. - 17.2. | Endpoints der Verschiedenen APIs pro Channel mit allgemeinen Requests zusammengeführt, möglichkeit für Filtern nach Datum hinzugefügt, Dokumentation angepasst  | 20 | |
+| 18.2. - 24.2. | Code besser dokumentiert, Möglichkeit zum senden von Teams-Nachrichten gesucht und erste Umsetzung | 18 | |
