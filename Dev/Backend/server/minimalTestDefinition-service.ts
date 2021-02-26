@@ -1,7 +1,12 @@
 import TestDefinition, { MinimalDefinition } from "./testDefinition-model";
 import { ReadPreference } from "mongodb";
 
-// test Runs without testCasess
+/**
+ * Resturns all Minimal Test Definitions
+ * @author Dominik Birngruber
+ * @param req
+ * @param res
+ */
 function getMinimalTestDefinitions(req: any, res: any) {
   TestDefinition.find({})
     .read(ReadPreference.NEAREST)
@@ -25,7 +30,13 @@ function getMinimalTestDefinitions(req: any, res: any) {
     });
 }
 
-// for minimal testRuns
+/**
+ * Returns all Minimal Test Definitions for a single tester
+ * @deprecated
+ * @author Dominik Birngruber
+ * @param req Th request with the tester in the path
+ * @param res
+ */
 function getMinimalTestDefinitionsByTester(req: any, res: any) {
   const tester = req.params.tester;
   TestDefinition.find({})
@@ -54,7 +65,12 @@ function getMinimalTestDefinitionsByTester(req: any, res: any) {
     });
 }
 
-// Minimal Test per channel
+/**
+ * Returns all Minimal Test Definitions for a channel
+ * @author Dominik Birngruber
+ * @param req The request with the channelID in the path
+ * @param res
+ */
 function getMinimalTestDefinitionsByChannel(req: any, res: any) {
   const channelID = req.params.channelID;
   TestDefinition.find({})
@@ -83,7 +99,12 @@ function getMinimalTestDefinitionsByChannel(req: any, res: any) {
     });
 }
 
-// get minimal Tests in a time period
+/**
+ * Returns all Minmal Test Definitions done in the given time period
+ * @author Dominik Birngruber
+ * @param req The request with the startDate and endDate in the body. If no endDate is given, it defaults to the current date.
+ * @param res
+ */
 function getMinimalTestDefinitionsByTimePeriod(req: any, res: any) {
   const startDate = Date.parse(
     req.body.startDate.split("T")[0] + "T00:00:00.000Z"
@@ -123,7 +144,12 @@ function getMinimalTestDefinitionsByTimePeriod(req: any, res: any) {
     });
 }
 
-// get minimal Tests in a time period for a specific channel
+/**
+ * Returns all Minimal Test Definitions done in the given time period for the given channel
+ * @author Dominik Birngruber
+ * @param req The request with the startDate and endDate in the bdoy and the channelID in the path. If no endDate is given it defaults to the current date
+ * @param res
+ */
 function getMinimalTestDefinitionsByTimePeriodAndChannelId(req: any, res: any) {
   const channelID = req.params.channelID;
   const startDate = Date.parse(

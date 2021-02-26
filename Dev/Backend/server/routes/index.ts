@@ -85,6 +85,42 @@ var minimalTestDefinitionService = require("../minimalTestDefinition-service");
  *               type: string
  *             required:
  *               type: boolean
+ *   UpdateDefinition:
+ *     properties:
+ *       name:
+ *         type: string
+ *       createdOn:
+ *         type: string
+ *       tester:
+ *         type: string
+ *       finished:
+ *         type: boolean
+ *       deadline:
+ *         type: string
+ *       doneOn:
+ *         type: string
+ *       channelID:
+ *         type: string
+ *       webhook:
+ *         type: string
+ *       testCases:
+ *         type: array
+ *         items:
+ *           properties:
+ *             title:
+ *               type: string
+ *             description:
+ *               type: string
+ *             status:
+ *               type: string
+ *             active:
+ *               type: boolean
+ *             comments:
+ *               type: string
+ *             image:
+ *               type: string
+ *             required:
+ *               type: boolean
  *   MinimalTestDefinition:
  *     properties:
  *       _id:
@@ -327,10 +363,10 @@ router.post("/addTestDefinition", function (req: any, res: any) {
  *         type: string
  *       - name: body
  *         in: body
- *         description: Fields that should get updated, every field is optional, except _id
+ *         description: Fields that should get updated, every field is optional, except _id. If a webhook is given and a finished changes to true or false, a card gets sent to the webhook
  *         required: true
  *         schema:
- *           $ref: '#/definitions/InsertDefinition'
+ *           $ref: '#/definitions/UpdateDefinition'
  *     responses:
  *       200:
  *         description: successful operations

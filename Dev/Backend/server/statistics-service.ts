@@ -1,6 +1,11 @@
 import TestDefinition, { TestCase } from "./testDefinition-model";
 
-// get Success statistics for all tests
+/**
+ * Returns the Success Statistics for all tests
+ * @author Dominik Birngruber
+ * @param req
+ * @param res
+ */
 function getSuccessStatistics(req: any, res: any) {
   TestDefinition.find({})
     .then((tests) => {
@@ -25,7 +30,12 @@ function getSuccessStatistics(req: any, res: any) {
     });
 }
 
-// get Success statistics for all tests from one channel
+/**
+ * Returns the success statistics for all tests of a single channel
+ * @author Dominik Birngruber
+ * @param req The request with the channelID in the path
+ * @param res
+ */
 function getSuccessStatisticsByChannelId(req: any, res: any) {
   const channelID = req.params.channelID;
   TestDefinition.find({})
@@ -53,6 +63,12 @@ function getSuccessStatisticsByChannelId(req: any, res: any) {
     });
 }
 
+/**
+ * Returns the success statistics for all tests in the given time period
+ * @author Dominik Birngruber
+ * @param req The request with the startDate and endDate in the body. If no endDate is given, it defaults to the current date
+ * @param res
+ */
 function getSuccessStatisticsByTimePeriod(req: any, res: any) {
   const startDate = Date.parse(
     req.body.startDate.split("T")[0] + "T00:00:00.000Z"
@@ -91,6 +107,12 @@ function getSuccessStatisticsByTimePeriod(req: any, res: any) {
     });
 }
 
+/**
+ * Returns the success statistics for all tests in the given time period of a single channel
+ * @author Dominik Birngruber
+ * @param req The request with the channelID in the path and the startDate and endDate in the body. If no endDate is given, it defaults to the current date
+ * @param res
+ */
 function getSuccessStatisticsByTimePeriodAndChannelId(req: any, res: any) {
   const channelID = req.params.channelID;
   const startDate = Date.parse(
@@ -132,7 +154,12 @@ function getSuccessStatisticsByTimePeriodAndChannelId(req: any, res: any) {
     });
 }
 
-// get Success statistics for all testcases
+/**
+ * Returns the success statistics of all Test Cases
+ * @author Dominik Birngruber
+ * @param req
+ * @param res
+ */
 function getTestCaseSuccessStatistics(req: any, res: any) {
   var allTestCases: TestCase[] = [];
 
@@ -169,7 +196,12 @@ function getTestCaseSuccessStatistics(req: any, res: any) {
     });
 }
 
-// get Success statistics for all testcases from one channel
+/**
+ * Returns the success statitsics of the Test Cases for the given channel
+ * @author Dominik Birngruber
+ * @param req The request with the channelID in the path
+ * @param res
+ */
 function getTestCaseSuccessStatisticsByChannelId(req: any, res: any) {
   var allTestCases: TestCase[] = [];
   const channelID = req.params.channelID;
@@ -209,6 +241,12 @@ function getTestCaseSuccessStatisticsByChannelId(req: any, res: any) {
     });
 }
 
+/**
+ * Returns the success statistics of the Test Cases for the given time period
+ * @author Dominik Birngruber
+ * @param req The request with the startDate and endDate in the body. If no endDate is given it defaults to the current date.
+ * @param res
+ */
 function getTestCaseSuccessStatisticsByTimePeriod(req: any, res: any) {
   var allTestCases: TestCase[] = [];
   const startDate = Date.parse(
@@ -257,6 +295,12 @@ function getTestCaseSuccessStatisticsByTimePeriod(req: any, res: any) {
     });
 }
 
+/**
+ * Returns the success statistics of the Test Cases for the given time period and the given channel
+ * @author Dominik Birngruber
+ * @param req The request with the startDate and endDate in the body and the channelID in th path. If no endDate is given, it defaults to the current date.
+ * @param res
+ */
 function getTestCaseSuccessStatisticsByTimePeriodAndChannelId(
   req: any,
   res: any
