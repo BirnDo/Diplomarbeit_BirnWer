@@ -17,7 +17,6 @@ import { StorageEntityService } from "../services/StorageEntityService";
 class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
   constructor(props) {
     super(props);
-    console.log(this.props);
 
     this.state = {
       serverURL: "",
@@ -42,8 +41,8 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
     let spService: StorageEntityService = new StorageEntityService(
       this.props.context
     );
-    debugger;
     const prop: string = await spService.GetStorageEntity("smartqsserviceurl");
+    if (!prop) window.alert("smartqsserviceurl tenant property is empty");
     this.setState({ serverURL: prop });
   }
 
