@@ -24,6 +24,7 @@ import {
   IIconProps,
   ThemeSettingName,
   values,
+  Icon,
 } from "office-ui-fabric-react";
 import { useId, useBoolean } from "@uifabric/react-hooks";
 import {
@@ -59,17 +60,19 @@ interface ITestRunFormsProps {
   serverURL: string;
 }
 interface ITestRunFormsState extends TestRunModel {
-  showModal: boolean;
+  showReorderModal: boolean;
+  showEditModal: boolean;
+  activeCaseIndex: number;
 }
 
 const columnPropsVertical: Partial<IStackProps> = {
   tokens: { childrenGap: 15 },
-  styles: { root: { width: 200 } },
+  styles: { root: { width: 250 } },
 };
 
 const columnPropsHorizontal: Partial<IStackProps> = {
   tokens: { childrenGap: 15 },
-  styles: { root: { width: 500 } },
+  styles: { root: { width: 650 } },
 };
 
 const DayPickerStrings: IDatePickerStrings = {
@@ -131,8 +134,10 @@ export default class TestRunForms extends React.Component<
     super(props);
 
     this.state = {
+      activeCaseIndex: null,
+      showReorderModal: false,
+      showEditModal: false,
       doneOn: null,
-      showModal: false,
       _id: "",
       name: "",
       channelID: this.props.teamsContext
@@ -240,12 +245,20 @@ export default class TestRunForms extends React.Component<
     this.setState({ testCases: newTestCases });
   }
 
-  showModal = () => {
-    this.setState({ showModal: true });
+  showReorderModal = () => {
+    this.setState({ showReorderModal: true });
   };
 
-  hideModal = () => {
-    this.setState({ showModal: false });
+  hideReorderModal = () => {
+    this.setState({ showReorderModal: false });
+  };
+
+  showEditModal = () => {
+    this.setState({ showEditModal: true });
+  };
+
+  hideEditModal = () => {
+    this.setState({ showEditModal: false });
   };
   /* #endregion */
 
@@ -298,6 +311,95 @@ export default class TestRunForms extends React.Component<
 
     return renderedTestCases;
   }
+
+  renderEditCase(): React.ReactNode {
+    const { testCases, activeCaseIndex } = this.state;
+    if (activeCaseIndex != null) {
+      const testCase = testCases[activeCaseIndex];
+      return (
+        <Stack horizontal {...columnPropsHorizontal}>
+          <Stack>
+            <Label>Erforderlich</Label>
+            <Checkbox
+              checked={testCase.required}
+              onChange={() =>
+                this.handleCheckbox(activeCaseIndex, !testCase.required)
+              }
+            />
+          </Stack>
+          <Stack>
+            <Label>Titel</Label>
+            <TextField
+              value={testCase.title}
+              onChange={(value) => {
+                this.handleTitleText(activeCaseIndex, value.target["value"]);
+              }}
+            />
+          </Stack>
+          <Stack>
+            <Label>Beschreibung</Label>
+            <RichText
+              className={styles.RichText}
+              value={testCase.description}
+              onChange={(value) => this.handleRichText(activeCaseIndex, value)}
+            />
+          </Stack>
+        </Stack>
+      );
+    }
+  }
+
+  renderListView(): React.ReactNode {
+    let { testCases } = this.state;
+
+    const editIcon: IIconProps = { iconName: "Edit" };
+    const viewFields: IViewField[] = [
+      { name: "title", displayName: "Titel" },
+      {
+        name: "",
+        displayName: "",
+        render: (item, index, column) => (
+          <IconButton
+            className={styles.editIcon}
+            iconProps={editIcon}
+            styles={editIconButtonStyles}
+            ariaLabel="edit column"
+            onClick={() => {
+              this.setState({ activeCaseIndex: index });
+              this.showEditModal();
+            }}
+          />
+        ),
+      },
+    ];
+
+    if (testCases.length == 0)
+      testCases.push({
+        title: "",
+        description: "",
+        status: null,
+        active: false,
+        comments: "",
+        image: "",
+        required: true,
+      });
+    return (
+      <div className={styles.ListView}>
+        <ListView
+          items={this.state.testCases}
+          viewFields={viewFields}
+          /* iconFieldName="ServerRelativeUrl" */
+          /* compact={true} */
+          selectionMode={SelectionMode.none}
+          /* selection={this._getSelection} */
+          /* groupByFields={groupByFields} */
+          dragDropFiles={false}
+          /* onDrop={this._getDropFiles} */
+          stickyHeader={true}
+        />
+      </div>
+    );
+  }
   /* #endregion */
 
   public render(): React.ReactElement<ITestRunFormsProps> {
@@ -315,34 +417,8 @@ export default class TestRunForms extends React.Component<
 
     const cancelIcon: IIconProps = { iconName: "Cancel" };
 
-    console.log(this.state);
-    const viewFields: IViewField[] = [
-      {
-        name: "id",
-        displayName: "",
-      },
-      { name: "title" },
-      { name: "desc" },
-    ];
-    const items: any[] = [
-      { id: "1", title: "11", desc: "111" },
-      { id: "2", title: "22", desc: "222" },
-    ];
-
     return (
       <>
-        <ListView
-          items={items}
-          viewFields={viewFields}
-          /* iconFieldName="ServerRelativeUrl" */
-          compact={true}
-          selectionMode={SelectionMode.none}
-          /* selection={this._getSelection} */
-          /* groupByFields={groupByFields} */
-          dragDropFiles={false}
-          /* onDrop={this._getDropFiles} */
-          stickyHeader={true}
-        />
         <Stack {...columnPropsVertical}>
           <TextField
             onChange={(value) => {
@@ -360,8 +436,10 @@ export default class TestRunForms extends React.Component<
               this.setState({ deadline: e.toISOString() });
             }}
           />
+          {/* <Label>Testfälle</Label> */}
+          {this.renderListView()}
 
-          {this.renderTestCases()}
+          {/* {this.renderTestCases()} */}
           <Stack horizontal {...columnPropsHorizontal}>
             <PrimaryButton
               disabled={false}
@@ -386,7 +464,7 @@ export default class TestRunForms extends React.Component<
               checked={false}
               text="Testfälle neu anordnen"
               onClick={() => {
-                this.setState({ showModal: true });
+                this.setState({ showReorderModal: true });
               }}
               allowDisabledFocus={true}
             />
@@ -401,8 +479,25 @@ export default class TestRunForms extends React.Component<
             allowDisabledFocus={true}
           />
           <Modal
-            isOpen={this.state.showModal}
-            onDismiss={this.hideModal}
+            isOpen={this.state.showEditModal}
+            onDismiss={this.hideEditModal}
+            isBlocking={false}
+            containerClassName={contentStyles.container}
+          >
+            <div className={contentStyles.header}>
+              <span>Testfall bearbeiten</span>
+              <IconButton
+                styles={iconButtonStyles}
+                iconProps={cancelIcon}
+                ariaLabel="Close popup modal"
+                onClick={this.hideEditModal}
+              />
+            </div>
+            <div className={contentStyles.body}>{this.renderEditCase()}</div>
+          </Modal>
+          <Modal
+            isOpen={this.state.showReorderModal}
+            onDismiss={this.hideReorderModal}
             isBlocking={false}
             containerClassName={contentStyles.container}
           >
@@ -412,7 +507,7 @@ export default class TestRunForms extends React.Component<
                 styles={iconButtonStyles}
                 iconProps={cancelIcon}
                 ariaLabel="Close popup modal"
-                onClick={this.hideModal}
+                onClick={this.hideReorderModal}
               />
             </div>
             <div className={contentStyles.body}>
@@ -445,7 +540,7 @@ const contentStyles = mergeStyleSets({
     display: "flex",
     flexFlow: "column nowrap",
     alignItems: "stretch",
-    minWidth: "800px",
+    minWidth: "700px",
   },
   header: [
     //eslint-disable-next-line deprecation/deprecation
@@ -484,4 +579,12 @@ const iconButtonStyles = {
   },
 };
 
+const editIconButtonStyles = {
+  root: {
+    color: theme.palette.neutralPrimary,
+  },
+  rootHovered: {
+    color: theme.palette.neutralDark,
+  },
+};
 /* #endregion */
