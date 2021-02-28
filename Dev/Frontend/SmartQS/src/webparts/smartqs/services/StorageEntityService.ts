@@ -18,7 +18,6 @@ export class StorageEntityService implements IStorageEntityService {
     return new Promise<string>(async (resolve, reject) => {
       // Get the page context
       const { absoluteUrl } = this.context.pageContext.web;
-      debugger;
       // Construct the storage key URL
       const apiUrl: string = `${absoluteUrl}/_api/web/GetStorageEntity('${storageKey}')`;
 
