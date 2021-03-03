@@ -2,6 +2,7 @@
    - Azure DevOps 
    - Excel
    - Testrail
+   - Was sind Nachteile an vorhandene Produkten? Kosten, Komplexität
 2. Design (Werner)
    - Farbdesign der App wird an Organisations-Design automatisch angepasst
    - Microsoft Design Bibliothek vervendet
