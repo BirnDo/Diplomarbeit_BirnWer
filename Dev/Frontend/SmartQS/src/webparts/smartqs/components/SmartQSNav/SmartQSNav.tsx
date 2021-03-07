@@ -117,7 +117,6 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
                 teamsContext={this.props.teamsContext}
                 readonly={false}
                 serverURL={this.props.serverURL}
-                navTitle={"Test Runs"}
               />
             </Route>
             <Route path="/createTest">

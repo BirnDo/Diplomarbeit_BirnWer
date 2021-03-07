@@ -169,7 +169,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
               startDate={startDate}
               endDate={endDate}
               serverURL={this.props.serverURL}
-              navTitle={"durchgeführte Tests"}
+              navTitle={"Durchgeführte Tests"}
             />
           </Stack>
         </Route>
