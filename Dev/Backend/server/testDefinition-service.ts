@@ -1,5 +1,6 @@
 import TestDefinition, { TestCase } from "./testDefinition-model";
 import { ReadPreference } from "mongodb";
+const fetch = require("node-fetch");
 
 /**
  * Returns all Test Definitions from the Database
@@ -32,7 +33,7 @@ function getById(req: any, res: any) {
       res.json(test);
     })
     .catch((err) => {
-      res.status.send(err);
+      res.status(500).send(err);
     });
 }
 
@@ -127,7 +128,7 @@ function update(req: any, res: any) {
  * @param finished wether the test was successful or not
  * @param webhook the webhook of the teams chat
  */
-function sendCard(
+async function sendCard(
   name: String,
   testCases: [TestCase],
   tester: String,
@@ -171,7 +172,7 @@ function sendCard(
                 " wurde von " +
                 tester +
                 " beendet. Der Test war " +
-                (finished ? "erfolgreich" : "nicht erfogreich") +
+                (finished ? "erfolgreich" : "nicht erfolgreich") +
                 ".",
               wrap: true,
             },
@@ -200,15 +201,12 @@ function sendCard(
     ],
   };
 
-  fetch(webhook + "", {
+  await fetch(webhook.toString(), {
     method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    redirect: "follow",
     body: JSON.stringify(card),
   });
+
+  return;
 }
 
 /**

@@ -49,7 +49,10 @@ https://M365x750080.sharepoint.com
 ## dev
 * azure ad authentifizierung
 * bei optioal abgehackte tests bei readonly steht fehlermeldung
+* dashboard drilldown chart not shown
+* testfall + - mit icons
 ### known bugs
 * dialog mit datepicker hat teilweise anzeigefehler
 * beim Filtern der test runs durch einen Zeitraum -> falls die datumseingrenzung keiner Ergebnisse liefert werden die nav links nicht aktualiesert; warum?
 * dashboard ansicht hat oben vor datpicker eine margin, bei home ansich nicht --> liegt an cavas, mit ChartControl keine margin
+* dashboard drilldown chart not shown
