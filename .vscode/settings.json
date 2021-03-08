@@ -1,0 +1,9 @@
+{
+  "cSpell.words": ["Smartqs", "sdks"],
+  "vim.handleKeys": {
+    "<C-c>": false,
+    "<C-v>": false
+  },
+  "appService.defaultWebAppToDeploy": "/subscriptions/622d2574-03b9-4ca0-b020-8409e0a1be3f/resourceGroups/RG_DWS_QS/providers/Microsoft.Web/sites/smartQSAPI",
+  "appService.deploySubpath": "Dev\\Backend\\server\\build"
+}
