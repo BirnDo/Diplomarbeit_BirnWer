@@ -58,6 +58,9 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
                   ? this.props.context.sdks.microsoftTeams.context
                   : null
               }
+              webpartContext={
+                this.props.context
+              }
               serverURL={serverURL}
               enableDrillDown={this.props.enableDrillDown}
               enableStatisticsChart={this.props.enableStatisticsChart}

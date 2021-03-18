@@ -107,6 +107,7 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
             <Route path="/dashboard">
               <Dashboard
                 teamsContext={this.props.teamsContext}
+                webpartContext= {this.props.webpartContext}
                 serverURL={this.props.serverURL}
                 enableDrillDown={this.props.enableDrillDown}
                 enableStatisticsChart={this.props.enableStatisticsChart}

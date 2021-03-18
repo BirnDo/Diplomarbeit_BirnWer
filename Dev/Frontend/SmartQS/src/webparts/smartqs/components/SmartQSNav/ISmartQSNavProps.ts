@@ -5,4 +5,5 @@ export interface ISmartQSNavProps {
   teamsContext: any;
   enableDrillDown: boolean;
   enableStatisticsChart: boolean;
+  webpartContext: any;
 }

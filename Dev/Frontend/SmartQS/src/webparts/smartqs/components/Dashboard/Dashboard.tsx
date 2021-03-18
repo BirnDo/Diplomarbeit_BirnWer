@@ -29,12 +29,15 @@ import TestRunStatisticModel from "../../model/TestRunStatisticsModel";
 import TestCaseStatisticModel from "../../model/TestCaseStatisticsModel";
 import TestRunOverview from "../TestRunOverview/TestRunOverview";
 import { Bar, Line } from "react-chartjs-2";
+import { AadHttpClient, HttpClientResponse } from '@microsoft/sp-http';
+
 
 interface IDashboardProps {
   teamsContext: any;
   serverURL: string;
   enableDrillDown: boolean;
   enableStatisticsChart: boolean;
+  webpartContext: any;
 }
 interface IDashboardState {
   runData: Chart.ChartData;
@@ -108,6 +111,17 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
   testCaseChart: Chart;
   testRunChart: Chart;
 
+
+  private testCaseClient: AadHttpClient;
+
+  async init() {  
+
+    this.props.webpartContext.aadHttpClientFactory.getClient(this.props.serverURL).then((client: AadHttpClient): void => {
+      debugger;
+      this.testCaseClient = client;
+      
+    });
+  }
   constructor(props) {
     super(props);
 
@@ -215,6 +229,22 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
         },
       },
     };
+
+    this.dummyFunction();
+  }
+
+  async dummyFunction() {
+    debugger;
+    this.init().then(() => {
+      this.testCaseClient.get(`${this.props.serverURL}/testDefinitions`, AadHttpClient.configurations.v1)
+        .then((res: HttpClientResponse): Promise<any> => {
+          return res.json();
+        }).then((data: any): void {
+          console.log(data);
+        });
+        
+    });
+    
   }
 
   /* #region  react lifecycle methods */
