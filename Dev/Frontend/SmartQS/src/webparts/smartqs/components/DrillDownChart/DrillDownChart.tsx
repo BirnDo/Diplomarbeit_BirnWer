@@ -24,6 +24,8 @@ import { Bar } from "react-chartjs-2";
 interface IDrillDownChartProps {
   teamsContext: any;
   serverURL: string;
+  startDate: string;
+  endDate: string;
 }
 interface IDrillDownChartState {}
 
@@ -60,20 +62,33 @@ class DrillDownChart extends React.Component<
    * @memberof DrillDownChart
    */
   async getTestRunMinData() {
+    const { teamsContext, startDate, endDate } = this.props;
+    let channelID: string = teamsContext ? teamsContext.channelId : "";
     let url: string;
-    if (this.props.teamsContext != null)
+    let requestOptions: any;
+    if (startDate == null) {
+      url = this.props.serverURL + "/minimalTestDefinitions/" + channelID;
+      requestOptions = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      };
+    } else {
       url =
         this.props.serverURL +
-        "/minimalTestDefinitionsByChannelID/" +
-        this.props.teamsContext.channelId;
-    else url = this.props.serverURL + "/minimalTestDefinitions";
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    };
+        "/getMinimalDefinitionsByTimePeriod/" +
+        channelID;
+      requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ startDate, endDate }),
+      };
+    }
 
     fetch(url, requestOptions)
       .then(async (response) => {
@@ -173,6 +188,7 @@ class DrillDownChart extends React.Component<
       data: data,
       options: options,
     });
+    console.log("chart data set");
   }
   /* #endregion */
 

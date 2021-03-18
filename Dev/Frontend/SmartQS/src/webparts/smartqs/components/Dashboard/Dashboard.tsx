@@ -411,11 +411,15 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 
   renderDrillDownChart(): React.ReactNode {
     const { enableDrillDown } = this.props;
+    const { startDate, endDate } = this.state;
+
     if (enableDrillDown)
       return (
         <DrillDownChart
           teamsContext={this.props.teamsContext}
           serverURL={this.props.serverURL}
+          startDate={startDate}
+          endDate={endDate}
         />
       );
   }

@@ -9,6 +9,7 @@ import TestRunModelMin from "../../model/TestRunModelMin";
 import styles from "./TestRunOverview.module.scss";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { FontSizes, ThemeSettingName } from "office-ui-fabric-react";
+import { objectToSPKeyValueCollection } from "@pnp/sp";
 
 interface ITestRunOverviewProps {
   teamsContext: any;
@@ -102,23 +103,24 @@ class TestRunOverview extends React.Component<
    */
   setNavLinks(testRunsInfo: TestRunModelMin[]) {
     let navLinks: INavLink[] = [];
+    let filteredTestRunsInfo = testRunsInfo;
 
     const urlPath =
       "/" + this.props["history"]["location"]["pathname"].split("/")[1];
-
-    if (this.props.readonly)
+    if (this.props.readonly) {
       // only show completed when readonly mode is set
-      testRunsInfo.filter((value) => {
-        value.finished != null;
-      });
+      filteredTestRunsInfo = filteredTestRunsInfo.filter(
+        (value) => value.finished != null
+      );
+    }
 
     // sort test Runs by createdOn Date
-    testRunsInfo.sort((x, y) => {
+    filteredTestRunsInfo.sort((x, y) => {
       return new Date(y.createdOn).getTime() - new Date(x.createdOn).getTime();
     });
 
-    if (testRunsInfo.length != 0) {
-      testRunsInfo.map((value) => {
+    if (filteredTestRunsInfo.length != 0) {
+      filteredTestRunsInfo.map((value) => {
         var element: INavLink = {
           key: value._id,
           name: value.name,
