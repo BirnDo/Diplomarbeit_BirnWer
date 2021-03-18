@@ -51,13 +51,19 @@ import {
   DayOfWeek,
   IDatePickerStrings,
 } from "office-ui-fabric-react/lib/DatePicker";
-
+import {
+  AadHttpClient,
+  AadHttpClientFactory,
+  IHttpClientOptions,
+} from "@microsoft/sp-http";
 import TestCaseModel from "../../model/TestCaseModel";
 import TestRunModel from "../../model/TestRunModel";
+import { SmartqsHttpClient } from "../../services/SmartqsHttpClient";
 
 interface ITestRunFormsProps {
   teamsContext: any;
   serverURL: string;
+  aadClient: AadHttpClientFactory;
 }
 interface ITestRunFormsState extends TestRunModel {
   showReorderModal: boolean;
@@ -179,7 +185,7 @@ export default class TestRunForms extends React.Component<
 
     testCases[0].active = true; // make first element be active
 
-    const url = this.props.serverURL + "/addTestDefinition";
+    const url = `${this.props.serverURL}/addTestDefinition`;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -195,8 +201,13 @@ export default class TestRunForms extends React.Component<
         testCases,
       }),
     };
+    let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+      this.props.aadClient,
+      this.props.serverURL
+    );
 
-    fetch(url, requestOptions)
+    httpClient
+      .fetch(url, AadHttpClient.configurations.v1, requestOptions)
       .then(async (response) => {
         const body = await response.json();
         console.log(body);

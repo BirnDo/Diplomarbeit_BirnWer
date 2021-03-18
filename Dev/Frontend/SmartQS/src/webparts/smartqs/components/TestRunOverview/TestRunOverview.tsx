@@ -10,6 +10,12 @@ import styles from "./TestRunOverview.module.scss";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
 import { FontSizes, ThemeSettingName } from "office-ui-fabric-react";
 import { objectToSPKeyValueCollection } from "@pnp/sp";
+import {
+  AadHttpClient,
+  AadHttpClientFactory,
+  IHttpClientOptions,
+} from "@microsoft/sp-http";
+import { SmartqsHttpClient } from "../../services/SmartqsHttpClient";
 
 interface ITestRunOverviewProps {
   teamsContext: any;
@@ -18,6 +24,7 @@ interface ITestRunOverviewProps {
   endDate: string;
   serverURL: string;
   navTitle: string;
+  aadClient: AadHttpClientFactory;
 }
 interface ITestRunOverviewState {
   navLinkGroups: INavLinkGroup[];
@@ -58,6 +65,10 @@ class TestRunOverview extends React.Component<
     let channelID: string = teamsContext ? teamsContext.channelId : "";
     let url: string;
     let requestOptions: any;
+    let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+      this.props.aadClient,
+      this.props.serverURL
+    );
     if (startDate == null) {
       url = this.props.serverURL + "/minimalTestDefinitions/" + channelID;
       requestOptions = {
@@ -68,10 +79,8 @@ class TestRunOverview extends React.Component<
         },
       };
     } else {
-      url =
-        this.props.serverURL +
-        "/getMinimalDefinitionsByTimePeriod/" +
-        channelID;
+      url = `${this.props.serverURL} 
+        /getMinimalDefinitionsByTimePeriod/${channelID}`;
       requestOptions = {
         method: "POST",
         headers: {
@@ -81,8 +90,9 @@ class TestRunOverview extends React.Component<
         body: JSON.stringify({ startDate, endDate }),
       };
     }
-    console.log(requestOptions);
-    fetch(url, requestOptions)
+
+    httpClient
+      .fetch(url, AadHttpClient.configurations.v1, requestOptions)
       .then(async (response) => {
         const body: TestRunModelMin[] = await response.json();
         this.setNavLinks(body);
@@ -202,6 +212,7 @@ class TestRunOverview extends React.Component<
               reloadTestRunNav={this.reloadTestRunNav} // helper function to allow the test run to update the navbar
               readonly={this.props.readonly} // readonly flag to pass the given value to the test run
               serverURL={this.props.serverURL} // backend url for database request usage
+              aadClient={this.props.aadClient}
             />
           </Route>
         </div>

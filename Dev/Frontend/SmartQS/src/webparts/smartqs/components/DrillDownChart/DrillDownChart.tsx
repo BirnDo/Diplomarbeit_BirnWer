@@ -20,12 +20,19 @@ import DetailedDashboard from "../DetailedDashboard/DetailedDrillDownChart";
 import { Accordion } from "@pnp/spfx-controls-react/lib/Accordion";
 import styles from "./DrillDownChart.module.scss";
 import { Bar } from "react-chartjs-2";
+import {
+  AadHttpClient,
+  AadHttpClientFactory,
+  IHttpClientOptions,
+} from "@microsoft/sp-http";
+import { SmartqsHttpClient } from "../../services/SmartqsHttpClient";
 
 interface IDrillDownChartProps {
   teamsContext: any;
   serverURL: string;
   startDate: string;
   endDate: string;
+  aadClient: AadHttpClientFactory;
 }
 interface IDrillDownChartState {}
 
@@ -66,8 +73,12 @@ class DrillDownChart extends React.Component<
     let channelID: string = teamsContext ? teamsContext.channelId : "";
     let url: string;
     let requestOptions: any;
+    let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+      this.props.aadClient,
+      this.props.serverURL
+    );
     if (startDate == null) {
-      url = this.props.serverURL + "/minimalTestDefinitions/" + channelID;
+      url = `${this.props.serverURL}/minimalTestDefinitions/${channelID}`;
       requestOptions = {
         method: "GET",
         headers: {
@@ -76,10 +87,7 @@ class DrillDownChart extends React.Component<
         },
       };
     } else {
-      url =
-        this.props.serverURL +
-        "/getMinimalDefinitionsByTimePeriod/" +
-        channelID;
+      url = `${this.props.serverURL}/getMinimalDefinitionsByTimePeriod/${channelID}`;
       requestOptions = {
         method: "POST",
         headers: {
@@ -90,7 +98,8 @@ class DrillDownChart extends React.Component<
       };
     }
 
-    fetch(url, requestOptions)
+    httpClient
+      .fetch(url, AadHttpClient.configurations.v1, requestOptions)
       .then(async (response) => {
         const body: TestRunModelMin[] = await response.json();
         let filteredBody = body.filter((value) => {

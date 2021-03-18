@@ -3,7 +3,7 @@
   "solution": {
     "name": "smart-qs-client-side-solution",
     "id": "6efaa57d-e42f-439c-9636-f98fab4a0c7f",
-    "version": "1.0.0.0",
+    "version": "1.0.0.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

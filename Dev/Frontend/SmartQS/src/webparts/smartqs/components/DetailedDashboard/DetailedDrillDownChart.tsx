@@ -37,9 +37,15 @@ import {
   values,
 } from "office-ui-fabric-react";
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
-
+import {
+  AadHttpClient,
+  AadHttpClientFactory,
+  IHttpClientOptions,
+} from "@microsoft/sp-http";
+import { SmartqsHttpClient } from "../../services/SmartqsHttpClient";
 interface IDetailedDrillDownChartProps {
   serverURL: string;
+  aadClient: AadHttpClientFactory;
 }
 interface IDetailedDrillDownChartState {
   showModal: boolean;
@@ -90,8 +96,13 @@ class DetailedDrillDownChart extends React.Component<
         method: "GET",
         headers: { Accept: "application/json" },
       };
+      let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+        this.props.aadClient,
+        this.props.serverURL
+      );
 
-      fetch(url, requestOptions)
+      httpClient
+        .fetch(url, AadHttpClient.configurations.v1, requestOptions)
         .then(async (response) => {
           const body: TestRunModel = await response.json();
           this.setDetailedTestRunChart(body);

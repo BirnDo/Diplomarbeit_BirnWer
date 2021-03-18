@@ -26,6 +26,7 @@ export default class SmartqsWebPart extends BaseClientSideWebPart<ISmartqsWebPar
       Smartqs,
       {
         context: this.context,
+        aadClient: this.context.aadHttpClientFactory,
         enableDrillDown: this.properties.enableDrillDown ? true : false,
         enableStatisticsChart: this.properties.enableStatisticsChart,
         prop: this.properties,

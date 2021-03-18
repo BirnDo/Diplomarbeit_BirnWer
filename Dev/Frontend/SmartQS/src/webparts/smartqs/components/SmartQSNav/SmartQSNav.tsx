@@ -19,6 +19,11 @@ import TestRunOverview from "../TestRunOverview/TestRunOverview";
 import { Pivot, PivotItem } from "office-ui-fabric-react/lib/Pivot";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { UrlQueryParameterCollection } from "@microsoft/sp-core-library";
+import {
+  AadHttpClient,
+  AadHttpClientFactory,
+  IHttpClientOptions,
+} from "@microsoft/sp-http";
 import Home from "../Home/Home";
 
 class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
@@ -102,12 +107,13 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
                 teamsContext={this.props.teamsContext}
                 serverURL={this.props.serverURL}
                 readonly={true}
+                aadClient={this.props.aadClient}
               />
             </Route>
             <Route path="/dashboard">
               <Dashboard
                 teamsContext={this.props.teamsContext}
-                webpartContext= {this.props.webpartContext}
+                aadClient={this.props.aadClient}
                 serverURL={this.props.serverURL}
                 enableDrillDown={this.props.enableDrillDown}
                 enableStatisticsChart={this.props.enableStatisticsChart}
@@ -118,12 +124,14 @@ class SmartQSNav extends React.Component<ISmartQSNavProps, ISmartQSNavState> {
                 teamsContext={this.props.teamsContext}
                 readonly={false}
                 serverURL={this.props.serverURL}
+                aadClient={this.props.aadClient}
               />
             </Route>
             <Route path="/createTest">
               <TestRunForms
                 teamsContext={this.props.teamsContext}
                 serverURL={this.props.serverURL}
+                aadClient={this.props.aadClient}
               />
             </Route>
           </Switch>

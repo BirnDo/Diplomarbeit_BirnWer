@@ -29,15 +29,19 @@ import TestRunStatisticModel from "../../model/TestRunStatisticsModel";
 import TestCaseStatisticModel from "../../model/TestCaseStatisticsModel";
 import TestRunOverview from "../TestRunOverview/TestRunOverview";
 import { Bar, Line } from "react-chartjs-2";
-import { AadHttpClient, HttpClientResponse } from '@microsoft/sp-http';
-
+import {
+  AadHttpClient,
+  AadHttpClientFactory,
+  IHttpClientOptions,
+} from "@microsoft/sp-http";
+import { SmartqsHttpClient } from "../../services/SmartqsHttpClient";
 
 interface IDashboardProps {
   teamsContext: any;
   serverURL: string;
   enableDrillDown: boolean;
   enableStatisticsChart: boolean;
-  webpartContext: any;
+  aadClient: AadHttpClientFactory;
 }
 interface IDashboardState {
   runData: Chart.ChartData;
@@ -111,17 +115,6 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
   testCaseChart: Chart;
   testRunChart: Chart;
 
-
-  private testCaseClient: AadHttpClient;
-
-  async init() {  
-
-    this.props.webpartContext.aadHttpClientFactory.getClient(this.props.serverURL).then((client: AadHttpClient): void => {
-      debugger;
-      this.testCaseClient = client;
-      
-    });
-  }
   constructor(props) {
     super(props);
 
@@ -229,22 +222,6 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
         },
       },
     };
-
-    this.dummyFunction();
-  }
-
-  async dummyFunction() {
-    debugger;
-    this.init().then(() => {
-      this.testCaseClient.get(`${this.props.serverURL}/testDefinitions`, AadHttpClient.configurations.v1)
-        .then((res: HttpClientResponse): Promise<any> => {
-          return res.json();
-        }).then((data: any): void {
-          console.log(data);
-        });
-        
-    });
-    
   }
 
   /* #region  react lifecycle methods */
@@ -276,8 +253,13 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
     let channelID: string = teamsContext ? teamsContext.channelId : "";
     let url: string;
     let requestOptions: any;
+    let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+      this.props.aadClient,
+      this.props.serverURL
+    );
+
     if (startDate == null) {
-      url = this.props.serverURL + "/getSuccessStatistics/" + channelID;
+      url = `${this.props.serverURL}/getSuccessStatistics/${channelID}`;
       requestOptions = {
         method: "GET",
         headers: {
@@ -286,8 +268,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
         },
       };
     } else {
-      url =
-        this.props.serverURL + "/getSuccessStatisticsByTimePeriod/" + channelID;
+      url = `${this.props.serverURL}/getSuccessStatisticsByTimePeriod/${channelID}`;
       requestOptions = {
         method: "POST",
         headers: {
@@ -297,8 +278,41 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
         body: JSON.stringify({ startDate, endDate }),
       };
     }
+    httpClient
+      .fetch(
+        this.props.serverURL,
+        AadHttpClient.configurations.v1,
+        requestOptions
+      )
+      .then(async (response) => {
+        const body: TestRunStatisticModel = await response.json();
+        const { runData } = this.state;
+        let newData = runData;
+        (newData = {
+          labels: ["Erfolgreich", "Fehlerhaft", "Nicht durchgeführt"],
+          datasets: [
+            {
+              label: "",
+              data: [body.successful, body.failed, body.notDone],
+              backgroundColor: [
+                "rgba(74, 192, 192, 0.2)",
+                "rgba(254, 99, 132, 0.2)",
+                "rgba(200, 203, 207, 0.2)",
+              ],
+              borderColor: [
+                "rgb(74, 192, 192)",
+                "rgb(254, 99, 132)",
+                "rgb(200, 203, 207)",
+              ],
+              borderWidth: 0,
+            },
+          ],
+        }),
+          this.setState({ runData: newData });
+      })
+      .catch((rejected) => console.log(rejected));
 
-    fetch(url, requestOptions)
+    /* fetch(url, requestOptions)
       .then(async (response) => {
         const body: TestRunStatisticModel = await response.json();
         const { runData } = this.state;
@@ -326,7 +340,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
           this.setState({ runData: newData });
       })
 
-      .catch((rejected) => console.log(rejected));
+      .catch((rejected) => console.log(rejected)); */
   }
 
   async getTestCaseStatistics() {
@@ -336,8 +350,12 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
     let channelID: string = teamsContext ? teamsContext.channelId : "";
     let url: string;
     let requestOptions: any;
+    let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+      this.props.aadClient,
+      this.props.serverURL
+    );
     if (startDate == null) {
-      url = this.props.serverURL + "/getTestCaseSuccessStatistics/" + channelID;
+      url = `${this.props.serverURL}/getTestCaseSuccessStatistics/${channelID}`;
       requestOptions = {
         method: "GET",
         headers: {
@@ -346,10 +364,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
         },
       };
     } else {
-      url =
-        this.props.serverURL +
-        "/getTestCaseSuccessStatisticsByTimePeriod/" +
-        channelID;
+      url = `${this.props.serverURL}/getTestCaseSuccessStatisticsByTimePeriod/${channelID}`;
       requestOptions = {
         method: "POST",
         headers: {
@@ -360,7 +375,8 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
       };
     }
 
-    fetch(url, requestOptions)
+    httpClient
+      .fetch(url, AadHttpClient.configurations.v1, requestOptions)
       .then(async (response) => {
         const body: TestCaseStatisticModel = await response.json();
         const { caseData } = this.state;

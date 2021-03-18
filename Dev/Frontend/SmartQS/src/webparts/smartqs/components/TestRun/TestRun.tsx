@@ -34,11 +34,17 @@ import TestCase from "../TestCase/TestCase";
 import TestCaseModel from "../../model/TestCaseModel";
 import TestRunModel from "../../model/TestRunModel";
 import { times } from "lodash";
-
+import {
+  AadHttpClient,
+  AadHttpClientFactory,
+  IHttpClientOptions,
+} from "@microsoft/sp-http";
+import { SmartqsHttpClient } from "../../services/SmartqsHttpClient";
 interface ITestRunProps {
   reloadTestRunNav: () => void;
   readonly: boolean;
   serverURL: string;
+  aadClient: AadHttpClientFactory;
 }
 interface ITestRunState extends TestRunModel {
   showTesterDialog: boolean;
@@ -159,7 +165,7 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
 
     let doneOn;
     if (finished != null) doneOn = new Date().toISOString();
-    const url = this.props.serverURL + "/updateTestDefinition/" + _id;
+    const url = `${this.props.serverURL}/updateTestDefinition/${_id}`;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -178,8 +184,13 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
         doneOn,
       }),
     };
+    let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+      this.props.aadClient,
+      this.props.serverURL
+    );
 
-    fetch(url, requestOptions)
+    httpClient
+      .fetch(url, AadHttpClient.configurations.v1, requestOptions)
       .then((response) => {
         this.props.reloadTestRunNav();
       })
@@ -190,15 +201,19 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
 
   async getTestRun() {
     const id = this.props["match"]["params"]["id"];
-    console.log(id);
     if (id != null) {
-      const url = this.props.serverURL + "/testDefinitionById/" + id;
+      const url = `${this.props.serverURL}/testDefinitionById/${id}`;
       const requestOptions = {
         method: "GET",
         headers: { Accept: "application/json" },
       };
+      let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+        this.props.aadClient,
+        this.props.serverURL
+      );
 
-      fetch(url, requestOptions)
+      httpClient
+        .fetch(url, AadHttpClient.configurations.v1, requestOptions)
         .then(async (response) => {
           const body: TestRunModel = await response.json();
           this.setState({
@@ -257,8 +272,13 @@ class TestRun extends React.Component<ITestRunProps, ITestRunState> {
         testCases,
       }),
     };
+    let httpClient: AadHttpClient = SmartqsHttpClient.getClient(
+      this.props.aadClient,
+      this.props.serverURL
+    );
 
-    fetch(url, requestOptions)
+    httpClient
+      .fetch(url, AadHttpClient.configurations.v1, requestOptions)
       .then(async (response) => {
         const body = await response.json();
         await this.props.reloadTestRunNav();

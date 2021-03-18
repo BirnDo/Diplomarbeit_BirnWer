@@ -27,10 +27,15 @@ import DrillDownChart from "../DrillDownChart/DrillDownChart";
 import TestRunStatisticModel from "../../model/TestRunStatisticsModel";
 import TestCaseStatisticModel from "../../model/TestCaseStatisticsModel";
 import TestRunOverview from "../TestRunOverview/TestRunOverview";
-
+import {
+  AadHttpClient,
+  AadHttpClientFactory,
+  IHttpClientOptions,
+} from "@microsoft/sp-http";
 interface IHomeProps {
   teamsContext: any;
   serverURL: string;
+  aadClient: AadHttpClientFactory;
 }
 interface IHomeState {
   startDate: string;
@@ -170,6 +175,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
               endDate={endDate}
               serverURL={this.props.serverURL}
               navTitle={"Durchgeführte Tests"}
+              aadClient={this.props.aadClient}
             />
           </Stack>
         </Route>

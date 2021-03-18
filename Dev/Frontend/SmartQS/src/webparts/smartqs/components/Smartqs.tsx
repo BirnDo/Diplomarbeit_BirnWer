@@ -48,7 +48,7 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
 
   public render(): React.ReactElement<ISmartqsProps> {
     const { serverURL } = this.state;
-    if (serverURL)
+    if (serverURL) {
       return (
         <div className={styles.smartqs}>
           <HashRouter>
@@ -58,9 +58,7 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
                   ? this.props.context.sdks.microsoftTeams.context
                   : null
               }
-              webpartContext={
-                this.props.context
-              }
+              aadClient={this.props.aadClient}
               serverURL={serverURL}
               enableDrillDown={this.props.enableDrillDown}
               enableStatisticsChart={this.props.enableStatisticsChart}
@@ -68,7 +66,9 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
           </HashRouter>
         </div>
       );
+    } else {
+      return <div></div>;
+    }
   }
 }
-
 export default Smartqs;

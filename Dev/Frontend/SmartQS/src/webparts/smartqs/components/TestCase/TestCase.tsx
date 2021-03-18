@@ -109,7 +109,7 @@ export default class TestCase extends React.Component<
   }
   /* #endregion */
 
-  /* #region   */
+  /* #region  render helper methods */
   /**
    * renders the status button for each test case
    * only visible when the test status is null and the active status is true
