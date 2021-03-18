@@ -48,22 +48,23 @@ class Smartqs extends React.Component<ISmartqsProps, ISmartqsState> {
 
   public render(): React.ReactElement<ISmartqsProps> {
     const { serverURL } = this.state;
-    return (
-      <div className={styles.smartqs}>
-        <HashRouter>
-          <SmartQSNav
-            teamsContext={
-              this.props.context.sdks.microsoftTeams
-                ? this.props.context.sdks.microsoftTeams.context
-                : null
-            }
-            serverURL={serverURL}
-            enableDrillDown={this.props.enableDrillDown}
-            enableStatisticsChart={this.props.enableStatisticsChart}
-          />
-        </HashRouter>
-      </div>
-    );
+    if (serverURL)
+      return (
+        <div className={styles.smartqs}>
+          <HashRouter>
+            <SmartQSNav
+              teamsContext={
+                this.props.context.sdks.microsoftTeams
+                  ? this.props.context.sdks.microsoftTeams.context
+                  : null
+              }
+              serverURL={serverURL}
+              enableDrillDown={this.props.enableDrillDown}
+              enableStatisticsChart={this.props.enableStatisticsChart}
+            />
+          </HashRouter>
+        </div>
+      );
   }
 }
 
