@@ -46,6 +46,10 @@ https://M365x750080.sharepoint.com
 - code snippets reingeben was besonders ist und man stolz darauf ist
 - zusammennfassung reingeben was die Firma mit den Projekt macht
 
+## Fragen
+- Anhang ok?
+- Firmentlogo auf jede Seite?
+
 info:
 * firmenlogo
 * name und unterrerschrift bei 3.
