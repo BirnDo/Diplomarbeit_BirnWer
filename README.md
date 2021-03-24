@@ -49,6 +49,7 @@ https://M365x750080.sharepoint.com
 ## Fragen
 - Anhang ok?
 - Firmentlogo auf jede Seite?
+- Cards nur im Backend umgesetzt, trotzdem einfügen?
 
 info:
 * firmenlogo
