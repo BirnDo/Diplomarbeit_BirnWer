@@ -40,21 +40,11 @@ https://M365x750080.sharepoint.com
 
 # todo
 ## doku
-- initialien bei kapitel hinzufügen
 - mehr theorie zu testen und nicht über das projekt
-- ieee format bei quellen
-- bei technologien warum verwendung dazuschreibung
-- typescript beschreibung zu theorie teil
-- Abildungen Nummerien
-- Codesnippets Beschreibung hinzufügen mit "Codesnippet: <Beschreibung>"
-- im Anhang die Backend-Doku
-- Alle requests in doku angeben mit kurzer Beschreibung
 - code snippet bei schema neu von vscode kopieren
 - alternative lösungsweg bei datenbank zu theorie
-- generator vorstellen
 - code snippets reingeben was besonders ist und man stolz darauf ist
 - zusammennfassung reingeben was die Firma mit den Projekt macht
-- einbindung in teams herzeigen, mit generator
 
 info:
 * firmenlogo
