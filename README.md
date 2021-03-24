@@ -59,7 +59,7 @@ info:
 ## dev
 * azure ad authentifizierung
 * bei optioal abgehackte tests bei readonly steht fehlermeldung
-* dashboard drilldown chart not shown
+* min und max width bei test overview
 * testfall + - mit icons
 ### known bugs
 * dialog mit datepicker hat teilweise anzeigefehler
