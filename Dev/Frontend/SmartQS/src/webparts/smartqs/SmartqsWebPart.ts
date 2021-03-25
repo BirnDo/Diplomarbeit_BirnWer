@@ -20,8 +20,8 @@ export interface ISmartqsWebPartProps {
 
 export default class SmartqsWebPart extends BaseClientSideWebPart<ISmartqsWebPartProps> {
   public render(): void {
-    this.properties.enableDrillDown = true;
-    this.properties.enableStatisticsChart = true;
+    /*  this.properties.enableDrillDown = true;
+    this.properties.enableStatisticsChart = true; */
     const element: React.ReactElement<ISmartqsProps> = React.createElement(
       Smartqs,
       {
@@ -53,12 +53,12 @@ export default class SmartqsWebPart extends BaseClientSideWebPart<ISmartqsWebPar
                 PropertyPaneToggle("enableDrillDown", {
                   label: "Drill Down Chart",
                   key: "drilldown",
-                  checked: this.properties.enableDrillDown,
+                  checked: true,
                 }),
                 PropertyPaneToggle("enableStatisticsChart", {
                   label: "Test Statistik Chart",
                   key: "statistics",
-                  checked: this.properties.enableStatisticsChart,
+                  checked: true,
                 }),
               ],
             },
