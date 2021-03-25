@@ -68,6 +68,8 @@ interface ITestRunFormsProps {
 interface ITestRunFormsState extends TestRunModel {
   showReorderModal: boolean;
   showEditModal: boolean;
+  showSuccessModal: boolean;
+  showFailureModal: boolean;
   activeCaseIndex: number;
 }
 
@@ -140,9 +142,11 @@ export default class TestRunForms extends React.Component<
     super(props);
 
     this.state = {
-      activeCaseIndex: null,
       showReorderModal: false,
       showEditModal: false,
+      showSuccessModal: false,
+      showFailureModal: false,
+      activeCaseIndex: null,
       doneOn: null,
       _id: "",
       name: "",
@@ -211,12 +215,45 @@ export default class TestRunForms extends React.Component<
       .then(async (response) => {
         const body = await response.json();
         console.log(body);
+        this.showSuccessModal();
+        this.setInitialState();
       })
-      .catch((rejected) => console.log(rejected));
+      .catch((rejected) => {
+        console.log(rejected);
+        this.showFailureModal();
+        this.setInitialState();
+      });
   }
+
   /* #endregion */
 
   /* #region  state helper methods */
+  setInitialState() {
+    this.setState({
+      activeCaseIndex: null,
+      doneOn: null,
+      _id: "",
+      name: "",
+      channelID: this.props.teamsContext
+        ? this.props.teamsContext.channelId
+        : null,
+      createdOn: new Date().toISOString(),
+      deadline: null,
+      finished: null,
+      tester: null,
+      testCases: [
+        {
+          title: "",
+          description: "",
+          status: null,
+          active: false,
+          comments: "",
+          image: "",
+          required: true,
+        },
+      ],
+    });
+  }
   addTestCase() {
     let newTestCases: TestCaseModel[] = this.state.testCases;
     newTestCases.push({
@@ -270,6 +307,19 @@ export default class TestRunForms extends React.Component<
 
   hideEditModal = () => {
     this.setState({ showEditModal: false });
+  };
+
+  showSuccessModal = () => {
+    this.setState({ showSuccessModal: true });
+  };
+  hideSuccessModal = () => {
+    this.setState({ showSuccessModal: false });
+  };
+  showFailureModal = () => {
+    this.setState({ showFailureModal: true });
+  };
+  hideFailureModal = () => {
+    this.setState({ showFailureModal: false });
   };
   /* #endregion */
 
@@ -449,7 +499,6 @@ export default class TestRunForms extends React.Component<
           />
           {/* <Label>Testfälle</Label> */}
           {this.renderListView()}
-
           {/* {this.renderTestCases()} */}
           <Stack horizontal {...columnPropsHorizontal}>
             <PrimaryButton
@@ -537,6 +586,40 @@ export default class TestRunForms extends React.Component<
                 </div>
               </div>
             </div>
+          </Modal>
+          <Modal
+            isOpen={this.state.showSuccessModal}
+            onDismiss={this.hideSuccessModal}
+            isBlocking={false}
+            containerClassName={contentStyles.container}
+          >
+            <div className={contentStyles.header}>
+              <span>Test wurde erfolgreich abgespeichert</span>
+              <IconButton
+                styles={iconButtonStyles}
+                iconProps={cancelIcon}
+                ariaLabel="Close popup modal"
+                onClick={this.hideSuccessModal}
+              />
+            </div>
+            <div className={contentStyles.body}></div>
+          </Modal>{" "}
+          <Modal
+            isOpen={this.state.showFailureModal}
+            onDismiss={this.hideFailureModal}
+            isBlocking={false}
+            containerClassName={contentStyles.container}
+          >
+            <div className={contentStyles.header}>
+              <span>Test wurde nicht abgespeichert</span>
+              <IconButton
+                styles={iconButtonStyles}
+                iconProps={cancelIcon}
+                ariaLabel="Close popup modal"
+                onClick={this.hideFailureModal}
+              />
+            </div>
+            <div className={contentStyles.body}></div>
           </Modal>
         </Stack>
       </>

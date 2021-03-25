@@ -159,7 +159,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
             {
               ticks: {
                 beginAtZero: true,
-                fontSize: 11,
+                fontSize: 22,
               },
             },
           ],
@@ -167,7 +167,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
             {
               ticks: {
                 beginAtZero: true,
-                fontSize: 9,
+                fontSize: 18,
               },
             },
           ],
@@ -207,7 +207,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
             {
               ticks: {
                 beginAtZero: true,
-                fontSize: 11,
+                fontSize: 22,
               },
             },
           ],
@@ -215,7 +215,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
             {
               ticks: {
                 beginAtZero: true,
-                fontSize: 9,
+                fontSize: 18,
               },
             },
           ],
@@ -279,11 +279,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
       };
     }
     httpClient
-      .fetch(
-        this.props.serverURL,
-        AadHttpClient.configurations.v1,
-        requestOptions
-      )
+      .fetch(url, AadHttpClient.configurations.v1, requestOptions)
       .then(async (response) => {
         const body: TestRunStatisticModel = await response.json();
         const { runData } = this.state;
