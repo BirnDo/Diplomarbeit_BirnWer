@@ -17,3 +17,8 @@
 | 4.2. - 11.2. | APIs für erhalt von Statistiken erstellt, Dokumentation weitergeführt | 15 | |
 | 12.2. - 17.2. | Endpoints der Verschiedenen APIs pro Channel mit allgemeinen Requests zusammengeführt, möglichkeit für Filtern nach Datum hinzugefügt, Dokumentation angepasst  | 20 | |
 | 18.2. - 24.2. | Code besser dokumentiert, Möglichkeit zum senden von Teams-Nachrichten gesucht und erste Umsetzung | 18 | |
+| 25.2. - 3.3. | Umsetzung für senden von Teams-nachrichten finalisiert und dokumentiert, anpassungen für deployment vorgenommen | 7 | |
+| 4.3. - 10.3. | DA-Dokumentation ausgearbeitet und Backend deployed | 10 | |
+| 11.3. - 17.3. | DA-Dokumentation ausgearbeitet (Theorie) | 10 | |
+| 18.3. - 24.3. | DA-Dokumentation ausgearbeitet (Umsetzung) | 10 | |
+| 25.3.-31.3. | DA-Dokumentation finalisiert | 10 | |
