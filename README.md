@@ -49,7 +49,8 @@ https://M365x750080.sharepoint.com
 ## Fragen
 - Schriftgröße 14 ok?
 - Arbeitsprotokolle wie einbinden?
-- Titelseite Betreungslehrkraft passt das so? 
+- Titelseite Betreungslehrkraft passt das so?
+- bilder bei projektteam? 
 
 info:
 * firmenlogo
