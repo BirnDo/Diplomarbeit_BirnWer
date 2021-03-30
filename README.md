@@ -47,10 +47,9 @@ https://M365x750080.sharepoint.com
 - zusammennfassung reingeben was die Firma mit den Projekt macht
 
 ## Fragen
-- Schriftgröße 14 ok?
-- Arbeitsprotokolle wie einbinden?
-- Titelseite Betreungslehrkraft passt das so?
-- bilder bei projektteam?
+- allgemeine Schriftgröße 14 ok?
+- Titelseite Betreungslehrkraft passt das so? oder "Betreungslehrkraft:" hinzufügen
+- bilder bei projektteam einfügen?
 - arbeitsprotokolle sind englisch, zu deutsch umschreiben?
 
 info:
