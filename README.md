@@ -50,7 +50,8 @@ https://M365x750080.sharepoint.com
 - Schriftgröße 14 ok?
 - Arbeitsprotokolle wie einbinden?
 - Titelseite Betreungslehrkraft passt das so?
-- bilder bei projektteam? 
+- bilder bei projektteam?
+- arbeitsprotokolle sind englisch, zu deutsch umschreiben?
 
 info:
 * firmenlogo
