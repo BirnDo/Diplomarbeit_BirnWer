@@ -58,6 +58,9 @@
 |18.03|fixed Drilldown chart not showing in ms teams; fixed only showing completed test runs|1.5|troubles with filtering testruns|
 |19.03|added generating and integration of Project to documententation|3||
 |20.03|added Service that sets up custom http Client where azure authentification works; changed all fetch requests to custom http client; refactoring of some code|3||
-|24.03|Hinzufügen Zusammenfassung, Codesnippets hinzugefügt, Theorie zu Testen erweitert|||
+|24.03|added Codesnippets, extendet theory of testing|2||
 |25.03|deleted unused listview component; fixed bug where request would not work in dashboard; added modal do testrun forms if saving request failed or succeeded; added clearing of form after saving|2||
 |26.03|fixed slider at property pane; changed solution name and serving location|1|bug with inital slider state|
+|29.03|fixed formatting of documentation; fixed spelling mistakes||
+|30.03|rewrote and added work logs to documentation|1||
+|31.03|fixed spelling mistakes and wording; reformatted some parts|2||
