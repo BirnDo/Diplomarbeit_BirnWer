@@ -41,22 +41,6 @@ https://M365x750080.sharepoint.com
 # todo
 ## doku
 - fließtext zu präsi
-- test cases ablauf beschreiben
-- bei pop up kommentar mehr beschreiben
-- alles blocksatz
-- api doku und arbeitsprotokolle tauschen
-
-- mehr theorie zu testen und nicht über das projekt
-- code snippet bei schema neu von vscode kopieren
-- alternative lösungsweg bei datenbank zu theorie
-- code snippets reingeben was besonders ist und man stolz darauf ist
-- zusammennfassung reingeben was die Firma mit den Projekt macht
-
-## Fragen
-- allgemeine Schriftgröße 14 ok?
-- Titelseite Betreungslehrkraft passt das so? oder "Betreungslehrkraft:" hinzufügen
-- bilder bei projektteam einfügen?
-- arbeitsprotokolle sind englisch, zu deutsch umschreiben?
 
 info:
 * firmenlogo
