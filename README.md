@@ -40,6 +40,12 @@ https://M365x750080.sharepoint.com
 
 # todo
 ## doku
+- fließtext zu präsi
+- test cases ablauf beschreiben
+- bei pop up kommentar mehr beschreiben
+- alles blocksatz
+- api doku und arbeitsprotokolle tauschen
+
 - mehr theorie zu testen und nicht über das projekt
 - code snippet bei schema neu von vscode kopieren
 - alternative lösungsweg bei datenbank zu theorie
