@@ -48,19 +48,19 @@
 |21.02|changed colors of drilldown chart to the same as statistics chart; tried fixing bug where a random margin at the top gets added when rendering drill down chart;added props to customize title of test run nav; added feature when test run overview is in readonly mode only completed test runs show|1|Problems: margin error still persists|
 |22.02|updated pane properties and dashboard handeling; added list view for creating test cases but without implementation of dynamic data|2||
 |23.02|fixed bug where initial value of toggle was undefined and not true|1||
-|25.02|changed local serving to real sharepoint site; removed server url pane property; added feature that receives the backend server url from a sharpoint tenant propterty; added service that allows to receive a specific tenant property|2|probelems with getting tenant propterty; different versions of package|
+|25.02|changed local serving to real sharepoint site; removed server url pane property; added feature that receives the backend server url from a sharpoint tenant propterty; added service that allows to receive a specific tenant property|3.5|probelems with getting tenant propterty; different versions of package|
 |28.02|added alert when tenant property url is empty; added listview that displays the test cases in the testrun forms; added button where to edit a single test case; modal appears with a edit mask where the test case can be edited; deleted regular rendering of test cases|3|Problems with onclick event as there is no onclick column; solved issue with extra edit button|
 |28.02|added Frontend Documentation part to document;added theory part of frontend that describes what react is and how to create a teams tab project; added project structure of frontend that describes the structure how the project works|1.5||
 |07.03|changed title of test overview; deleted necessary code; added comments|1||
-|11.03|added Structure of Navigation to frontend doocumentation|1||
+|11.03|added Structure of Navigation to frontend documentation|2||
 |15.03|added Design Libraries and Home Tab to documentation|3||
 |17.03|added implementation of "Dashboard", "Tests durchführen", "Tests erstellen" Pages|4||
-|18.03|fixed Drilldown chart not showing in ms teams; fixed only showing completed test runs|1.5|troubles with filtering testruns|
+|18.03|fixed Drilldown chart not showing in ms teams; fixed only showing completed test runs|2|troubles with filtering testruns|
 |19.03|added generating and integration of Project to documententation|3||
-|20.03|added Service that sets up custom http Client where azure authentification works; changed all fetch requests to custom http client; refactoring of some code|3||
+|20.03|added Service that sets up custom http Client where azure authentification works; changed all fetch requests to custom http client; refactoring of some code|4||
 |24.03|added Codesnippets, extendet theory of testing|2||
 |25.03|deleted unused listview component; fixed bug where request would not work in dashboard; added modal do testrun forms if saving request failed or succeeded; added clearing of form after saving|2||
 |26.03|fixed slider at property pane; changed solution name and serving location|1|bug with inital slider state|
-|29.03|fixed formatting of documentation; fixed spelling mistakes||
+|29.03|fixed formatting of documentation; fixed spelling mistakes|1||
 |30.03|rewrote and added work logs to documentation|1||
 |31.03|fixed spelling mistakes and wording; reformatted some parts|2||
